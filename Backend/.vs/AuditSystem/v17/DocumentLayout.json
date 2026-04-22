@@ -1,0 +1,86 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Admin\\source\\repos\\NET Apps\\AuditApp.API\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F278B12A-E5E3-4C69-9F4C-45D424EA99DA}|AuditApp.API\\AuditApp.API.csproj|c:\\users\\admin\\source\\repos\\net apps\\auditapp.api\\auditapp.api\\auditapp.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F278B12A-E5E3-4C69-9F4C-45D424EA99DA}|AuditApp.API\\AuditApp.API.csproj|solutionrelative:auditapp.api\\auditapp.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E7E3931-6ED8-41CE-BD6E-4E1F23584537}|AuditApp.Domain\\AuditApp.Domain.csproj|c:\\users\\admin\\source\\repos\\net apps\\auditapp.api\\auditapp.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E7E3931-6ED8-41CE-BD6E-4E1F23584537}|AuditApp.Domain\\AuditApp.Domain.csproj|solutionrelative:auditapp.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A8E909E-D778-4BBF-833E-A040307FFFA7}|AuditApp.Infrastructure\\AuditApp.Infrastructure.csproj|c:\\users\\admin\\source\\repos\\net apps\\auditapp.api\\auditapp.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A8E909E-D778-4BBF-833E-A040307FFFA7}|AuditApp.Infrastructure\\AuditApp.Infrastructure.csproj|solutionrelative:auditapp.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9EA1FD4-E616-4930-A8C1-2460DC1E6A96}|AuditApp.Application\\AuditApp.Application.csproj|c:\\users\\admin\\source\\repos\\net apps\\auditapp.api\\auditapp.application\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9EA1FD4-E616-4930-A8C1-2460DC1E6A96}|AuditApp.Application\\AuditApp.Application.csproj|solutionrelative:auditapp.application\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\NET Apps\\AuditApp.API\\AuditApp.Application\\Class1.cs",
+              "RelativeDocumentMoniker": "AuditApp.Application\\Class1.cs",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\NET Apps\\AuditApp.API\\AuditApp.Application\\Class1.cs",
+              "RelativeToolTip": "AuditApp.Application\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T11:44:20.09Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\NET Apps\\AuditApp.API\\AuditApp.Domain\\Class1.cs",
+              "RelativeDocumentMoniker": "AuditApp.Domain\\Class1.cs",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\NET Apps\\AuditApp.API\\AuditApp.Domain\\Class1.cs",
+              "RelativeToolTip": "AuditApp.Domain\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAIAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T11:42:52.524Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuditApp.API.csproj",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\NET Apps\\AuditApp.API\\AuditApp.API\\AuditApp.API.csproj",
+              "RelativeDocumentMoniker": "AuditApp.API\\AuditApp.API.csproj",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\NET Apps\\AuditApp.API\\AuditApp.API\\AuditApp.API.csproj",
+              "RelativeToolTip": "AuditApp.API\\AuditApp.API.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-21T11:40:15.396Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\NET Apps\\AuditApp.API\\AuditApp.Infrastructure\\Class1.cs",
+              "RelativeDocumentMoniker": "AuditApp.Infrastructure\\Class1.cs",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\NET Apps\\AuditApp.API\\AuditApp.Infrastructure\\Class1.cs",
+              "RelativeToolTip": "AuditApp.Infrastructure\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T11:45:06.832Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

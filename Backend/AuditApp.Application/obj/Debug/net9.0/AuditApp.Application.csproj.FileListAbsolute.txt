@@ -1,0 +1,15 @@
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\bin\Debug\net9.0\AuditApp.Application.deps.json
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\bin\Debug\net9.0\AuditApp.Application.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\bin\Debug\net9.0\AuditApp.Application.pdb
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\bin\Debug\net9.0\AuditApp.Domain.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\bin\Debug\net9.0\AuditApp.Domain.pdb
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\obj\Debug\net9.0\AuditApp.Application.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\obj\Debug\net9.0\AuditApp.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\obj\Debug\net9.0\AuditApp.Application.AssemblyInfoInputs.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\obj\Debug\net9.0\AuditApp.Application.AssemblyInfo.cs
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\obj\Debug\net9.0\AuditApp.Application.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\obj\Debug\net9.0\AuditApp.EC22777C.Up2Date
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\obj\Debug\net9.0\AuditApp.Application.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\obj\Debug\net9.0\refint\AuditApp.Application.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\obj\Debug\net9.0\AuditApp.Application.pdb
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\obj\Debug\net9.0\ref\AuditApp.Application.dll

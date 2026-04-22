@@ -1,0 +1,12 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  AuditApp.Domain -> C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\bin\Debug\net9.0\AuditApp.Domain.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\Services\AuthService.cs(7,16): error CS0234: The type or namespace name 'Infrastructure' does not exist in the namespace 'AuditApp' (are you missing an assembly reference?) [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\AuditApp.Application.csproj]
+
+Build FAILED.
+
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\Services\AuthService.cs(7,16): error CS0234: The type or namespace name 'Infrastructure' does not exist in the namespace 'AuditApp' (are you missing an assembly reference?) [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\AuditApp.Application.csproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:01.44

@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "41QpEbJ0gEM=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Domain\\AuditApp.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\sagar\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.15\\microsoft.netcore.app.ref.9.0.15.nupkg.sha512",
+    "C:\\Users\\sagar\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.15\\microsoft.windowsdesktop.app.ref.9.0.15.nupkg.sha512",
+    "C:\\Users\\sagar\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.15\\microsoft.aspnetcore.app.ref.9.0.15.nupkg.sha512"
+  ],
+  "logs": []
+}

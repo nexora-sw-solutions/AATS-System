@@ -1,0 +1,1 @@
+﻿   1:7>D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Program.cs(23,18): error CS1061: 'AppBuilder' does not contain a definition for 'WithIcons' and no accessible extension method 'WithIcons' accepting a first argument of type 'AppBuilder' could be found (are you missing a using directive or an assembly reference?) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
