@@ -1,0 +1,26 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  AuditApp.Domain -> C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\bin\Debug\net9.0\AuditApp.Domain.dll
+  AuditApp.Application -> C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\bin\Debug\net9.0\AuditApp.Application.dll
+  AuditApp.Infrastructure -> C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Infrastructure.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\UsersController.cs(24,75): error CS0117: 'PaginationParams' does not contain a definition for 'PageNumber' [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\UsersController.cs(24,91): error CS0117: 'PaginationParams' does not contain a definition for 'PageSize' [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\SecretarialController.cs(49,42): warning CS8625: Cannot convert null literal to non-nullable reference type. [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\SharedControllers.cs(44,42): warning CS8625: Cannot convert null literal to non-nullable reference type. [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\TaxController.cs(56,42): warning CS8625: Cannot convert null literal to non-nullable reference type. [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\SecretarialController.cs(82,42): warning CS8625: Cannot convert null literal to non-nullable reference type. [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\TaxController.cs(89,42): warning CS8625: Cannot convert null literal to non-nullable reference type. [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+
+Build FAILED.
+
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\SecretarialController.cs(49,42): warning CS8625: Cannot convert null literal to non-nullable reference type. [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\SharedControllers.cs(44,42): warning CS8625: Cannot convert null literal to non-nullable reference type. [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\TaxController.cs(56,42): warning CS8625: Cannot convert null literal to non-nullable reference type. [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\SecretarialController.cs(82,42): warning CS8625: Cannot convert null literal to non-nullable reference type. [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\TaxController.cs(89,42): warning CS8625: Cannot convert null literal to non-nullable reference type. [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\UsersController.cs(24,75): error CS0117: 'PaginationParams' does not contain a definition for 'PageNumber' [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\Controllers\UsersController.cs(24,91): error CS0117: 'PaginationParams' does not contain a definition for 'PageSize' [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.API\AuditApp.API.csproj]
+    5 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:01.65

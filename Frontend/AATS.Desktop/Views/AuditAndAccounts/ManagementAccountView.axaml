@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.AuditAndAccounts"
+             xmlns:shared="clr-namespace:AATS.Desktop.Views.Shared"
+             x:Class="AATS.Desktop.Views.AuditAndAccounts.ManagementAccountView"
+             x:DataType="vm:ManagementAccountViewModel"
+             ClipToBounds="False"
+             x:CompileBindings="False">
+
+    <shared:SharedAuditTableView DataContext="{Binding}" />
+
+</UserControl>

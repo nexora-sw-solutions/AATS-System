@@ -1,0 +1,8 @@
+﻿D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views/DashboardView.axaml(98,51,98,51): Avalonia error AVLN2000: Unable to resolve property or method of name 'MonthDate' on type 'AATS.Desktop.ViewModels.DashboardViewModel'. Line 98, position 51. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views/DashboardView.axaml(91,40,91,40): Avalonia error AVLN2000: Unable to resolve property or method of name 'MonthDisplay' on type 'AATS.Desktop.ViewModels.DashboardViewModel'. Line 91, position 40. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+
+Build FAILED.
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:15.01

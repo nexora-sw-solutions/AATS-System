@@ -1,0 +1,17 @@
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\obj\Debug\net10.0\temp_hash.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\obj\Debug\net10.0\temp_hash.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\obj\Debug\net10.0\temp_hash.AssemblyInfoInputs.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\obj\Debug\net10.0\temp_hash.AssemblyInfo.cs
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\obj\Debug\net10.0\temp_hash.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\bin\Debug\net10.0\temp_hash.exe
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\bin\Debug\net10.0\temp_hash.deps.json
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\bin\Debug\net10.0\temp_hash.runtimeconfig.json
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\bin\Debug\net10.0\temp_hash.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\bin\Debug\net10.0\temp_hash.pdb
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\bin\Debug\net10.0\BCrypt.Net-Next.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\obj\Debug\net10.0\temp_hash.csproj.Up2Date
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\obj\Debug\net10.0\temp_hash.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\obj\Debug\net10.0\refint\temp_hash.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\obj\Debug\net10.0\temp_hash.pdb
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\obj\Debug\net10.0\temp_hash.genruntimeconfig.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\temp_hash\obj\Debug\net10.0\ref\temp_hash.dll

@@ -1,0 +1,17 @@
+﻿D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\SecretarialAdvisory\AddCompanyRegistrationView.axaml : Avalonia error AVLN1001: File doesn't contain valid XAML: System.Xml.XmlException: The 'StackPanel' start tag on line 360 position 26 does not match the end tag of 'Border'. Line 409, position 27. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\SecretarialAdvisory\AddCompanyRegistrationView.axaml : Avalonia error AVLN1001:    at System.Xml.XmlTextReaderImpl.Throw(Exception e) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\SecretarialAdvisory\AddCompanyRegistrationView.axaml : Avalonia error AVLN1001:    at System.Xml.XmlTextReaderImpl.Throw(String res, String[] args) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\SecretarialAdvisory\AddCompanyRegistrationView.axaml : Avalonia error AVLN1001:    at System.Xml.XmlTextReaderImpl.ThrowTagMismatch(NodeData startTag) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\SecretarialAdvisory\AddCompanyRegistrationView.axaml : Avalonia error AVLN1001:    at System.Xml.XmlTextReaderImpl.ParseEndElement() [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\SecretarialAdvisory\AddCompanyRegistrationView.axaml : Avalonia error AVLN1001:    at System.Xml.XmlTextReaderImpl.ParseElementContent() [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\SecretarialAdvisory\AddCompanyRegistrationView.axaml : Avalonia error AVLN1001:    at System.Xml.Linq.XContainer.ReadContentFrom(XmlReader r) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\SecretarialAdvisory\AddCompanyRegistrationView.axaml : Avalonia error AVLN1001:    at System.Xml.Linq.XDocument.Load(XmlReader reader, LoadOptions options) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\SecretarialAdvisory\AddCompanyRegistrationView.axaml : Avalonia error AVLN1001:    at System.Xml.Linq.XDocument.Parse(String text, LoadOptions options) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\SecretarialAdvisory\AddCompanyRegistrationView.axaml : Avalonia error AVLN1001:    at Avalonia.Build.Tasks.XamlFileInfo.Parse(String data) in /_/src/Avalonia.Build.Tasks/XamlFileInfo.cs:line 11 [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\SecretarialAdvisory\AddCompanyRegistrationView.axaml : Avalonia error AVLN1001:    at Avalonia.Build.Tasks.GenerateAvaloniaResourcesTask.PreProcessXamlFiles(List`1 sources) in /_/src/Avalonia.Build.Tasks/GenerateAvaloniaResourcesTask.cs:line 106 [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+
+Build FAILED.
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:00.72
