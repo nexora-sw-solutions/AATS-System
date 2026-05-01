@@ -1,0 +1,302 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.TaxFiling"
+             xmlns:models="clr-namespace:AATS.Desktop.Models"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+             x:Class="AATS.Desktop.Views.TaxFiling.CITView"
+             x:DataType="vm:CITViewModel">
+
+    <UserControl.Styles>
+        <!-- General Typography -->
+        <Style Selector="TextBlock.section-title">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#F8FAFC"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>
+        <Style Selector="TextBlock.input-label">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#94A3B8"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+
+        <!-- Form Inputs -->
+        <Style Selector="TextBox.form-input">
+            <Setter Property="Background" Value="#151E2D"/>
+            <Setter Property="Foreground" Value="#F1F5F9"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#1E293B"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style Selector="ComboBox.form-input">
+            <Setter Property="Background" Value="#151E2D"/>
+            <Setter Property="Foreground" Value="#F1F5F9"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#1E293B"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,5"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+
+        <!-- Panels & Layout -->
+        <Style Selector="Border.card-panel">
+            <Setter Property="Background" Value="#151E2E"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="25"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+            <Setter Property="BoxShadow" Value="0 4 20 0 #30000000"/>
+        </Style>
+
+        <!-- Buttons -->
+        <Style Selector="Button.btn-clear">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#9CA3AF"/>
+            <Setter Property="BorderBrush" Value="#374151"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="20,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.btn-submit">
+            <Setter Property="Background" Value="#F1F5F9"/>
+            <Setter Property="Foreground" Value="#0F172A"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="25,8"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <!-- Status Badges - Optimized Implementation -->
+        <Style Selector="Border.status-badge">
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="MinWidth" Value="75"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="#1E293B"/> 
+            <Setter Property="BorderBrush" Value="#2D3748"/>
+        </Style>
+        <Style Selector="Border.status-badge TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <!-- Use double quotes for space-containing values in selectors -->
+        <Style Selector="Border.status-badge[Tag=Paid]">
+            <Setter Property="Background" Value="#064E3B"/>
+            <Setter Property="BorderBrush" Value="#10B981"/>
+        </Style>
+        <Style Selector="Border.status-badge[Tag=Paid] TextBlock">
+            <Setter Property="Foreground" Value="#34D399"/>
+        </Style>
+
+        <Style Selector="Border.status-badge[Tag=Pending]">
+            <Setter Property="Background" Value="#78350F"/>
+            <Setter Property="BorderBrush" Value="#B45309"/>
+        </Style>
+        <Style Selector="Border.status-badge[Tag=Pending] TextBlock">
+            <Setter Property="Foreground" Value="#FBBF24"/>
+        </Style>
+
+        <Style Selector="Border.status-badge[Tag='IRD pending']">
+            <Setter Property="Background" Value="#713F12"/>
+            <Setter Property="BorderBrush" Value="#D97706"/>
+        </Style>
+        <Style Selector="Border.status-badge[Tag='IRD pending'] TextBlock">
+            <Setter Property="Foreground" Value="#F59E0B"/>
+        </Style>
+    </UserControl.Styles>
+
+    <ScrollViewer Background="#0B0D17">
+        <StackPanel Spacing="25" Margin="35,25,35,40">
+            <!-- Header -->
+            <StackPanel Spacing="5">
+                <TextBlock Text="Corporate Income Tax (CIT)" FontSize="28" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Text="Manage and track your corporate tax filings" FontSize="15" Foreground="#94A3B8"/>
+            </StackPanel>
+
+            <!-- New Entry Card -->
+            <Border Classes="card-panel">
+                <StackPanel>
+                    <TextBlock Text="New Entry" Classes="section-title" Margin="0,0,0,25"/>
+
+                    <Grid ColumnDefinitions="*, Auto, *, Auto, *" ColumnSpacing="20">
+                        <StackPanel Grid.Column="0" Spacing="20">
+                            <TextBlock Text="CLIENT DETAILS" FontSize="11" Foreground="#3B82F6" FontWeight="Bold" LetterSpacing="1"/>
+                            <StackPanel>
+                                <TextBlock Text="Client ID" Classes="input-label"/>
+                                <TextBox Classes="form-input" Watermark="e.g. CL-0001" Text="{Binding ClientId}"/>
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Client Name" Classes="input-label"/>
+                                <TextBox Classes="form-input" Watermark="e.g. Acme Corp" Text="{Binding ClientName}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Border Grid.Column="1" Width="1" Background="#1E293B" Margin="10,10"/>
+
+                        <StackPanel Grid.Column="2" Spacing="20">
+                            <TextBlock Text="TAX PERIOD" FontSize="11" Foreground="#3B82F6" FontWeight="Bold" LetterSpacing="1"/>
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Duration" Classes="input-label"/>
+                                    <TextBox Classes="form-input" Text="{Binding Duration}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="Unit" Classes="input-label"/>
+                                    <ComboBox Classes="form-input" SelectedItem="{Binding DurationUnit}">
+                                        <ComboBox.ItemsSource>
+                                            <x:Array Type="{x:Type sys:String}">
+                                                <sys:String>Days</sys:String>
+                                                <sys:String>Months</sys:String>
+                                                <sys:String>Years</sys:String>
+                                            </x:Array>
+                                        </ComboBox.ItemsSource>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Grid>
+                            <StackPanel>
+                                <TextBlock Text="Director ID (DIN)" Classes="input-label"/>
+                                <TextBox Classes="form-input" Watermark="e.g. DIN-123456" Text="{Binding DirectorId}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Border Grid.Column="3" Width="1" Background="#1E293B" Margin="10,10"/>
+
+                        <StackPanel Grid.Column="4">
+                            <TextBlock Text="STATUS" FontSize="11" Foreground="#3B82F6" FontWeight="Bold" LetterSpacing="1" Margin="0,0,0,20"/>
+                            <StackPanel Spacing="10">
+                                <RadioButton Content="Paid" IsChecked="{Binding IsPaidStatus}" Foreground="White"/>
+                                <RadioButton Content="Pending" IsChecked="{Binding IsPendingStatus}" Foreground="White"/>
+                                <RadioButton Content="IRD Paid" IsChecked="{Binding IsIRDPaidStatus}" Foreground="White"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,25,0,0">
+                                <Button Classes="btn-clear" Content="Clear" Command="{Binding ClearCommand}"/>
+                                <Button Classes="btn-submit" Command="{Binding SubmitCommand}">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <i:Icon Value="fa-solid fa-paper-plane" FontSize="14"/>
+                                        <TextBlock Text="Submit"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Filter Section -->
+            <Grid ColumnDefinitions="*, Auto" Margin="0,10,0,0">
+                <Grid Width="450" HorizontalAlignment="Left">
+                    <TextBox Text="{Binding SearchText, x:CompileBindings=False}" 
+                             Watermark="Search by Name, DIN, or Client ID" 
+                             Classes="form-input"
+                             HorizontalAlignment="Stretch"
+                             Padding="40,10,12,10"/>
+                    <i:Icon Value="fa-solid fa-magnifying-glass" FontSize="14" Foreground="#64748B" Margin="15,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" IsHitTestVisible="False"/>
+                </Grid>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12">
+                    <Grid Width="150">
+                        <ComboBox Classes="form-input" SelectedItem="{Binding SelectedDateFilter}" ItemsSource="{Binding DateFilterOptions}" HorizontalAlignment="Stretch" Padding="35,5,12,5"/>
+                         <i:Icon Value="fa-regular fa-calendar" FontSize="13" Foreground="#64748B" Margin="12,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" IsHitTestVisible="False"/>
+                    </Grid>
+                    <ComboBox Classes="form-input" SelectedItem="{Binding SelectedStatusFilter}" ItemsSource="{Binding StatusFilterOptions}" Width="150" PlaceholderText="All Statuses"/>
+                    <ComboBox Classes="form-input" SelectedItem="{Binding SelectedBranchFilter}" ItemsSource="{Binding BranchFilterOptions}" Width="150" PlaceholderText="All Branches"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- DataGrid Section -->
+            <Border Background="#151E2E" CornerRadius="12" Padding="1" BorderBrush="#1E293B" BorderThickness="1" ClipToBounds="True">
+                <DataGrid ItemsSource="{Binding DisplayedRecords}" 
+                          AutoGenerateColumns="False" 
+                          IsReadOnly="True" 
+                          GridLinesVisibility="Horizontal" 
+                          HorizontalGridLinesBrush="#1E293B"
+                          MinHeight="400"
+                          Background="Transparent" 
+                          RowBackground="Transparent"
+                          HeadersVisibility="Column"
+                          x:CompileBindings="False">
+                    <DataGrid.Styles>
+                        <Style Selector="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#1E293B"/>
+                            <Setter Property="Foreground" Value="#94A3B8"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="FontSize" Value="12"/>
+                            <Setter Property="Height" Value="45"/>
+                            <Setter Property="Padding" Value="20,0"/>
+                        </Style>
+                        <Style Selector="DataGridRow">
+                            <Setter Property="MinHeight" Value="75"/>
+                        </Style>
+                    </DataGrid.Styles>
+                    
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="50">
+                            <DataTemplate x:DataType="models:TaxRecord">
+                                <CheckBox Margin="15,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID, x:CompileBindings=False}" Width="140"/>
+                        <DataGridTemplateColumn Header="Client Name" Width="*">
+                            <DataTemplate x:DataType="models:TaxRecord">
+                                <StackPanel VerticalAlignment="Center" Spacing="4">
+                                    <TextBlock Text="{Binding ClientName}" Foreground="#F8FAFC" FontWeight="Bold" FontSize="14"/>
+                                    <TextBlock Text="{Binding ClientNameSub}" Foreground="#64748B" FontSize="12"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="DIN No" Binding="{Binding DINNo, x:CompileBindings=False}" Width="140"/>
+                        <DataGridTemplateColumn Header="Tax Period" Width="180">
+                            <DataTemplate x:DataType="models:TaxRecord">
+                                <StackPanel VerticalAlignment="Center" Spacing="4">
+                                    <TextBlock Text="{Binding TaxPeriod}" Foreground="#F1F5F9" FontWeight="SemiBold" FontSize="13"/>
+                                    <TextBlock Text="{Binding Date, StringFormat='{}MMM dd, yyyy'}" Foreground="#64748B" FontSize="12"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Status" Width="140">
+                            <DataTemplate x:DataType="models:TaxRecord">
+                                <Border Classes="status-badge" Tag="{Binding Status}">
+                                    <TextBlock Text="{Binding Status}" />
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+
+            <!-- Footer Pagination -->
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <Button Background="Transparent" Padding="0" Cursor="Hand">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <i:Icon Value="fa-solid fa-circle-question" Foreground="#64748B" FontSize="16"/>
+                        <TextBlock Text="Learn more about CIT" Foreground="#64748B" FontSize="13" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding PageSetText}" Foreground="#94A3B8" FontSize="13" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Command="{Binding PreviousPageCommand}" Classes="btn-clear" Padding="10,5">
+                             <i:Icon Value="fa-solid fa-chevron-left" FontSize="12"/>
+                        </Button>
+                        <Button Command="{Binding NextPageCommand}" Classes="btn-clear" Padding="10,5">
+                             <i:Icon Value="fa-solid fa-chevron-right" FontSize="12"/>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

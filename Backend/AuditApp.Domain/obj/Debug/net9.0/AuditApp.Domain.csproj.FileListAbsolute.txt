@@ -1,0 +1,23 @@
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\bin\Debug\net9.0\AuditApp.Domain.deps.json
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\bin\Debug\net9.0\AuditApp.Domain.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\bin\Debug\net9.0\AuditApp.Domain.pdb
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.AssemblyInfoInputs.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.AssemblyInfo.cs
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\obj\Debug\net9.0\refint\AuditApp.Domain.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.pdb
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\obj\Debug\net9.0\ref\AuditApp.Domain.dll
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Domain\bin\Debug\net9.0\AuditApp.Domain.deps.json
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Domain\bin\Debug\net9.0\AuditApp.Domain.dll
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Domain\bin\Debug\net9.0\AuditApp.Domain.pdb
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.AssemblyInfoInputs.cache
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.AssemblyInfo.cs
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.csproj.CoreCompileInputs.cache
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.dll
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Domain\obj\Debug\net9.0\refint\AuditApp.Domain.dll
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.pdb
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Domain\obj\Debug\net9.0\ref\AuditApp.Domain.dll
+C:\Users\sagar\Desktop\AATS\Backend\AuditApp.Domain\obj\Debug\net9.0\AuditApp.Domain.sourcelink.json

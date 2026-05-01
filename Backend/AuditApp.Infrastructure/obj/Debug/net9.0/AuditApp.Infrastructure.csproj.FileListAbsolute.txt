@@ -1,0 +1,39 @@
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Infrastructure.deps.json
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Infrastructure.runtimeconfig.json
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Infrastructure.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Infrastructure.pdb
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Application.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Domain.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Application.pdb
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Domain.pdb
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.AssemblyInfo.cs
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.C7AD8908.Up2Date
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\obj\Debug\net9.0\refint\AuditApp.Infrastructure.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.pdb
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.genruntimeconfig.cache
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\obj\Debug\net9.0\ref\AuditApp.Infrastructure.dll
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Infrastructure.deps.json
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Infrastructure.runtimeconfig.json
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Infrastructure.dll
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Infrastructure.pdb
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Application.dll
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Domain.dll
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Application.pdb
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\bin\Debug\net9.0\AuditApp.Domain.pdb
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.csproj.AssemblyReference.cache
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.AssemblyInfoInputs.cache
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.AssemblyInfo.cs
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.csproj.CoreCompileInputs.cache
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.C7AD8908.Up2Date
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.dll
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\obj\Debug\net9.0\refint\AuditApp.Infrastructure.dll
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.pdb
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.genruntimeconfig.cache
+c:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\obj\Debug\net9.0\ref\AuditApp.Infrastructure.dll
+C:\Users\sagar\Desktop\AATS\Backend\AuditApp.Infrastructure\obj\Debug\net9.0\AuditApp.Infrastructure.sourcelink.json

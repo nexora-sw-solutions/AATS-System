@@ -1,0 +1,3 @@
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views/CITView.axaml(259,26,259,26): Avalonia error AVLN2000: Unable to resolve suitable regular or attached property CornerRadius on type Avalonia.Controls:Avalonia.Controls.TextBlock Line 259, position 26. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+
+The build failed. Fix the build errors and run again.

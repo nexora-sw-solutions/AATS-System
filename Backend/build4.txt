@@ -1,0 +1,13 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  AuditApp.Domain -> C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Domain\bin\Debug\net9.0\AuditApp.Domain.dll
+  AuditApp.Application -> C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Application\bin\Debug\net9.0\AuditApp.Application.dll
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\DependencyInjection.cs(18,28): error CS0246: The type or namespace name 'IApplicationDbContext' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\AuditApp.Infrastructure.csproj]
+
+Build FAILED.
+
+C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\DependencyInjection.cs(18,28): error CS0246: The type or namespace name 'IApplicationDbContext' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\Admin\source\repos\NET Apps\AuditApp.API\AuditApp.Infrastructure\AuditApp.Infrastructure.csproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:01.92

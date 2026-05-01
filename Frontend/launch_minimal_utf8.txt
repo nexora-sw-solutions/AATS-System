@@ -1,0 +1,22 @@
+﻿D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views/AuditAndAccounts/AuditAssuranceDetailView.axaml(26,21,26,21): Avalonia error AVLN2000: Unable to resolve suitable regular or attached property TextTransform on type Avalonia.Controls:Avalonia.Controls.TextBlock Line 26, position 21. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views/AuditAndAccounts/AuditAssuranceDetailView.axaml(26,46,26,46): Avalonia error AVLN2200: Unable to convert property value to :.{Unknown type} Line 26, position 46. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+dotnet : 
+At line:1 char:1
++ dotnet run --project 
+AATS.Desktop > 
+launch_minimal.txt 2>&1; 
+Get-Cont ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (:  
+  String) [], RemoteExc   
+ eption
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+The build failed. Fix the 
+build errors and run 
+again.

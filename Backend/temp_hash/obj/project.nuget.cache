@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "j26D133+beg=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\NET Apps\\AuditApp.API\\temp_hash\\temp_hash.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\bcrypt.net-next\\4.1.0\\bcrypt.net-next.4.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}
