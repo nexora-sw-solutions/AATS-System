@@ -1,0 +1,25 @@
+﻿dotnet : Unhandled 
+exception: An error 
+occurred trying to start 
+process 'D:\Nexora\AATS\Wi
+ndows\AATS\AATS.Desktop\bi
+n\Debug\net10.0\AATS.Deskt
+op.exe' with working 
+directory 'D:\Nexora\AATS\
+Windows\AATS\AATS.Desktop'
+. The system cannot find 
+the file specified.
+At line:1 char:1
++ dotnet run --no-build > 
+launch_result_v7.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (U  
+  nhandled excep...file   
+  specified.:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 

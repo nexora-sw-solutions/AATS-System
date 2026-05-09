@@ -1,0 +1,40 @@
+1. Desktop Client (The "Auditor App") 
+• UI Framework: Avalonia UI (FOSS). It is the modern, hardware-accelerated 
+successor to WPF , delivering high-performance grids that stay smooth even with 
+100k+ rows of audit data. 
+• Architecture Pattern: CommunityToolkit.Mvvm. This provides a clean 
+separation of your UI (View) and your Audit logic (ViewModel), making the app 
+easier to test and maintain. 
+• Language: C# 14 on .NET 10 (LTS). You get the latest language features like the 
+field keyword for cleaner data models and long-term security support from 
+Microsoft. 
+• Local Database: SQLite with Open-Source SQLCipher. This keeps your local 
+data encrypted using 256-bit AES without the $999 commercial license fee. 
+2. Data & Synchronization 
+• Sync Logic: Dotmim.Sync. A "blazing fast" framework that handles the bi-
+directional sync between the auditor's laptop and the central server, including 
+conflict resolution if two people edit the same file offline. 
+• Central Database: PostgreSQL. 
+o Phase 1: Hosted on Supabase (Free Tier) for LKR 0. 
+o Phase 2: Migrated to Azure Database for PostgreSQL for advanced 
+enterprise security when the firm scales. 
+• Object Storage: Cloudflare R2. Used for storing all audit evidence, scanned 
+PDFs, and registration documents. It has Zero Egress Fees, meaning you aren't 
+charged when auditors download large files. 
+3. Backend & Infrastructure 
+• Server Logic: ASP .NET Core Web API. The industry standard for high-
+throughput, secure enterprise backends. 
+• Hosting: Hetzner Cloud (Germany/Finland). 
+o Plan: CX21 (2 vCPU, 4GB RAM). 
+o Benefit: 5–10x cheaper than Azure/AWS with strict ISO 27001 German 
+security compliance. 
+• SMS Integration: Notify.lk (Lite Plan). For automated client notifications during 
+company registration stages. 
+ 
+4. Deployment & Updates 
+• Installer & Updater: Velopack. 
+o It provides a "one-click" installer and handles silent background 
+updates. 
+o It uses Small Delta Updates, meaning if you fix a tiny bug, the auditor 
+only downloads a 1MB "diff" instead of a fresh 100MB installer. 
+ 
