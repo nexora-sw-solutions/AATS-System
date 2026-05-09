@@ -1,0 +1,22 @@
+﻿D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views/DashboardView.axaml(96,14,96,14): Avalonia error AVLN2000: Unable to resolve suitable regular or attached property Spacing on type Avalonia.Controls:Avalonia.Controls.Grid Line 96, position 14. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views/DashboardView.axaml(206,14,206,14): Avalonia error AVLN2000: Unable to resolve suitable regular or attached property Spacing on type Avalonia.Controls:Avalonia.Controls.Grid Line 206, position 14. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views/DashboardView.axaml(318,14,318,14): Avalonia error AVLN2000: Unable to resolve suitable regular or attached property Spacing on type Avalonia.Controls:Avalonia.Controls.Grid Line 318, position 14. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+dotnet : 
+At line:1 char:1
++ dotnet run --project 
+AATS.Desktop > 
+run_err_3.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~
+    + CategoryInfo        
+      : NotSpecified: (:  
+  String) [], RemoteExc   
+ eption
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+The build failed. Fix the 
+build errors and run 
+again.

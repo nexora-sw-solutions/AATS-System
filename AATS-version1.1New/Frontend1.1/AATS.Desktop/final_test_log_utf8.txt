@@ -1,0 +1,23 @@
+﻿D:\Nexora\AATS\Windows\AATS\AATS.Desktop\App.axaml(17,10,17,10): Avalonia error AVLN2000: Unable to resolve type Views from namespace clr-namespace:AATS.Desktop Line 17, position 10. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\App.axaml(17,10,17,10): Avalonia error AVLN2000: Unable to resolve suitable regular or attached property MainWindow on type :.{Unknown type} Line 17, position 10. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views/AuditAndAccounts/AuditAssuranceDetailView.axaml(26,21,26,21): Avalonia error AVLN2000: Unable to resolve suitable regular or attached property TextTransform on type Avalonia.Controls:Avalonia.Controls.TextBlock Line 26, position 21. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views/AuditAndAccounts/AuditAssuranceDetailView.axaml(26,46,26,46): Avalonia error AVLN2200: Unable to convert property value to :.{Unknown type} Line 26, position 46. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+dotnet : 
+At line:1 char:1
++ dotnet run > 
+final_test_log.txt 2>&1; 
+Get-Content 
+final_test_log.txt  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (:  
+  String) [], RemoteExc   
+ eption
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+The build failed. Fix the 
+build errors and run 
+again.

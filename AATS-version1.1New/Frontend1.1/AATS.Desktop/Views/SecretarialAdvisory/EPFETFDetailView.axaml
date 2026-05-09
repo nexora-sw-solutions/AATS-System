@@ -1,0 +1,318 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.SecretarialAdvisory"
+             xmlns:models="clr-namespace:AATS.Desktop.Models"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="900"
+             x:Class="AATS.Desktop.Views.SecretarialAdvisory.EPFETFDetailView"
+             x:DataType="vm:EPFETFDetailViewModel">
+
+    <UserControl.Styles>
+        <Style Selector="Border.detail-card">
+            <Setter Property="Background" Value="{DynamicResource TableBg}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="24"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style Selector="TextBlock.card-label">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+        <Style Selector="TextBlock.card-value">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
+        <!-- Global DataGrid Style Sync -->
+        <Style Selector="DataGrid">
+            <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="AreSeparatorsVisible" Value="False"/>
+        </Style>
+
+        <Style Selector="DataGridColumnHeader:pointerover /template/ Grid">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="DataGridRow">
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}"/>
+            <Setter Property="BorderThickness" Value="0,1,0,0"/>
+        </Style>
+
+        <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
+            <Setter Property="Fill" Value="{DynamicResource RowHoverBg}"/>
+            <Setter Property="Opacity" Value="0.5"/>
+        </Style>
+        
+        <!-- Standard Process Badges -->
+        <Style Selector="Border.process-badge">
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Background" Value="#1C263A"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource TextNav}"/>
+                <Setter Property="FontSize" Value="10"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+            </Style>
+        </Style>
+        
+        <Style Selector="Border.process-completed">
+            <Setter Property="Background" Value="#14532D"/>
+            <Setter Property="BorderBrush" Value="#166534"/>
+            <Style Selector="^ TextBlock"><Setter Property="Foreground" Value="#86EFAC"/></Style>
+        </Style>
+        
+        <Style Selector="Border.process-pending">
+            <Setter Property="Background" Value="#7C4714"/>
+            <Setter Property="BorderBrush" Value="#92400E"/>
+            <Style Selector="^ TextBlock"><Setter Property="Foreground" Value="#FDBA74"/></Style>
+        </Style>
+
+        <!-- Row Button Pattern -->
+        <Style Selector="Button.row-button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                    Background="{TemplateBinding Background}"
+                                    Content="{TemplateBinding Content}"
+                                    Padding="{TemplateBinding Padding}"/>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+        <Style Selector="Button.row-button:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Panel>
+        <ScrollViewer>
+            <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, *, Auto" Margin="40,20,40,40">
+                
+                <!-- 1. Header Section -->
+                <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" Margin="0,0,0,32">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16">
+                        <Border Width="64" Height="64" CornerRadius="16" Background="{DynamicResource FilterBarBg}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1">
+                            <i:Icon Value="fa-solid fa-hotel" Foreground="{DynamicResource AccentPrimary}" FontSize="28"/>
+                        </Border>
+                        <TextBlock Text="{Binding CompanyName}" FontSize="36" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                        <Button Classes="btn-detail-action" Command="{Binding DownloadRecordCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <i:Icon Value="fa-solid fa-download" FontSize="14" Foreground="{DynamicResource TextSecondary}"/>
+                                <TextBlock Text="Download" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Classes="btn-detail-action" Command="{Binding PrintRecordCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <i:Icon Value="fa-solid fa-print" FontSize="14" Foreground="{DynamicResource TextSecondary}"/>
+                                <TextBlock Text="Print" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 2. Info Grid Summary -->
+                <Grid Grid.Row="1" ColumnDefinitions="*, 20, *, 20, *, 20, *" Margin="0,0,0,40">
+                    <Border Grid.Column="0" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="ID" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding ID}" Classes="card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="2" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="DATE" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding Date}" Classes="card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="4" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="BRANCH" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding Branch}" Classes="card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="6" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="TOTAL STAFF" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding TotalStaff}" Classes="card-value"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- 3. Filter Area -->
+                <Border Grid.Row="2" Background="{DynamicResource FilterBarBg}" CornerRadius="12" Padding="15" Margin="0,0,0,20" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1">
+                    <Grid ColumnDefinitions="*, 15, Auto">
+                        <!-- Search -->
+                        <Panel Grid.Column="0">
+                            <TextBox Classes="filter-search" Watermark="Search staff by name or ID..." Text="{Binding StaffSearchText}"/>
+                            <i:Icon Value="fa-solid fa-magnifying-glass" Foreground="{DynamicResource TextDimmed}" FontSize="14" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                        </Panel>
+
+                        <Button Grid.Column="2" Classes="btn-primary" Background="{DynamicResource GuideGotItBg}" Foreground="{DynamicResource DrawerHeaderBg}" Height="38" Padding="15,0" Command="{Binding AddStaffCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource DrawerHeaderBg}" FontSize="12"/>
+                                <TextBlock Text="Add Record" FontSize="12" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- 4. Table Area -->
+                <Border Grid.Row="3" Background="{DynamicResource FilterBarBg}" CornerRadius="12" Padding="5" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1" VerticalAlignment="Top">
+                    <DataGrid ItemsSource="{Binding PagedStaffList}" 
+                              AutoGenerateColumns="False" 
+                              IsReadOnly="True"
+                              CanUserResizeColumns="True"
+                              SelectionMode="Single"
+                              Background="Transparent" BorderThickness="0"
+                              GridLinesVisibility="None" RowBackground="Transparent"
+                              HeadersVisibility="Column" RowHeight="38">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Staff ID" Width="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Classes="row-button" Command="{Binding $parent[UserControl].DataContext.StaffSelectedCommand}" CommandParameter="{Binding}">
+                                            <TextBlock Text="{Binding StaffId}" Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center" Margin="12,0" FontSize="13"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+ 
+                            <DataGridTemplateColumn Header="Staff Name" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Classes="row-button" Command="{Binding $parent[UserControl].DataContext.StaffSelectedCommand}" CommandParameter="{Binding}">
+                                            <TextBlock Text="{Binding StaffName}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="12,0" FontSize="13"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+ 
+                            <DataGridTemplateColumn Header="Process" Width="140">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Classes="row-button" Command="{Binding $parent[UserControl].DataContext.StaffSelectedCommand}" CommandParameter="{Binding}">
+                                            <Panel>
+                                                <Border Classes="process-badge" 
+                                                        Classes.process-completed="{Binding IsComplete}"
+                                                        Classes.process-pending="{Binding IsSubmit}"
+                                                        VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Process}"/>
+                                                </Border>
+                                            </Panel>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+
+                <!-- 5. Table Navigation (Moves with Table) -->
+                <Grid Grid.Row="4" Margin="0,10,0,0">
+                    <StackPanel Orientation="Horizontal" Spacing="15" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding PaginationDisplay}" Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center" FontSize="13"/>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <Button Command="{Binding PrevPageCommand}" CornerRadius="4" Background="{DynamicResource FilterBarBg}" Width="30" Height="30" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1">
+                                <i:Icon Value="fa-solid fa-chevron-left" FontSize="10" Foreground="{DynamicResource TextPrimary}"/>
+                            </Button>
+                            <Button Command="{Binding NextPageCommand}" CornerRadius="4" Background="{DynamicResource FilterBarBg}" Width="30" Height="30" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1">
+                                <i:Icon Value="fa-solid fa-chevron-right" FontSize="10" Foreground="{DynamicResource TextPrimary}"/>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 6. Bottom Footer Actions (Unified Row) -->
+                <Grid Grid.Row="6" ColumnDefinitions="Auto, *, Auto" VerticalAlignment="Bottom" Margin="0,30,0,0">
+                    <Button Grid.Column="0" Classes="footer-link" Command="{Binding OpenGuideCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <i:Icon Value="fa-solid fa-circle-question" Foreground="{DynamicResource TextSecondary}" FontSize="16"/>
+                            <TextBlock Text="Learn more about EPF/ETF" Foreground="{DynamicResource TextSecondary}" FontSize="13" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16">
+                        <Button Content="Edit" Classes="btn-edit" Width="140" Command="{Binding EditRecordCommand}"/>
+                        <Button Content="Delete" Classes="btn-delete" Width="140" Command="{Binding DeleteRecordCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- Global Confirmation Dialog Overlay -->
+        <Border Classes="premium-modal-overlay" IsVisible="{Binding IsConfirmDialogVisible}" ZIndex="1000">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
+                <StackPanel Spacing="28">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                             <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                <i:Icon Value="fa-solid fa-circle-exclamation" Foreground="{DynamicResource StatusDanger}" FontSize="22"/>
+                            </Border>
+                            <TextBlock Text="{Binding ConfirmDialogTitle}" Foreground="{DynamicResource TextHeading}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Classes="footer-link" Command="{Binding CancelActionCommand}" VerticalAlignment="Top" Margin="0,-10,-10,0">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                        </Button>
+                    </Grid>
+                    <TextBlock Text="{Binding ConfirmDialogMessage}" Foreground="{DynamicResource TextSecondary}" FontSize="16" LineHeight="26" TextWrapping="Wrap"/>
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Cancel" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Command="{Binding CancelActionCommand}"/>
+                        <Button Grid.Column="2" Content="Confirm" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Command="{Binding ConfirmActionCommand}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+        
+        <!-- Guide Popup (Simplified for EPF/ETF) -->
+        <Border ZIndex="4000" IsVisible="{Binding IsGuideVisible}" Background="{DynamicResource OverlayBg}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-30">
+             <Border Background="{DynamicResource InputBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="12" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="30" BoxShadow="0 8 32 0 #66000000">
+                <StackPanel Spacing="25">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                            <i:Icon Value="fa-regular fa-circle-question" FontSize="20" Foreground="{DynamicResource TextHeading}"/>
+                            <TextBlock Text="Guide: EPF/ETF Client Details" Foreground="{DynamicResource TextHeading}" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Background="Transparent" BorderThickness="0" Padding="5" Command="{Binding CloseGuideCommand}">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="18"/>
+                        </Button>
+                    </Grid>
+                    <TextBlock Text="Review the employee list and remittance status for this client." Foreground="{DynamicResource TextSecondary}" FontSize="14"/>
+                    <Border Background="{DynamicResource DrawerHeaderBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="8" Padding="15">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="PRO TIP" Foreground="{DynamicResource TextSecondary}" FontWeight="Bold" FontSize="11"/>
+                            <TextBlock Text="You can search for specific employees by their Staff ID or Name using the search bar above the table." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                    <Button Content="Got it" Command="{Binding CloseGuideCommand}" Background="{DynamicResource GuideGotItBg}" Foreground="{DynamicResource DrawerHeaderBg}" FontWeight="Bold" CornerRadius="6" Padding="20,10" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Panel>
+</UserControl>

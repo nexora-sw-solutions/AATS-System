@@ -1,0 +1,683 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AATS.Desktop.App"
+             xmlns:local="using:AATS.Desktop"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             xmlns:vm="using:AATS.Desktop.ViewModels"
+             xmlns:vmaa="using:AATS.Desktop.ViewModels.AuditAndAccounts"
+             xmlns:vmtf="using:AATS.Desktop.ViewModels.TaxFiling"
+             xmlns:vmsa="using:AATS.Desktop.ViewModels.SecretarialAdvisory"
+             xmlns:vmc="using:AATS.Desktop.ViewModels.Clients"
+             xmlns:vmt="using:AATS.Desktop.ViewModels.Team"
+             xmlns:vmal="using:AATS.Desktop.ViewModels.ActivityLog"
+              xmlns:vmn="using:AATS.Desktop.ViewModels.Nexora"
+              xmlns:vaa="using:AATS.Desktop.Views.AuditAndAccounts"
+              xmlns:vtf="using:AATS.Desktop.Views.TaxFiling"
+              xmlns:vsa="using:AATS.Desktop.Views.SecretarialAdvisory"
+              xmlns:vc="using:AATS.Desktop.Views.Clients"
+              xmlns:vt="using:AATS.Desktop.Views.Team"
+              xmlns:val="using:AATS.Desktop.Views.ActivityLog"
+              xmlns:vn="using:AATS.Desktop.Views.Nexora"
+              xmlns:vnot="using:AATS.Desktop.Views.Notifications"
+              xmlns:conv="using:AATS.Desktop.Converters"
+              xmlns:u="using:AATS.Desktop.Utils"
+              RequestedThemeVariant="Dark">
+             <!-- Theme is set programmatically by ThemeService. Default is Dark. -->
+
+    <Application.DataTemplates>
+        <!-- Audit & Accounts -->
+        <DataTemplate DataType="vmaa:AuditAssuranceViewModel"><vaa:AuditAssuranceView/></DataTemplate>
+        <DataTemplate DataType="vmaa:AuditAssuranceDetailViewModel"><vaa:AuditAssuranceDetailView/></DataTemplate>
+        <DataTemplate DataType="vmaa:InternalAuditViewModel"><vaa:InternalAuditView/></DataTemplate>
+        <DataTemplate DataType="vmaa:InternalAuditDetailViewModel"><vaa:InternalAuditDetailView/></DataTemplate>
+        <DataTemplate DataType="vmaa:ForensicAuditDetailViewModel"><vaa:ForensicAuditDetailView/></DataTemplate>
+        <DataTemplate DataType="vmaa:ForensicAuditViewModel"><vaa:ForensicAuditView/></DataTemplate>
+        <DataTemplate DataType="vmaa:ManagementAccountDetailViewModel"><vaa:ManagementAccountDetailView/></DataTemplate>
+        <DataTemplate DataType="vmaa:ManagementAccountViewModel"><vaa:ManagementAccountView/></DataTemplate>
+        <DataTemplate DataType="vmaa:TaxAccountDetailViewModel"><vaa:TaxAccountDetailView/></DataTemplate>
+        <DataTemplate DataType="vmaa:TaxAccountViewModel"><vaa:TaxAccountView/></DataTemplate>
+        <DataTemplate DataType="vmaa:InternalControlDetailViewModel"><vaa:InternalControlDetailView/></DataTemplate>
+        <DataTemplate DataType="vmaa:InternalControlViewModel"><vaa:InternalControlView/></DataTemplate>
+        <DataTemplate DataType="vmaa:AuditOthersViewModel"><vaa:AuditOthersView/></DataTemplate>
+        
+        <!-- Tax Filing -->
+        <DataTemplate DataType="vmtf:CITViewModel"><vtf:CITView/></DataTemplate>
+        <DataTemplate DataType="vmtf:IITViewModel"><vtf:IITView/></DataTemplate>
+        <DataTemplate DataType="vmtf:VATViewModel"><vtf:VATView/></DataTemplate>
+        <DataTemplate DataType="vmtf:SSCLViewModel"><vtf:SSCLView/></DataTemplate>
+        <DataTemplate DataType="vmtf:WHTViewModel"><vtf:WHTView/></DataTemplate>
+        <DataTemplate DataType="vmtf:TaxOthersViewModel"><vtf:TaxOthersView/></DataTemplate>
+        
+        <!-- Secretarial & Advisory -->
+        <DataTemplate DataType="vmsa:CompanyRegistrationViewModel"><vsa:CompanyRegistrationView/></DataTemplate>
+        <DataTemplate DataType="vmsa:CompanyRegistrationDetailViewModel"><vsa:CompanyRegistrationDetailView/></DataTemplate>
+        <DataTemplate DataType="vmsa:AddCompanyRegistrationViewModel"><vsa:AddCompanyRegistrationView/></DataTemplate>
+        <DataTemplate DataType="vmsa:EPFETFViewModel"><vsa:EPFETFView/></DataTemplate>
+        <DataTemplate DataType="vmsa:EPFETFDetailViewModel"><vsa:EPFETFDetailView/></DataTemplate>
+        <DataTemplate DataType="vmsa:StaffDetailViewModel"><vsa:StaffDetailView/></DataTemplate>
+        <DataTemplate DataType="vmsa:TradeLicenseViewModel"><vsa:TradeLicenseView/></DataTemplate>
+        <DataTemplate DataType="vmsa:TradeLicenseDetailViewModel"><vsa:TradeLicenseDetailView/></DataTemplate>
+        <DataTemplate DataType="vmsa:TradeMarkViewModel"><vsa:TradeMarkView/></DataTemplate>
+        <DataTemplate DataType="vmsa:TradeMarkDetailViewModel"><vsa:TradeMarkDetailView/></DataTemplate>
+        <DataTemplate DataType="vmsa:ImportExportViewModel"><vsa:ImportExportView/></DataTemplate>
+        <DataTemplate DataType="vmsa:ImportExportDetailViewModel"><vsa:ImportExportDetailView/></DataTemplate>
+        <DataTemplate DataType="vmsa:BOIViewModel"><vsa:BOIView/></DataTemplate>
+        <DataTemplate DataType="vmsa:BOIDetailViewModel"><vsa:BOIDetailView/></DataTemplate>
+        <DataTemplate DataType="vmsa:HRConsultingViewModel"><vsa:HRConsultingView/></DataTemplate>
+        <DataTemplate DataType="vmsa:HRConsultingDetailViewModel"><vsa:HRConsultingDetailView/></DataTemplate>
+        <DataTemplate DataType="vmsa:BusinessPlanViewModel"><vsa:BusinessPlanView/></DataTemplate>
+        <DataTemplate DataType="vmsa:BusinessPlanDetailViewModel"><vsa:BusinessPlanDetailView/></DataTemplate>
+        <DataTemplate DataType="vmsa:SecretarialOthersViewModel"><vsa:SecretarialOthersView/></DataTemplate>
+        <DataTemplate DataType="vmsa:AddBOIViewModel"><vsa:AddBOIView/></DataTemplate>
+        <DataTemplate DataType="vmsa:AddHRConsultingViewModel"><vsa:AddHRConsultingView/></DataTemplate>
+        <DataTemplate DataType="vmsa:AddBusinessPlanViewModel"><vsa:AddBusinessPlanView/></DataTemplate>
+        <DataTemplate DataType="vmsa:AddSecretarialOthersViewModel"><vsa:AddSecretarialOthersView/></DataTemplate>
+        
+        <!-- Main Categories -->
+        <DataTemplate DataType="vmc:ClientsViewModel"><vc:ClientsView/></DataTemplate>
+        <DataTemplate DataType="vmt:TeamViewModel"><vt:TeamView/></DataTemplate>
+        <DataTemplate DataType="vmal:ActivityLogViewModel"><val:ActivityLogView/></DataTemplate>
+        <DataTemplate DataType="vmn:NexoraViewModel"><vn:NexoraView/></DataTemplate>
+        <DataTemplate DataType="vm:NotificationsViewModel"><vnot:NotificationsView/></DataTemplate>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://AATS.Desktop/Styles/ThemeResources.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <conv:MultiplierConverter x:Key="MultiplierConverter"/>
+            <conv:StringEqualityConverter x:Key="StringEqualityConverter"/>
+            <conv:BooleanToStringConverter x:Key="BooleanToStringConverter"/>
+            <conv:IntToBoolConverter x:Key="IntToBoolConverter"/>
+            <conv:IsReadToFontWeightConverter x:Key="IsReadToFontWeightConverter"/>
+
+        </ResourceDictionary>
+    </Application.Resources>
+  
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+        <StyleInclude Source="avares://AATS.Desktop/Styles/PremiumFilters.axaml"/>
+        <StyleInclude Source="avares://AATS.Desktop/Styles/GlobalStyles.axaml"/>
+        <Style Selector="Window">
+            <Setter Property="Background" Value="{DynamicResource AppBackground}"/>
+        </Style>
+
+        <!-- Navbar Styles -->
+        <Style Selector="Button.circle-nav-button">
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="{DynamicResource CircleNavBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Style.Resources>
+                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#4E618A"/>
+                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
+            </Style.Resources>
+        </Style>
+
+        <Style Selector="TextBox.search-bar">
+            <Setter Property="Background" Value="{DynamicResource HoverBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="35,8,12,8"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style Selector="TextBox.search-bar:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource HoverBgStrong}"/>
+        </Style>
+        <Style Selector="TextBox.search-bar:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderFocus}"/>
+        </Style>
+
+        <Style Selector="TextBox.numeric-input">
+            <Setter Property="u:NumericBehavior.Mode" Value="Decimal"/>
+        </Style>
+
+        <Style Selector="TextBox.integer-input">
+            <Setter Property="u:NumericBehavior.Mode" Value="Integer"/>
+        </Style>
+
+        <Style Selector="TextBox.phone-input">
+            <Setter Property="u:NumericBehavior.Mode" Value="Phone"/>
+        </Style>
+
+        <Style Selector="TextBlock.breadcrumb-main">
+            <Setter Property="Foreground" Value="{DynamicResource BreadcrumbMain}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="TextBlock.breadcrumb-sub">
+            <Setter Property="Foreground" Value="{DynamicResource BreadcrumbSub}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+
+        <!-- Navigation Buttons -->
+
+        <!-- Active States -->
+        <!-- Main Navigation Items Style -->
+        <Style Selector="Button.nav-button">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="15,12"/>
+            <Setter Property="Margin" Value="10,2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.15"/>
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button.nav-button /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextNav}"/>
+            <Setter Property="TextBlock.FontSize" Value="14"/>
+            <Setter Property="TextBlock.FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style Selector="Button.nav-button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource HoverBg}"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Active States -->
+        <Style Selector="Button.nav-button.active /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ActiveNavBg}"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource ActiveNavFg}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.nav-button.active i|Icon">
+            <Setter Property="Foreground" Value="{DynamicResource ActiveNavFg}"/>
+        </Style>
+
+        <Style Selector="Button.nav-button.active TextBlock">
+             <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="Button.sub-nav-button.active /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ActiveNavBg}"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource ActiveNavFg}"/>
+            <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+        </Style>
+        <Style Selector="Button.sub-nav-button.active TextBlock">
+             <Setter Property="FontWeight" Value="Bold"/>
+             <Setter Property="Foreground" Value="{DynamicResource ActiveNavFg}"/>
+        </Style>
+
+        <!-- Sub-Navigation Buttons -->
+        <Style Selector="Button.sub-nav-button">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Margin" Value="15,1,5,1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSubNav}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+        </Style>
+        <Style Selector="Button.sub-nav-button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource HoverBgSubtle}"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.sub-nav-button /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style Selector="Button.sub-nav-button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource HoverBgStrong}"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Expander Styling -->
+        <Style Selector="Expander.sidebar-expander">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="10,2"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        
+        <Style Selector="Expander.sidebar-expander /template/ ToggleButton#ExpanderHeader:pointerover">
+            <Setter Property="Background" Value="{DynamicResource HoverBgSubtle}"/>
+        </Style>
+        
+        <Style Selector="Expander.sidebar-expander /template/ ToggleButton#ExpanderHeader:checked /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Expander.sidebar-expander /template/ ToggleButton#ExpanderHeader:checked:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource HoverBgSubtle}"/>
+        </Style>
+
+        <Style Selector="Expander.sidebar-expander /template/ ToggleButton#ExpanderHeader">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextNav}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+
+        <Style Selector="Expander.sidebar-expander /template/ ToggleButton#ExpanderHeader:pointerover">
+            <Setter Property="Background" Value="{DynamicResource HoverBgStrong}"/>
+        </Style>
+
+        <Style Selector="Expander.sidebar-expander /template/ ToggleButton#ExpanderHeader:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Expander.sidebar-expander /template/ ToggleButton#ExpanderHeader /template/ Border#ExpandCollapseChevronBorder">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Expander.sidebar-expander /template/ Border#ExpanderContent">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Expander.sidebar-expander /template/ ToggleButton#ExpanderHeader /template/ Path#ExpandCollapseChevron">
+            <Setter Property="Fill" Value="Transparent"/>
+            <Setter Property="Stroke" Value="{DynamicResource ChevronStroke}"/>
+            <Setter Property="StrokeThickness" Value="1.5"/>
+        </Style>
+        
+        <Style Selector="Expander.sidebar-expander /template/ ToggleButton#ExpanderHeader:pointerover /template/ Path#ExpandCollapseChevron">
+            <Setter Property="Stroke" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Global Footer Link Style -->
+        <Style Selector="Button.footer-link">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
+        </Style>
+        <Style Selector="Button.footer-link:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextHeading}"/>
+        </Style>
+        <Style Selector="Button.footer-link:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Opacity" Value="0.7"/>
+        </Style>
+        <Style Selector="Button.footer-link:focus /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <!-- Global Filter Control Styles -->
+        <Style Selector="TextBox.filter-search">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="35,10,12,10"/>
+            <Setter Property="MinHeight" Value="38"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style Selector="TextBox.filter-search:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource InputPointerOverBg}"/>
+        </Style>
+        <Style Selector="TextBox.filter-search:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource InputFocusBg}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderFocus}"/>
+        </Style>
+
+        <Style Selector="ComboBox.filter-combo">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="MinHeight" Value="38"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style Selector="ComboBox.filter-combo:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource ComboPointerOverBg}"/>
+        </Style>
+        <Style Selector="ComboBox.filter-combo:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource ComboFocusBg}"/>
+        </Style>
+
+        <!-- Global Flyout Style for Dropdowns (to remove secondary border weight) -->
+        <Style Selector="FlyoutPresenter.filter-flyout">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    Padding="{TemplateBinding Padding}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+        <!-- Global Dropdown Item Styles (Subtle Gray Highlight) -->
+        <Style Selector="ComboBoxItem">
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.1"/>
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="ComboBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ComboItemHover}"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ComboItemSelected}"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ComboItemSelectedHover}"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Standardized Action Buttons -->
+        <Style Selector="Button.btn-primary">
+            <Setter Property="Background" Value="{DynamicResource AccentPrimary}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style Selector="Button.btn-secondary">
+            <Setter Property="Background" Value="{DynamicResource BtnSecondaryBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource BtnSecondaryFg}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style Selector="Button.btn-secondary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource HoverBgStrong}"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.btn-detail-action">
+            <Setter Property="Background" Value="{DynamicResource BtnDetailBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="38"/>
+        </Style>
+        <Style Selector="Button.btn-detail-action:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ActionBtnPointerOver}"/>
+        </Style>
+
+        <Style Selector="Button.btn-edit">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnEditBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextHeading}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.btn-edit:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ActionBtnPointerOver}"/>
+        </Style>
+
+        <Style Selector="Button.btn-delete">
+            <Setter Property="Background" Value="#FA003F"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2"/>
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button.btn-delete:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#D40035"/>
+            <Setter Property="TextBlock.Foreground" Value="White"/>
+        </Style>
+
+        <Style Selector="Button.btn-delete:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#B0002C"/>
+        </Style>
+
+        <!-- Premium Client Detail Summary Card -->
+        <Style Selector="Border.detail-summary-card">
+            <Setter Property="Background" Value="{DynamicResource CardBg}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="20,16"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BoxShadow" Value="{DynamicResource DetailCardShadow}"/>
+        </Style>
+
+        <Style Selector="TextBlock.detail-card-label">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="LetterSpacing" Value="0.5"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+
+        <Style Selector="TextBlock.detail-card-value">
+            <Setter Property="Foreground" Value="{DynamicResource TextHeading}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <!-- Premium Process Stepper Styles -->
+        <Style Selector="Button.process-step-btn">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.process-step-btn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style Selector="Button.process-step-btn:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style Selector="Button.process-step-btn:disabled /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style Selector="Button.process-step-btn:disabled">
+            <Setter Property="Opacity" Value="0.6"/>
+            <Setter Property="Cursor" Value="Arrow"/>
+        </Style>
+
+        <Style Selector="Border.step-indicator-circle">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource StepCircleBorder}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2"/>
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.2"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="Border.step-indicator-circle.active">
+            <Setter Property="Background" Value="{DynamicResource AccentPrimary}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentBlue}"/>
+        </Style>
+        <Style Selector="Border.step-indicator-circle.clickable:pointerover">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentBlue}"/>
+            <Setter Property="BoxShadow" Value="0 0 10 0 #403B82F6"/>
+        </Style>
+
+        <Style Selector="TextBlock.step-indicator-num">
+            <Setter Property="Foreground" Value="{DynamicResource StepNumFg}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="TextBlock.step-indicator-num.active">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style Selector="TextBlock.step-indicator-label">
+            <Setter Property="Foreground" Value="{DynamicResource StepLabelFg}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,12,0,0"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
+        <Style Selector="TextBlock.step-indicator-label.active">
+            <Setter Property="Foreground" Value="{DynamicResource TextHeading}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <!-- Premium Modal / Dialog Overlay -->
+        <Style Selector="Border.premium-modal-overlay">
+            <Setter Property="Background" Value="{DynamicResource OverlayBg}"/>
+        </Style>
+        <Style Selector="Border.premium-modal-content">
+            <Setter Property="Background" Value="{DynamicResource ModalBg}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="Padding" Value="32"/>
+            <Setter Property="BoxShadow" Value="{DynamicResource ModalShadow}"/>
+        </Style>
+
+        <!-- Premium Source Document Items -->
+        <Style Selector="Border.premium-doc-item">
+            <Setter Property="Background" Value="{DynamicResource CardBg}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.2"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="Border.premium-doc-item:pointerover">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}"/>
+        </Style>
+
+        <!-- Global Form Styles -->
+        <Style Selector="TextBlock.input-label">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextHeading}"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        <Style Selector="TextBox.form-input">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style Selector="TextBox.form-input:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}"/>
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+        </Style>
+
+        <Style Selector="ComboBox.form-input">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        <Style Selector="ComboBox.form-input:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}"/>
+        </Style>
+
+        <Style Selector="CalendarDatePicker.form-input">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="CalendarDatePicker.form-input:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}"/>
+        </Style>
+
+        <!-- Force 'No' cursor on all internal parts when ReadOnly -->
+        <Style Selector="TextBox[IsReadOnly=True], TextBox[IsReadOnly=True] :is(Control)">
+            <Setter Property="Cursor" Value="No"/>
+        </Style>
+
+    </Application.Styles>
+</Application>

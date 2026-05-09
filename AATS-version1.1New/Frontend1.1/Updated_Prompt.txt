@@ -1,0 +1,81 @@
+Prompt
+ 
+ 
+ 
+We are developing an audit firm system, and I’m tasked with developing the tax section, in 
+that tax section, there are several subsections such as. 
+
+• CIT – Corporate income tax 
+• IIT - Individual income tax 
+• VAT – Value added tax 
+• SSCL – Social Security Contribution Levy 
+• WHT - Withholding tax 
+As you can see, I have already designed the layout and the design I’m planning to use. (can 
+be changed in the process of developing). 
+Even though I only design the CIT part, the same design and the layout will apply to the 
+other remaining sections. 
+This audit firm has 4 branches, 
+1. South 
+2. West 
+3. Central 
+4. Northeast 
+Top Navbar – Go back, Go forward button, breadcrumb menu, user icon (which redirects to 
+the client profile) and the notification icon 
+Body – there are 2 sections, the table and the form, 
+ In the form section, there are, 
+o Client section (Client Details) – which has client id - which the use input 
+directly, and the client’s name which also input by the user. 
+o Tax section (Tax Period) – which has period input field (integers), the drop 
+down which has options such as days, month, years. And the director id (DIN 
+No.) 
+o Payment status – which has 3 radio buttons (Paid, Pending, IRD Paid). 
+o 2 buttons – Clear button (which clears entire form), and the submit button 
+which submits the data. 
+ In the table section, there are, 
+o Ther are 5 columns – ID, Client Name, DIN No, Tax Period, status. The data 
+will be obtained once the form is submitted. 
+o And there is also a select option box which we can select individually via the 
+box in front of each record or else the user can select all via the box that is in 
+the table header section. 
+o In the table it will only display 10 records at a time. 
+o Under the table there are 2 sections, 
+o Which shows how many records show from the total 
+o The other one is which record set you’re in. 
+o And there are some options that help users to easily navigate across the 
+data, by searching or filtering via date, status or branch 
+▪ Search option – user can search by entering the name, DIN or Client’s 
+name 
+▪ Date – the date filter has 5 options. Those are, 
+▪ All dates – this displays every record 
+ 
+▪ Specific date – when the specific date options is 
+selected the search bar will shrink from right side to 
+make the space for the specific date to pick via a date 
+picker. 
+ 
+▪ Month – when the month options is selected the same 
+will happen but in this time the user will get to choose 
+the month and the year. These 2 options will have 2 
+separate drop-down menus 
+
+ 
+▪ Year – when the year filter option in selected user will 
+choose the year via drop-down menu. 
+ 
+▪ Period - when the period filter option is selected the 
+user will get to choose the year via a date picker with 2 
+months, one for start date and other for the end date 
+
+ 
+▪ Status option: the status filter option has 3 options, those are, 
+• Paid – Green Badger 
+• Pending - Yellow Badger 
+• IRD pending – Light blue badger 
+▪ Branches filter option: the branches filter option will have the earlier 
+mentioned branches options. (south, west, central, northeast). 
+ 
+
+And at the bottom of the page there will be a clickable learn more button which have all the 
+instructions about the page. The template will be this 
+ 
+

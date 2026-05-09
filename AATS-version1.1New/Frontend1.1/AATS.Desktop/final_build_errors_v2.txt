@@ -1,0 +1,8 @@
+﻿D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Utils\NumericBehavior.cs(28,24): error CS0117: 'DataObject' does not contain a definition for 'AddPastingHandler' [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Utils\NumericBehavior.cs(33,24): error CS0117: 'DataObject' does not contain a definition for 'RemovePastingHandler' [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+
+Build FAILED.
+    2 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:03.16

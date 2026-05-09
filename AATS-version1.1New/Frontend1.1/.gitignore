@@ -1,0 +1,13 @@
+# Build results
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.cache
+
+# Compiled files
+*.dll
+*.exe
