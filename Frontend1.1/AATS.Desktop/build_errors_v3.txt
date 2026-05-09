@@ -1,0 +1,17 @@
+﻿D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\TaxFiling\TaxOthersAddRecordView.axaml : Avalonia error AVLN1001: File doesn't contain valid XAML: System.Xml.XmlException: The 'UserControl' start tag on line 1 position 2 does not match the end tag of 'Panel'. Line 281, position 7. [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\TaxFiling\TaxOthersAddRecordView.axaml : Avalonia error AVLN1001:    at System.Xml.XmlTextReaderImpl.Throw(Exception e) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\TaxFiling\TaxOthersAddRecordView.axaml : Avalonia error AVLN1001:    at System.Xml.XmlTextReaderImpl.Throw(String res, String[] args) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\TaxFiling\TaxOthersAddRecordView.axaml : Avalonia error AVLN1001:    at System.Xml.XmlTextReaderImpl.ThrowTagMismatch(NodeData startTag) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\TaxFiling\TaxOthersAddRecordView.axaml : Avalonia error AVLN1001:    at System.Xml.XmlTextReaderImpl.ParseEndElement() [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\TaxFiling\TaxOthersAddRecordView.axaml : Avalonia error AVLN1001:    at System.Xml.XmlTextReaderImpl.ParseElementContent() [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\TaxFiling\TaxOthersAddRecordView.axaml : Avalonia error AVLN1001:    at System.Xml.Linq.XContainer.ReadContentFrom(XmlReader r) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\TaxFiling\TaxOthersAddRecordView.axaml : Avalonia error AVLN1001:    at System.Xml.Linq.XDocument.Load(XmlReader reader, LoadOptions options) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\TaxFiling\TaxOthersAddRecordView.axaml : Avalonia error AVLN1001:    at System.Xml.Linq.XDocument.Parse(String text, LoadOptions options) [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\TaxFiling\TaxOthersAddRecordView.axaml : Avalonia error AVLN1001:    at Avalonia.Build.Tasks.XamlFileInfo.Parse(String data) in /_/src/Avalonia.Build.Tasks/XamlFileInfo.cs:line 11 [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+D:\Nexora\AATS\Windows\AATS\AATS.Desktop\Views\TaxFiling\TaxOthersAddRecordView.axaml : Avalonia error AVLN1001:    at Avalonia.Build.Tasks.GenerateAvaloniaResourcesTask.PreProcessXamlFiles(List`1 sources) in /_/src/Avalonia.Build.Tasks/GenerateAvaloniaResourcesTask.cs:line 106 [D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj]
+
+Build FAILED.
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:00.65

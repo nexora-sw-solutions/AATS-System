@@ -1,0 +1,26 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AATS.Desktop.ViewModels"
+        xmlns:v="using:AATS.Desktop.Views"
+        x:Class="AATS.Desktop.Views.MainWindow"
+        x:DataType="vm:MainShellViewModel"
+        Title="AATS Management System"
+        WindowState="Maximized"
+        Background="{DynamicResource SidebarBg}">
+    
+    <Window.DataTemplates>
+        <!-- Map ViewModels to Views locally in the shell -->
+        <DataTemplate DataType="vm:LoginViewModel">
+            <v:LoginView/>
+        </DataTemplate>
+        <DataTemplate DataType="vm:MainViewModel">
+            <v:MainShellView/>
+        </DataTemplate>
+    </Window.DataTemplates>
+
+    <TransitioningContentControl Content="{Binding CurrentView}">
+        <TransitioningContentControl.PageTransition>
+            <CrossFade Duration="0:0:0.5" />
+        </TransitioningContentControl.PageTransition>
+    </TransitioningContentControl>
+</Window>

@@ -1,0 +1,49 @@
+﻿dotnet : Unhandled 
+exception. Avalonia.Markup
+.Xaml.XamlLoadException: 
+No precompiled XAML found 
+for AATS.Desktop.App, 
+make sure to specify 
+x:Class and include your 
+XAML file as 
+AvaloniaResource
+At line:1 char:1
++ dotnet run --no-build > 
+final_launch_test.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (U  
+  nhandled excep...valo   
+ niaResource:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+   at Avalonia.Markup.Xaml
+.AvaloniaXamlLoader.Load(O
+bject obj)
+   at AATS.Desktop.App.Ini
+tialize() in D:\Nexora\AAT
+S\Windows\AATS\AATS.Deskto
+p\App.axaml.cs:line 18
+   at Avalonia.AppBuilder.
+SetupUnsafe()
+   at Avalonia.AppBuilder.
+Setup()
+   at Avalonia.AppBuilder.
+SetupWithLifetime(IApplica
+tionLifetime lifetime)
+   at Avalonia.ClassicDesk
+topStyleApplicationLifetim
+eExtensions.StartWithClass
+icDesktopLifetime(AppBuild
+er builder, String[] 
+args, Action`1 
+lifetimeBuilder)
+   at AATS.Desktop.Program
+.Main(String[] args) in D:
+\Nexora\AATS\Windows\AATS\
+AATS.Desktop\Program.cs:li
+ne 14

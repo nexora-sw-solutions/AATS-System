@@ -1,0 +1,161 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="https://github.com/projektanker/icons.avalonia">
+
+    <!-- Slide Drawer Animations & Base Styles -->
+    <Style Selector="Border.detail-drawer">
+        <Setter Property="Background" Value="{DynamicResource DrawerBg}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+        <Setter Property="BorderThickness" Value="1,0,0,0"/>
+        <Setter Property="Width" Value="480"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="BoxShadow" Value="{DynamicResource DrawerShadow}"/>
+        <Setter Property="RenderTransform" Value="translate(480px,0)"/>
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.4" Easing="CubicEaseOut"/>
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Border.detail-drawer.open">
+        <Setter Property="RenderTransform" Value="translate(0,0)"/>
+    </Style>
+
+    <!-- Overlay / Dimmer -->
+    <Style Selector="Border.drawer-overlay">
+        <Setter Property="IsVisible" Value="False"/>
+        <Setter Property="Opacity" Value="0"/>
+        <Setter Property="Background" Value="{DynamicResource OverlayBg}"/>
+        <Setter Property="Transitions">
+            <Transitions>
+                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Border.drawer-overlay.open">
+        <Setter Property="IsVisible" Value="True"/>
+        <Setter Property="Opacity" Value="1"/>
+    </Style>
+
+    <!-- Drawer Footer Buttons -->
+    <Style Selector="Button.btn-drawer-edit">
+        <Setter Property="Background" Value="{DynamicResource DrawerEditBtnBg}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AccentBlue}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="20,10"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.2"/>
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Button.btn-drawer-edit:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource DrawerEditBtnHover}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AccentBlue}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}"/>
+    </Style>
+
+    <Style Selector="Button.btn-drawer-delete">
+        <Setter Property="Background" Value="#ED1D4D"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="20,10"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    <Style Selector="Button.btn-drawer-delete:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource StatusDanger}"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+
+    <Style Selector="Button.btn-drawer-save">
+        <Setter Property="Background" Value="{DynamicResource DrawerSaveBtnBg}"/>
+        <Setter Property="Foreground" Value="{DynamicResource DrawerSaveBtnFg}"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="25,10"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    <Style Selector="Button.btn-drawer-save:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource DrawerSaveBtnHover}"/>
+        <Setter Property="Foreground" Value="{DynamicResource DrawerSaveBtnFg}"/>
+    </Style>
+
+    <!-- Drawer typography and layout helpers -->
+    <Style Selector="TextBlock.drawer-label">
+        <Setter Property="Foreground" Value="{DynamicResource TextLabel}"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Width" Value="140"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    <Style Selector="TextBlock.drawer-value">
+        <Setter Property="Foreground" Value="{DynamicResource TextBody}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="TextBox.drawer-input">
+        <Setter Property="Background" Value="{DynamicResource DrawerInputBg}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="10,8"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+    <Style Selector="TextBox.drawer-input:focus /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentBlue}"/>
+        <Setter Property="BoxShadow" Value="0 0 8 0 #4060A5FA"/>
+    </Style>
+    <Style Selector="ComboBox.drawer-input">
+        <Setter Property="Background" Value="{DynamicResource DrawerInputBg}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="10,8"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+    <Style Selector="ComboBox.drawer-input:focus /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentBlue}"/>
+    </Style>
+    <Style Selector="Grid.drawer-field-row">
+        <Setter Property="Margin" Value="0,0,0,18"/>
+    </Style>
+
+    <!-- Icon Actions -->
+    <Style Selector="Button.icon-action">
+        <Setter Property="Background" Value="{DynamicResource IconActionBg}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource IconActionBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Style.Resources>
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#334155"/>
+        </Style.Resources>
+    </Style>
+
+    <!-- New Drawer Specific Styles -->
+    <Style Selector="Border.drawer-card">
+        <Setter Property="Background" Value="{DynamicResource DrawerCardBg}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="Padding" Value="20"/>
+        <Setter Property="Margin" Value="0,0,0,20"/>
+    </Style>
+
+    <Style Selector="Grid.drawer-field-row">
+        <Setter Property="Margin" Value="0,0,0,18"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="Grid.drawer-field-row > :is(Control)">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+</Styles>

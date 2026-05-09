@@ -1,0 +1,551 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AATS.Desktop.ViewModels"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             xmlns:conv="using:AATS.Desktop.Converters"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="1000"
+             x:Class="AATS.Desktop.Views.DashboardView"
+             x:DataType="vm:DashboardViewModel">
+    
+    <UserControl.Styles>
+        <!-- Card Style -->
+        <Style Selector="Border.dashboard-card">
+            <Setter Property="Background" Value="{DynamicResource DashCardBg}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BoxShadow" Value="{DynamicResource CardShadow}"/>
+        </Style>
+
+        <!-- Action Button Style -->
+        <Style Selector="Button.action-button">
+            <Setter Property="Background" Value="{DynamicResource DashActionBg}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource DashActionBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2"/>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="Button.action-button:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource DashActionHover}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}"/>
+        </Style>
+        <Style Selector="Button.action-button:pressed">
+            <Setter Property="RenderTransform" Value="scale(0.98)"/>
+        </Style>
+
+        <!-- Chart Segment Style -->
+        <Style Selector="Arc.chart-segment">
+            <Setter Property="StrokeThickness" Value="18"/>
+            <Setter Property="StrokeJoin" Value="Round"/>
+            <Setter Property="StrokeLineCap" Value="Round"/>
+        </Style>
+    </UserControl.Styles>
+
+    <ScrollViewer>
+        <StackPanel Margin="30" Spacing="25">
+            <!-- Header Section -->
+            <StackPanel Spacing="5">
+                <TextBlock Text="Dashboard" FontSize="32" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}"/>
+                <TextBlock Text="Welcome back! Here's an overview of AATS." Foreground="{DynamicResource TextSecondary}" FontSize="16"/>
+            </StackPanel>
+
+            <Border Background="{DynamicResource FilterBarBg}" CornerRadius="12" Padding="15" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1">
+                <Grid ColumnDefinitions="*, 15, Auto, 15, Auto, 15, Auto, 15, Auto">
+                    <!-- Search Bar (Stretches) -->
+                    <Panel Grid.Column="0">
+                        <TextBox Classes="filter-search" Watermark="Search KPIs, clients, or specific records..." Text="{Binding SearchText}"/>
+                        <i:Icon Value="fa-solid fa-magnifying-glass" Foreground="{DynamicResource TextSecondary}" Margin="12,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"/>
+                    </Panel>
+
+                    <!-- Unified Date Filter -->
+                    <Button Grid.Column="2" Classes="date-filter-trigger">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <i:Icon Value="fa-solid fa-calendar-alt" Foreground="{DynamicResource AccentPrimary}" FontSize="16"/>
+                            <TextBlock Text="{Binding DateFilterSummary}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                            <i:Icon Value="fa-solid fa-chevron-down" Foreground="{DynamicResource TextMuted}" FontSize="10" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                        </StackPanel>
+                        <Button.Flyout>
+                            <Flyout Placement="BottomEdgeAlignedLeft" FlyoutPresenterClasses="premium-flyout">
+                                <Border Background="{DynamicResource DrawerBg}" 
+                                        BorderBrush="{DynamicResource BorderDefault}" 
+                                        BorderThickness="1" 
+                                        CornerRadius="12" 
+                                        Padding="0" 
+                                        ClipToBounds="True"
+                                        BoxShadow="{DynamicResource FlyoutShadow}">
+                                    <Grid ColumnDefinitions="Auto, 1, Auto">
+                                        <!-- Left: Quick Picks List -->
+                                        <Border Classes="quick-pick-sidebar">
+                                            <ListBox ItemsSource="{Binding DateFilters}" SelectedItem="{Binding SelectedDateFilter}"
+                                                     Classes="quick-pick-list"/>
+                                        </Border>
+
+                                        <!-- Vertical Divider -->
+                                        <Border Grid.Column="1" Background="{DynamicResource BorderMuted}" Width="1" VerticalAlignment="Stretch"/>
+
+                                        <!-- Right: Context Content -->
+                                        <Border Grid.Column="2" Padding="25" MinWidth="350" MinHeight="480">
+                                            <Panel>
+                                                <!-- All Dates / Simple Filters -->
+                                                <StackPanel Spacing="15" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=All Dates}">
+                                                    <Panel Height="80">
+                                                        <i:Icon Value="fa-solid fa-calendar-check" FontSize="48" Foreground="{DynamicResource TextMuted}" Opacity="0.3" HorizontalAlignment="Center"/>
+                                                    </Panel>
+                                                    <TextBlock Text="Viewing all time records" Foreground="{DynamicResource TextSecondary}" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+                                                
+                                                <StackPanel Spacing="15" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Today}">
+                                                    <Panel Height="80">
+                                                        <i:Icon Value="fa-solid fa-clock" FontSize="48" Foreground="{DynamicResource StatusInfo}" Opacity="0.5" HorizontalAlignment="Center"/>
+                                                    </Panel>
+                                                    <TextBlock Text="Viewing records from today" Foreground="{DynamicResource TextSecondary}" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+
+                                                <StackPanel Spacing="15" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=This Week}">
+                                                    <Panel Height="80">
+                                                        <i:Icon Value="fa-solid fa-calendar-week" FontSize="48" Foreground="{DynamicResource AccentBlue}" Opacity="0.5" HorizontalAlignment="Center"/>
+                                                    </Panel>
+                                                    <TextBlock Text="Viewing records from this week" Foreground="{DynamicResource TextSecondary}" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+
+                                                <!-- Month Selection -->
+                                                <StackPanel Spacing="15" 
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=This Month}">
+                                                    <TextBlock Text="Select Month" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TextPrimary}"/>
+                                                    <Calendar SelectedDate="{Binding MonthDate}"/>
+                                                    <TextBlock Text="Tip: Select any day in the month" FontSize="11" Foreground="{DynamicResource TextMuted}" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+
+                                                <!-- Year Selection -->
+                                                <StackPanel Spacing="15" 
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=This Year}">
+                                                    <TextBlock Text="Select Year" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TextPrimary}"/>
+                                                    <ListBox ItemsSource="{Binding Years}" 
+                                                             SelectedItem="{Binding SelectedYear}"
+                                                             Classes="year-selector-list">
+                                                         <ListBox.ItemsPanel>
+                                                             <ItemsPanelTemplate>
+                                                                 <WrapPanel/>
+                                                             </ItemsPanelTemplate>
+                                                         </ListBox.ItemsPanel>
+                                                     </ListBox>
+                                                </StackPanel>
+
+                                                <!-- Specific Date -->
+                                                <StackPanel Spacing="15" 
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Specific Date}">
+                                                    <TextBlock Text="Select Specific Date" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TextPrimary}"/>
+                                                    <Calendar SelectedDate="{Binding SpecificDate}"/>
+                                                </StackPanel>
+
+                                                <!-- Specific Period -->
+                                                <StackPanel Spacing="15" 
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Specific Period}">
+                                                    <TextBlock Text="Select Date Range" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TextPrimary}"/>
+                                                    <Border Background="{DynamicResource DateFlyoutBg}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1" CornerRadius="8" Padding="5">
+                                                        <StackPanel Spacing="10">
+                                                            <Calendar SelectionMode="SingleRange" 
+                                                                      SelectedDatesChanged="Calendar_OnSelectedDatesChanged"
+                                                                      HorizontalAlignment="Center"/>
+                                                            <Grid ColumnDefinitions="*, Auto, *" Margin="10,0">
+                                                                <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                                                                    <TextBlock Text="Start Date" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                                                    <TextBlock Text="{Binding PeriodStartDate, StringFormat={}{0:dd MMM yyyy}}" FontWeight="SemiBold" FontSize="12"/>
+                                                                </StackPanel>
+                                                                <i:Icon Grid.Column="1" Value="fa-solid fa-arrow-right" FontSize="10" Foreground="{DynamicResource TextMuted}" VerticalAlignment="Center" Margin="10,0"/>
+                                                                <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                                                                    <TextBlock Text="End Date" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                                                    <TextBlock Text="{Binding PeriodEndDate, StringFormat={}{0:dd MMM yyyy}}" FontWeight="SemiBold" FontSize="12"/>
+                                                                </StackPanel>
+                                                            </Grid>
+                                                        </StackPanel>
+                                                    </Border>
+                                                    <TextBlock Text="Tip: Click and drag or use Shift+Click to select a range" FontSize="11" Foreground="{DynamicResource TextMuted}" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Panel>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+
+                    <!-- Status Filter -->
+                    <ComboBox Grid.Column="4" Classes="filter-combo" PlaceholderText="All Status"
+                              ItemsSource="{Binding StatusFilters}" SelectedItem="{Binding SelectedStatusFilter}"/>
+
+                    <!-- Branch Filter -->
+                    <ComboBox Grid.Column="6" Classes="filter-combo" PlaceholderText="All Branch"
+                              ItemsSource="{Binding BranchFilters}" SelectedItem="{Binding SelectedBranchFilter}"/>
+
+                    <!-- Clear Filters Reset Button -->
+                    <Button Grid.Column="8" 
+                            Command="{Binding ClearFiltersCommand}"
+                            IsVisible="{Binding HasActiveFilters}"
+                            Background="Transparent" BorderThickness="0" Padding="8"
+                            ToolTip.Tip="Reset All Filters"
+                            VerticalAlignment="Center"
+                            Cursor="Hand">
+                        <i:Icon Value="fa-solid fa-rotate-left" Foreground="{DynamicResource StatusDanger}" FontSize="16"/>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Stats Cards Grid -->
+            <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="20">
+                <!-- Total Clients -->
+                <Border Grid.Column="0" Classes="dashboard-card">
+                    <Grid RowDefinitions="Auto, Auto, Auto">
+                        <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+                            <TextBlock Grid.Column="0" Text="Total Clients" Foreground="{DynamicResource TextSecondary}" FontSize="14" FontWeight="SemiBold"/>
+                            <i:Icon Grid.Column="1" Value="fa-solid fa-users" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Top"/>
+                        </Grid>
+                        <TextBlock Grid.Row="1" Text="{Binding TotalClients}" FontSize="36" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" Margin="0,15,0,5"/>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <i:Icon Value="fa-solid fa-circle" Foreground="{DynamicResource StatusSuccess}" FontSize="6" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding ActiveClients, StringFormat='{}{0} active'}" Foreground="{DynamicResource StatusSuccess}" FontSize="12"/>
+                            </StackPanel>
+                            <TextBlock Text="•" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding InactiveClients, StringFormat='{}{0} inactive'}" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Total Revenue -->
+                <Border Grid.Column="1" Classes="dashboard-card">
+                    <Grid RowDefinitions="Auto, Auto, Auto">
+                        <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+                            <TextBlock Grid.Column="0" Text="Total Revenue" Foreground="{DynamicResource TextSecondary}" FontSize="14" FontWeight="SemiBold"/>
+                            <i:Icon Grid.Column="1" Value="fa-solid fa-dollar-sign" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Top"/>
+                        </Grid>
+                        <TextBlock Grid.Row="1" Text="{Binding TotalRevenue}" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" Margin="0,15,0,5"/>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="5">
+                            <i:Icon Value="fa-solid fa-arrow-trend-up" Foreground="{DynamicResource StatusSuccess}" FontSize="10" VerticalAlignment="Center"/>
+                            <TextBlock Text="+ 12.5%" Foreground="{DynamicResource StatusSuccess}" FontSize="12" FontWeight="SemiBold"/>
+                            <TextBlock Text="from last month" Foreground="{DynamicResource TextDimmed}" FontSize="12"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Outstanding Balance -->
+                <Border Grid.Column="2" Classes="dashboard-card">
+                    <Grid RowDefinitions="Auto, Auto, Auto">
+                        <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+                            <TextBlock Grid.Column="0" Text="Outstanding Balance" Foreground="{DynamicResource TextSecondary}" FontSize="14" FontWeight="SemiBold"/>
+                            <i:Icon Grid.Column="1" Value="fa-solid fa-circle-exclamation" Foreground="{DynamicResource StatusWarning}" VerticalAlignment="Top"/>
+                        </Grid>
+                        <TextBlock Grid.Row="1" Text="{Binding OutstandingBalance}" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource StatusWarning}" Margin="0,15,0,5"/>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="5">
+                            <i:Icon Value="fa-solid fa-triangle-exclamation" Foreground="{DynamicResource StatusDanger}" FontSize="10" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding ClientsWithDues, StringFormat='{}{0} clients have pending dues'}" Foreground="{DynamicResource StatusDanger}" FontSize="12"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Audit Records Stats -->
+                <Border Grid.Column="3" Classes="dashboard-card">
+                    <Grid RowDefinitions="Auto, Auto, Auto">
+                        <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+                            <TextBlock Grid.Column="0" Text="Audit Records" Foreground="{DynamicResource TextSecondary}" FontSize="14" FontWeight="SemiBold"/>
+                            <i:Icon Grid.Column="1" Value="fa-solid fa-file-invoice" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Top"/>
+                        </Grid>
+                        <TextBlock Grid.Row="1" Text="{Binding TotalAuditRecords}" FontSize="36" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" Margin="0,15,0,5"/>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="{Binding PaidAudits, StringFormat='{}{0} paid'}" Foreground="{DynamicResource StatusSuccess}" FontSize="12"/>
+                            <TextBlock Text="•" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding PartialAudits, StringFormat='{}{0} partial'}" Foreground="{DynamicResource StatusWarning}" FontSize="12"/>
+                            <TextBlock Text="•" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding UnpaidAudits, StringFormat='{}{0} unpaid'}" Foreground="{DynamicResource StatusDanger}" FontSize="12"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Quick Actions -->
+            <StackPanel Spacing="15">
+                <TextBlock Text="Quick Actions" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}"/>
+                <TextBlock Text="Frequently used shortcuts" Foreground="{DynamicResource TextSecondary}" FontSize="13" Margin="0,-10,0,0"/>
+                
+                <StackPanel Orientation="Horizontal" Spacing="15">
+                    <Button Classes="action-button" Command="{Binding NewAuditRecordCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <i:Icon Value="fa-solid fa-plus" FontSize="12" Foreground="{DynamicResource AccentBlue}"/>
+                            <TextBlock Text="New Audit Record" Foreground="{DynamicResource TextPrimary}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Classes="action-button" Command="{Binding RegisterCompanyCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <i:Icon Value="fa-solid fa-building-circle-check" FontSize="12" Foreground="{DynamicResource AccentBlue}"/>
+                            <TextBlock Text="Register Company" Foreground="{DynamicResource TextPrimary}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Classes="action-button" Command="{Binding AddTeamMemberCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <i:Icon Value="fa-solid fa-user-plus" FontSize="12" Foreground="{DynamicResource AccentBlue}"/>
+                            <TextBlock Text="Add Team Member" Foreground="{DynamicResource TextPrimary}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Classes="action-button" Command="{Binding FileCITCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <i:Icon Value="fa-solid fa-file-contract" FontSize="12" Foreground="{DynamicResource AccentBlue}"/>
+                            <TextBlock Text="File CIT" Foreground="{DynamicResource TextPrimary}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Classes="action-button" Command="{Binding ViewClientsCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <i:Icon Value="fa-solid fa-users-viewfinder" FontSize="12" Foreground="{DynamicResource AccentBlue}"/>
+                            <TextBlock Text="View Clients" Foreground="{DynamicResource TextPrimary}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Visualizations Row -->
+            <Grid ColumnDefinitions="*, *, 1.2*" ColumnSpacing="20">
+                <!-- Payment Status Donut -->
+                <Border Grid.Column="0" Classes="dashboard-card">
+                    <StackPanel Spacing="20">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="Payment Status" Foreground="{DynamicResource TextPrimary}" FontSize="16" FontWeight="Bold"/>
+                            <TextBlock Text="All modules combined" Foreground="{DynamicResource TextDimmed}" FontSize="12"/>
+                        </StackPanel>
+                        
+                        <!-- Simple Custom Donut Chart -->
+                        <Panel Height="180">
+                            <!-- Background Circle -->
+                            <Ellipse Width="150" Height="150" Stroke="{DynamicResource DashChartBg}" StrokeThickness="18"/>
+                            
+                            <Arc Width="150" Height="150" Stroke="{DynamicResource StatusSuccess}" StartAngle="{Binding PaidStart}" SweepAngle="{Binding PaidSweep}" Classes="chart-segment"/>
+                            <Arc Width="150" Height="150" Stroke="{DynamicResource StatusWarning}" StartAngle="{Binding PartialStart}" SweepAngle="{Binding PartialSweep}" Classes="chart-segment"/>
+                            <Arc Width="150" Height="150" Stroke="{DynamicResource StatusDanger}" StartAngle="{Binding UnpaidStart}" SweepAngle="{Binding UnpaidSweep}" Classes="chart-segment"/>
+                            
+                            <!-- Center Text -->
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="Total" Foreground="{DynamicResource TextSecondary}" FontSize="12" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding TotalAuditRecords}" Foreground="{DynamicResource TextPrimary}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Panel>
+
+                        <!-- Legend -->
+                        <ItemsControl ItemsSource="{Binding PaymentStatuses}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <Ellipse Width="8" Height="8" Fill="{Binding Color}"/>
+                                        <TextBlock Text="{Binding Status}" Foreground="{DynamicResource TextSecondary}" FontSize="11"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- Client Categories Donut -->
+                <Border Grid.Column="1" Classes="dashboard-card">
+                    <StackPanel Spacing="20">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="Client Categories" Foreground="{DynamicResource TextPrimary}" FontSize="16" FontWeight="Bold"/>
+                            <TextBlock Text="Distribution by type" Foreground="{DynamicResource TextDimmed}" FontSize="12"/>
+                        </StackPanel>
+                        
+                        <Panel Height="180">
+                            <Ellipse Width="150" Height="150" Stroke="{DynamicResource DashChartBg}" StrokeThickness="18"/>
+                            <Arc Width="150" Height="150" Stroke="#6366F1" StartAngle="{Binding CorporateStart}" SweepAngle="{Binding CorporateSweep}" Classes="chart-segment"/>
+                            <Arc Width="150" Height="150" Stroke="#A855F7" StartAngle="{Binding SmeStart}" SweepAngle="{Binding SmeSweep}" Classes="chart-segment"/>
+                            <Arc Width="150" Height="150" Stroke="#06B6D4" StartAngle="{Binding IndividualStart}" SweepAngle="{Binding IndividualSweep}" Classes="chart-segment"/>
+                            <Arc Width="150" Height="150" Stroke="#94A3B8" StartAngle="{Binding OthersStart}" SweepAngle="{Binding OthersSweep}" Classes="chart-segment"/>
+                        </Panel>
+
+                        <ItemsControl ItemsSource="{Binding ClientCategories}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <Ellipse Width="8" Height="8" Fill="{Binding Color}"/>
+                                        <TextBlock Text="{Binding Status}" Foreground="{DynamicResource TextSecondary}" FontSize="11"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- Branch Activity Bar Chart -->
+                <Border Grid.Column="2" Classes="dashboard-card">
+                    <StackPanel Spacing="20">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="Branch Activity" Foreground="{DynamicResource TextPrimary}" FontSize="16" FontWeight="Bold"/>
+                            <TextBlock Text="Audits by branch" Foreground="{DynamicResource TextDimmed}" FontSize="12"/>
+                        </StackPanel>
+
+                        <ItemsControl ItemsSource="{Binding BranchActivities}" Margin="0,10,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="70, *, 30" Margin="0,0,0,15">
+                                        <TextBlock Grid.Column="0" Text="{Binding Branch}" Foreground="{DynamicResource TextSecondary}" FontSize="12" VerticalAlignment="Center"/>
+                                        
+                                        <!-- Bar -->
+                                        <Panel Grid.Column="1" Margin="10,0">
+                                            <Border Background="{DynamicResource DashChartBg}" Height="16" CornerRadius="4"/>
+                                            <Border Background="{DynamicResource AccentPrimary}" Height="16" CornerRadius="4" HorizontalAlignment="Left"
+                                                    Width="{Binding Count, Converter={StaticResource MultiplierConverter}, ConverterParameter=25}"/>
+                                        </Panel>
+                                        
+                                        <TextBlock Grid.Column="2" Text="{Binding Count}" Foreground="{DynamicResource TextPrimary}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Bottom Row: Module Summary & Recent Activity -->
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="20">
+                <!-- Module Summary -->
+                <Border Grid.Column="0" Classes="dashboard-card">
+                    <StackPanel Spacing="20">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="Module Summary" Foreground="{DynamicResource TextPrimary}" FontSize="18" FontWeight="Bold"/>
+                            <TextBlock Text="Overview of all modules" Foreground="{DynamicResource TextDimmed}" FontSize="13"/>
+                        </StackPanel>
+
+                        <StackPanel Spacing="10">
+                            <!-- Accounts & Audit -->
+                            <Border Background="{DynamicResource DashModuleBg}" Padding="15" CornerRadius="8">
+                                <Grid ColumnDefinitions="40, *, Auto">
+                                    <Border Grid.Column="0" Width="32" Height="32" Background="{DynamicResource DashModuleIconBg}" CornerRadius="6">
+                                        <i:Icon Value="fa-solid fa-file-invoice-dollar" Foreground="{DynamicResource AccentBlue}" FontSize="14"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                        <TextBlock Text="Accounts &amp; Audit" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold" FontSize="14"/>
+                                        <TextBlock Text="{Binding TotalAuditRecords, StringFormat='{}{0} records'}" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                                    </StackPanel>
+                                    <Button Grid.Column="2" Background="Transparent" BorderThickness="0">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="View" Foreground="{DynamicResource AccentBlue}" FontSize="12" VerticalAlignment="Center"/>
+                                            <i:Icon Value="fa-solid fa-arrow-up-right-from-square" FontSize="10" Foreground="{DynamicResource AccentBlue}"/>
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                            </Border>
+
+                            <!-- Secretarial & Advisory -->
+                            <Border Background="{DynamicResource DashModuleBg}" Padding="15" CornerRadius="8">
+                                <Grid ColumnDefinitions="40, *, Auto">
+                                    <Border Grid.Column="0" Width="32" Height="32" Background="{DynamicResource DashModuleIconBg}" CornerRadius="6">
+                                        <i:Icon Value="fa-solid fa-briefcase" Foreground="#A855F7" FontSize="14"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                        <TextBlock Text="Secretarial &amp; Advisory" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold" FontSize="14"/>
+                                        <TextBlock Text="{Binding TotalSecretarialRecords, StringFormat='{}{0} records'}" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                                    </StackPanel>
+                                    <Button Grid.Column="2" Background="Transparent" BorderThickness="0">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="View" Foreground="{DynamicResource AccentBlue}" FontSize="12" VerticalAlignment="Center"/>
+                                            <i:Icon Value="fa-solid fa-arrow-up-right-from-square" FontSize="10" Foreground="{DynamicResource AccentBlue}"/>
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                            </Border>
+
+                            <!-- Tax Filing -->
+                            <Border Background="{DynamicResource DashModuleBg}" Padding="15" CornerRadius="8">
+                                <Grid ColumnDefinitions="40, *, Auto">
+                                    <Border Grid.Column="0" Width="32" Height="32" Background="{DynamicResource DashModuleIconBg}" CornerRadius="6">
+                                        <i:Icon Value="fa-solid fa-receipt" Foreground="{DynamicResource StatusSuccess}" FontSize="14"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                        <TextBlock Text="Tax Filing" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold" FontSize="14"/>
+                                        <TextBlock Text="CIT, IIT, VAT, SSCL, WHT" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                                    </StackPanel>
+                                    <Button Grid.Column="2" Background="Transparent" BorderThickness="0">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="View" Foreground="{DynamicResource AccentBlue}" FontSize="12" VerticalAlignment="Center"/>
+                                            <i:Icon Value="fa-solid fa-arrow-up-right-from-square" FontSize="10" Foreground="{DynamicResource AccentBlue}"/>
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                            </Border>
+
+                            <!-- Team Management -->
+                            <Border Background="{DynamicResource DashModuleBg}" Padding="15" CornerRadius="8">
+                                <Grid ColumnDefinitions="40, *, Auto">
+                                    <Border Grid.Column="0" Width="32" Height="32" Background="{DynamicResource DashModuleIconBg}" CornerRadius="6">
+                                        <i:Icon Value="fa-solid fa-users" Foreground="{DynamicResource StatusWarning}" FontSize="14"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                        <TextBlock Text="Team Management" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold" FontSize="14"/>
+                                        <TextBlock Text="{Binding TotalTeamMembers, StringFormat='{}{0} members across 4 branches'}" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                                    </StackPanel>
+                                    <Button Grid.Column="2" Background="Transparent" BorderThickness="0">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="View" Foreground="{DynamicResource AccentBlue}" FontSize="12" VerticalAlignment="Center"/>
+                                            <i:Icon Value="fa-solid fa-arrow-up-right-from-square" FontSize="10" Foreground="{DynamicResource AccentBlue}"/>
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Recent Activity -->
+                <Border Grid.Column="1" Classes="dashboard-card">
+                    <StackPanel Spacing="20">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="Recent Activity" Foreground="{DynamicResource TextPrimary}" FontSize="18" FontWeight="Bold"/>
+                            <TextBlock Text="Latest actions in the system" Foreground="{DynamicResource TextDimmed}" FontSize="13"/>
+                        </StackPanel>
+
+                        <ItemsControl ItemsSource="{Binding RecentActivities}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="40, *, Auto" Margin="0,0,0,18">
+                                        <!-- Icon based on type -->
+                                        <Border Grid.Column="0" Width="28" Height="28" CornerRadius="14" Background="{DynamicResource DashActivityIconBg}" VerticalAlignment="Top">
+                                            <i:Icon Value="{Binding ActionIcon}" FontSize="12" Foreground="{Binding ActionColor}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Border>
+
+                                        <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                                            <TextBlock Text="{Binding Action}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" FontSize="13"/>
+                                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                                <TextBlock Text="{Binding Module}" Foreground="{DynamicResource TextDimmed}" FontSize="11"/>
+                                                <TextBlock Text="•" Foreground="{DynamicResource TextFaint}" FontSize="11" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Details}" Foreground="{DynamicResource TextSecondary}" FontSize="11"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <TextBlock Grid.Column="2" Text="{Binding TimestampFormatted}" Foreground="{DynamicResource TextDimmed}" FontSize="11" VerticalAlignment="Top"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
