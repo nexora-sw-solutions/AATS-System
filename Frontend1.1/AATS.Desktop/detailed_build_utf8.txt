@@ -1,0 +1,139 @@
+﻿Build started 08/04/2026 22:02:33.
+     1>Project "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj" on node 1 (Restore target(s)).
+     1>_GetAllRestoreProjectPathItems:
+         Determining projects to restore...
+     1>Project "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj" (1) is building "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj" (1:6) on node 1 (_GenerateProjectRestoreGraph target(s)).
+     1>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.5
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.5\data\PackageOverrides.txt
+     1>Done Building Project "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj" (_GenerateProjectRestoreGraph target(s)).
+     1>Restore:
+         X.509 certificate chain validation will use the default trust store selected by .NET for code signing.
+         X.509 certificate chain validation will use the default trust store selected by .NET for timestamping.
+         Assets file has not changed. Skipping assets file writing. Path: D:\Nexora\AATS\Windows\AATS\AATS.Desktop\obj\project.assets.json
+         Restored D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj (in 65 ms).
+         
+         NuGet Config files used:
+             C:\Users\User\AppData\Roaming\NuGet\NuGet.Config
+             C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.FallbackLocation.config
+             C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.Offline.config
+         
+         Feeds used:
+             https://api.nuget.org/v3/index.json
+             C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\
+             C:\Program Files\dotnet\library-packs
+         All projects are up-to-date for restore.
+     1>Done Building Project "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj" (Restore target(s)).
+   1:7>Project "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj" on node 1 (default targets).
+     1>GenerateAvaloniaResources:
+       Skipping target "GenerateAvaloniaResources" because all output files are up-to-date with respect to the input files.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Debug\net10.0\AATS.Desktop.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       _CopyFilesMarkedCopyLocal:
+         Copying file from "C:\Users\User\.nuget\packages\avalonia\11.3.12\lib\net8.0\Avalonia.Dialogs.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Dialogs.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia\11.3.12\lib\net8.0\Avalonia.Controls.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Controls.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia\11.3.12\lib\net8.0\Avalonia.Markup.Xaml.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Markup.Xaml.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia\11.3.12\lib\net8.0\Avalonia.Markup.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Markup.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia\11.3.12\lib\net8.0\Avalonia.DesignerSupport.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.DesignerSupport.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia\11.3.12\lib\net8.0\Avalonia.Base.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Base.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia\11.3.12\lib\net8.0\Avalonia.Metal.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Metal.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia\11.3.12\lib\net8.0\Avalonia.MicroCom.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.MicroCom.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia\11.3.12\lib\net8.0\Avalonia.OpenGL.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.OpenGL.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia\11.3.12\lib\net8.0\Avalonia.Vulkan.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Vulkan.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia\11.3.12\lib\net8.0\Avalonia.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.controls.colorpicker\11.3.12\lib\net8.0\Avalonia.Controls.ColorPicker.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Controls.ColorPicker.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.controls.datagrid\11.3.12\lib\net8.0\Avalonia.Controls.DataGrid.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Controls.DataGrid.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.desktop\11.3.12\lib\net8.0\Avalonia.Desktop.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Desktop.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.diagnostics\11.3.12\lib\net8.0\Avalonia.Diagnostics.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Diagnostics.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.fonts.inter\11.3.12\lib\net8.0\Avalonia.Fonts.Inter.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Fonts.Inter.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.freedesktop\11.3.12\lib\net8.0\Avalonia.FreeDesktop.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.FreeDesktop.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.native\11.3.12\lib\net8.0\Avalonia.Native.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Native.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.remote.protocol\11.3.12\lib\net8.0\Avalonia.Remote.Protocol.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Remote.Protocol.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.skia\11.3.12\lib\net8.0\Avalonia.Skia.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Skia.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.themes.fluent\11.3.12\lib\net8.0\Avalonia.Themes.Fluent.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Themes.Fluent.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.themes.simple\11.3.12\lib\net8.0\Avalonia.Themes.Simple.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Themes.Simple.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.win32\11.3.12\lib\net8.0\Avalonia.Win32.Automation.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Win32.Automation.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.win32\11.3.12\lib\net8.0\Avalonia.Win32.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Win32.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.x11\11.3.12\lib\net8.0\Avalonia.X11.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.X11.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.xaml.interactions\11.1.0.4\lib\net8.0\Avalonia.Xaml.Interactions.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Xaml.Interactions.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.xaml.interactions.custom\11.1.0.4\lib\net8.0\Avalonia.Xaml.Interactions.Custom.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Xaml.Interactions.Custom.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.xaml.interactions.draganddrop\11.1.0.4\lib\net8.0\Avalonia.Xaml.Interactions.DragAndDrop.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Xaml.Interactions.DragAndDrop.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.xaml.interactions.draggable\11.1.0.4\lib\net8.0\Avalonia.Xaml.Interactions.Draggable.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Xaml.Interactions.Draggable.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.xaml.interactions.events\11.1.0.4\lib\net8.0\Avalonia.Xaml.Interactions.Events.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Xaml.Interactions.Events.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.xaml.interactions.responsive\11.1.0.4\lib\net8.0\Avalonia.Xaml.Interactions.Responsive.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Xaml.Interactions.Responsive.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.xaml.interactivity\11.1.0.4\lib\net8.0\Avalonia.Xaml.Interactivity.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Avalonia.Xaml.Interactivity.dll".
+         Copying file from "C:\Users\User\.nuget\packages\communitytoolkit.mvvm\8.2.1\lib\net6.0\CommunityToolkit.Mvvm.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\CommunityToolkit.Mvvm.dll".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp\8.3.1.1\lib\net8.0\HarfBuzzSharp.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\HarfBuzzSharp.dll".
+         Copying file from "C:\Users\User\.nuget\packages\microcom.runtime\0.11.0\lib\net5.0\MicroCom.Runtime.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\MicroCom.Runtime.dll".
+         Copying file from "C:\Users\User\.nuget\packages\projektanker.icons.avalonia\9.6.2\lib\netstandard2.0\Projektanker.Icons.Avalonia.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Projektanker.Icons.Avalonia.dll".
+         Copying file from "C:\Users\User\.nuget\packages\projektanker.icons.avalonia.fontawesome\9.6.2\lib\netstandard2.0\Projektanker.Icons.Avalonia.FontAwesome.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Projektanker.Icons.Avalonia.FontAwesome.dll".
+         Copying file from "C:\Users\User\.nuget\packages\system.reactive\6.0.0\lib\net6.0\System.Reactive.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\System.Reactive.dll".
+         Copying file from "C:\Users\User\.nuget\packages\tmds.dbus.protocol\0.21.2\lib\net8.0\Tmds.DBus.Protocol.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\Tmds.DBus.Protocol.dll".
+         Copying file from "C:\Users\User\.nuget\packages\skiasharp\2.88.9\lib\net6.0\SkiaSharp.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\SkiaSharp.dll".
+         Creating directory "bin\Debug\net10.0\runtimes\win-arm64\native".
+         Creating directory "bin\Debug\net10.0\runtimes\win-x64\native".
+         Creating directory "bin\Debug\net10.0\runtimes\win-x86\native".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.angle.windows.natives\2.1.25547.20250602\runtimes\win-x64\native\av_libglesv2.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\win-x64\native\av_libglesv2.dll".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.angle.windows.natives\2.1.25547.20250602\runtimes\win-arm64\native\av_libglesv2.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\win-arm64\native\av_libglesv2.dll".
+         Creating directory "bin\Debug\net10.0\runtimes\osx\native".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.angle.windows.natives\2.1.25547.20250602\runtimes\win-x86\native\av_libglesv2.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\win-x86\native\av_libglesv2.dll".
+         Creating directory "bin\Debug\net10.0\runtimes\linux-arm\native".
+         Copying file from "C:\Users\User\.nuget\packages\avalonia.native\11.3.12\runtimes\osx\native\libAvaloniaNative.dylib" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\osx\native\libAvaloniaNative.dylib".
+         Creating directory "bin\Debug\net10.0\runtimes\linux-arm64\native".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.linux\8.3.1.1\runtimes\linux-arm\native\libHarfBuzzSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-arm\native\libHarfBuzzSharp.so".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.linux\8.3.1.1\runtimes\linux-arm64\native\libHarfBuzzSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-arm64\native\libHarfBuzzSharp.so".
+         Creating directory "bin\Debug\net10.0\runtimes\linux-loongarch64\native".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.linux\8.3.1.1\runtimes\linux-loongarch64\native\libHarfBuzzSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-loongarch64\native\libHarfBuzzSharp.so".
+         Creating directory "bin\Debug\net10.0\runtimes\linux-musl-arm\native".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.linux\8.3.1.1\runtimes\linux-musl-arm\native\libHarfBuzzSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-musl-arm\native\libHarfBuzzSharp.so".
+         Creating directory "bin\Debug\net10.0\runtimes\linux-musl-arm64\native".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.linux\8.3.1.1\runtimes\linux-musl-arm64\native\libHarfBuzzSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-musl-arm64\native\libHarfBuzzSharp.so".
+         Creating directory "bin\Debug\net10.0\runtimes\linux-musl-loongarch64\native".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.linux\8.3.1.1\runtimes\linux-musl-loongarch64\native\libHarfBuzzSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-musl-loongarch64\native\libHarfBuzzSharp.so".
+         Creating directory "bin\Debug\net10.0\runtimes\linux-musl-riscv64\native".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.linux\8.3.1.1\runtimes\linux-musl-riscv64\native\libHarfBuzzSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-musl-riscv64\native\libHarfBuzzSharp.so".
+         Creating directory "bin\Debug\net10.0\runtimes\linux-musl-x64\native".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.linux\8.3.1.1\runtimes\linux-musl-x64\native\libHarfBuzzSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-musl-x64\native\libHarfBuzzSharp.so".
+         Creating directory "bin\Debug\net10.0\runtimes\linux-riscv64\native".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.linux\8.3.1.1\runtimes\linux-riscv64\native\libHarfBuzzSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-riscv64\native\libHarfBuzzSharp.so".
+         Creating directory "bin\Debug\net10.0\runtimes\linux-x64\native".
+         Creating directory "bin\Debug\net10.0\runtimes\linux-x86\native".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.linux\8.3.1.1\runtimes\linux-x64\native\libHarfBuzzSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-x64\native\libHarfBuzzSharp.so".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.macos\8.3.1.1\runtimes\osx\native\libHarfBuzzSharp.dylib" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\osx\native\libHarfBuzzSharp.dylib".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.linux\8.3.1.1\runtimes\linux-x86\native\libHarfBuzzSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-x86\native\libHarfBuzzSharp.so".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.win32\8.3.1.1\runtimes\win-arm64\native\libHarfBuzzSharp.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\win-arm64\native\libHarfBuzzSharp.dll".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.win32\8.3.1.1\runtimes\win-x64\native\libHarfBuzzSharp.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\win-x64\native\libHarfBuzzSharp.dll".
+         Copying file from "C:\Users\User\.nuget\packages\harfbuzzsharp.nativeassets.win32\8.3.1.1\runtimes\win-x86\native\libHarfBuzzSharp.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\win-x86\native\libHarfBuzzSharp.dll".
+         Copying file from "C:\Users\User\.nuget\packages\skiasharp.nativeassets.linux\2.88.9\runtimes\linux-arm\native\libSkiaSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-arm\native\libSkiaSharp.so".
+         Copying file from "C:\Users\User\.nuget\packages\skiasharp.nativeassets.linux\2.88.9\runtimes\linux-arm64\native\libSkiaSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-arm64\native\libSkiaSharp.so".
+         Copying file from "C:\Users\User\.nuget\packages\skiasharp.nativeassets.linux\2.88.9\runtimes\linux-musl-x64\native\libSkiaSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-musl-x64\native\libSkiaSharp.so".
+         Copying file from "C:\Users\User\.nuget\packages\skiasharp.nativeassets.linux\2.88.9\runtimes\linux-x64\native\libSkiaSharp.so" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\linux-x64\native\libSkiaSharp.so".
+         Copying file from "C:\Users\User\.nuget\packages\skiasharp.nativeassets.macos\2.88.9\runtimes\osx\native\libSkiaSharp.dylib" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\osx\native\libSkiaSharp.dylib".
+         Copying file from "C:\Users\User\.nuget\packages\skiasharp.nativeassets.win32\2.88.9\runtimes\win-arm64\native\libSkiaSharp.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\win-arm64\native\libSkiaSharp.dll".
+         Copying file from "C:\Users\User\.nuget\packages\skiasharp.nativeassets.win32\2.88.9\runtimes\win-x64\native\libSkiaSharp.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\win-x64\native\libSkiaSharp.dll".
+         Copying file from "C:\Users\User\.nuget\packages\skiasharp.nativeassets.win32\2.88.9\runtimes\win-x86\native\libSkiaSharp.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\runtimes\win-x86\native\libSkiaSharp.dll".
+         Creating "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\obj\Debug\net10.0\AATS.Des.C91AA556.Up2Date" because "AlwaysCreate" was specified.
+         Touching "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\obj\Debug\net10.0\AATS.Des.C91AA556.Up2Date".
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+         Copying file from "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\obj\Debug\net10.0\apphost.exe" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\AATS.Desktop.exe".
+       CopyFilesToOutputDirectory:
+         Copying file from "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\obj\Debug\net10.0\AATS.Desktop.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\AATS.Desktop.dll".
+         Copying reference assembly from "obj\Debug\net10.0\refint\AATS.Desktop.dll" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\obj\Debug\net10.0\ref\AATS.Desktop.dll".
+         AATS.Desktop -> D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\AATS.Desktop.dll
+         Copying file from "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\obj\Debug\net10.0\AATS.Desktop.pdb" to "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\bin\Debug\net10.0\AATS.Desktop.pdb".
+     1>Done Building Project "D:\Nexora\AATS\Windows\AATS\AATS.Desktop\AATS.Desktop.csproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.08

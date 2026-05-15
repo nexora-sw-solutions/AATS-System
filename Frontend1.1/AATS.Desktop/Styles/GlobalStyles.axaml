@@ -1,0 +1,38 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- Cheque Details Card Styling -->
+    <Style Selector="Border.cheque-details-card">
+        <Setter Property="Background" Value="{DynamicResource CardBg}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="BoxShadow" Value="0 4 12 0 #20000000"/>
+        <Setter Property="ClipToBounds" Value="True"/>
+        
+        <!-- Collapsed State (Default) -->
+        <Setter Property="Opacity" Value="0"/>
+        <Setter Property="MaxHeight" Value="0"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
+        <Setter Property="Margin" Value="0,0,0,0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        
+        <Setter Property="Transitions">
+            <Transitions>
+                <DoubleTransition Property="Opacity" Duration="0:0:0.3" Easing="CubicEaseInOut"/>
+                <DoubleTransition Property="MaxHeight" Duration="0:0:0.3" Easing="CubicEaseInOut"/>
+                <ThicknessTransition Property="Padding" Duration="0:0:0.3" Easing="CubicEaseInOut"/>
+                <ThicknessTransition Property="Margin" Duration="0:0:0.3" Easing="CubicEaseInOut"/>
+                <ThicknessTransition Property="BorderThickness" Duration="0:0:0.3" Easing="CubicEaseInOut"/>
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="Border.cheque-details-card.is-active">
+        <Setter Property="Opacity" Value="1"/>
+        <Setter Property="MaxHeight" Value="500"/> <!-- Sufficient height for all fields -->
+        <Setter Property="Padding" Value="15"/>
+        <Setter Property="Margin" Value="0,5,0,20"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+</Styles>

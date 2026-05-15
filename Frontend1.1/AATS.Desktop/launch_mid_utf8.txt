@@ -1,0 +1,20 @@
+﻿dotnet : The provided 
+file path does not exist: 
+AATS.Desktop.
+At line:1 char:53
++ ... e bin, obj; dotnet 
+run --project 
+AATS.Desktop > 
+launch_mid.txt 2>&1;  ...
++                 ~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (T  
+  he provided fi...: AA   
+ TS.Desktop.:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 

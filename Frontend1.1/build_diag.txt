@@ -1,0 +1,442 @@
+﻿
+       Warnings: null
+       Errors: MSB4276: 
+The default SDK resolver 
+failed to resolve SDK "Mic
+rosoft.NET.SDK.WorkloadAut
+oImportPropsLocator" 
+because directory 
+"C:\Program Files\dotnet\s
+dk\10.0.201\Sdks\Microsoft
+.NET.SDK.WorkloadAutoImpor
+tPropsLocator\Sdk" did 
+not exist.
+       Warnings: null
+       Errors: MSB4276: 
+The default SDK resolver 
+failed to resolve SDK "Mic
+rosoft.NET.SDK.WorkloadMan
+ifestTargetsLocator" 
+because directory 
+"C:\Program Files\dotnet\s
+dk\10.0.201\Sdks\Microsoft
+.NET.SDK.WorkloadManifestT
+argetsLocator\Sdk" did 
+not exist.
+       C:\Program Files\do
+tnet\sdk\10.0.201\Sdks\Mic
+rosoft.NET.Sdk\targets\Mic
+rosoft.NET.Sdk.CSharp.targ
+ets(45,5): message : 
+Property reassignment: $(W
+arningsAsErrors)=";NU1605;
+SYSLIB0011" (previous 
+value: ";NU1605") at 
+C:\Program Files\dotnet\sd
+k\10.0.201\Sdks\Microsoft.
+NET.Sdk\targets\Microsoft.
+NET.Sdk.CSharp.targets 
+(45,5)
+       C:\Program Files\do
+tnet\sdk\10.0.201\Sdks\Mic
+rosoft.NET.Sdk\targets\Mic
+rosoft.NET.Sdk.CSharp.targ
+ets(45,5): message : 
+Property reassignment: $(W
+arningsAsErrors)=";NU1605;
+SYSLIB0011" (previous 
+value: ";NU1605") at 
+C:\Program Files\dotnet\sd
+k\10.0.201\Sdks\Microsoft.
+NET.Sdk\targets\Microsoft.
+NET.Sdk.CSharp.targets 
+(45,5)
+       Warnings: null
+       Errors: MSB4276: 
+The default SDK resolver 
+failed to resolve SDK "Mic
+rosoft.NET.SDK.WorkloadAut
+oImportPropsLocator" 
+because directory 
+"C:\Program Files\dotnet\s
+dk\10.0.201\Sdks\Microsoft
+.NET.SDK.WorkloadAutoImpor
+tPropsLocator\Sdk" did 
+not exist.
+       Warnings: null
+       Errors: MSB4276: 
+The default SDK resolver 
+failed to resolve SDK "Mic
+rosoft.NET.SDK.WorkloadMan
+ifestTargetsLocator" 
+because directory 
+"C:\Program Files\dotnet\s
+dk\10.0.201\Sdks\Microsoft
+.NET.SDK.WorkloadManifestT
+argetsLocator\Sdk" did 
+not exist.
+       C:\Program Files\do
+tnet\sdk\10.0.201\Sdks\Mic
+rosoft.NET.Sdk\targets\Mic
+rosoft.NET.Sdk.CSharp.targ
+ets(45,5): message : 
+Property reassignment: $(W
+arningsAsErrors)=";NU1605;
+SYSLIB0011" (previous 
+value: ";NU1605") at 
+C:\Program Files\dotnet\sd
+k\10.0.201\Sdks\Microsoft.
+NET.Sdk\targets\Microsoft.
+NET.Sdk.CSharp.targets 
+(45,5)
+   1:7>Target 
+"_GetRestoreProjectStyle" 
+in file "C:\Program Files\
+dotnet\sdk\10.0.201\NuGet.
+targets" from project "D:\
+Nexora\AATS\Windows\AATS\A
+ATS.Desktop\AATS.Desktop.c
+sproj" (target "EnableInte
+rmediateOutputPathMismatch
+Warning" depends on it):
+   1:7>Target "EnableInter
+mediateOutputPathMismatchW
+arning" in file 
+"C:\Program Files\dotnet\s
+dk\10.0.201\NuGet.targets"
+ from project "D:\Nexora\A
+ATS\Windows\AATS\AATS.Desk
+top\AATS.Desktop.csproj" 
+(target "_CheckForInvalidC
+onfigurationAndPlatform" 
+depends on it):
+   1:7>Done building 
+target "EnableIntermediate
+OutputPathMismatchWarning"
+ in project 
+"AATS.Desktop.csproj".
+           App.axaml
+           Views\ActivityL
+og\ActivityLogView.axaml
+           Views\AuditAndA
+ccounts\AuditAssuranceAddR
+ecordView.axaml
+           Views\AuditAndA
+ccounts\AuditAssuranceDeta
+ilView.axaml
+           Views\AuditAndA
+ccounts\AuditAssuranceView
+.axaml
+           Views\AuditAndA
+ccounts\AuditOthersAddReco
+rdView.axaml
+           Views\AuditAndA
+ccounts\AuditOthersView.ax
+aml
+           Views\AuditAndA
+ccounts\ForensicAuditAddRe
+cordView.axaml
+           Views\AuditAndA
+ccounts\ForensicAuditView.
+axaml
+           Views\AuditAndA
+ccounts\InternalAuditAddRe
+cordView.axaml
+           Views\AuditAndA
+ccounts\InternalAuditView.
+axaml
+           Views\AuditAndA
+ccounts\InternalControlAdd
+RecordView.axaml
+           Views\AuditAndA
+ccounts\InternalControlVie
+w.axaml
+           Views\AuditAndA
+ccounts\ManagementAccountA
+ddRecordView.axaml
+           Views\AuditAndA
+ccounts\ManagementAccountV
+iew.axaml
+           Views\AuditAndA
+ccounts\TaxAccountAddRecor
+dView.axaml
+           Views\AuditAndA
+ccounts\TaxAccountView.axa
+ml
+           Views\Clients\C
+lientsView.axaml
+           
+Views\DashboardView.axaml
+           
+Views\MainWindow.axaml
+           Views\Nexora\Ne
+xoraView.axaml
+           Views\Secretari
+alAdvisory\AddCompanyRegis
+trationView.axaml
+           Views\Secretari
+alAdvisory\BOIView.axaml
+           Views\Secretari
+alAdvisory\BusinessPlanVie
+w.axaml
+           Views\Secretari
+alAdvisory\CompanyRegistra
+tionView.axaml
+           Views\Secretari
+alAdvisory\EPFETFView.axam
+l
+           Views\Secretari
+alAdvisory\HRConsultingVie
+w.axaml
+           Views\Secretari
+alAdvisory\ImportExportVie
+w.axaml
+           Views\Secretari
+alAdvisory\SecretarialOthe
+rsView.axaml
+           Views\Secretari
+alAdvisory\TradeLicenseVie
+w.axaml
+           Views\Secretari
+alAdvisory\TradeMarkView.a
+xaml
+           Views\Shared\Sh
+aredAuditTableView.axaml
+           Views\Shared\Sh
+aredTaxTableView.axaml
+           Views\TaxFiling
+\CITView.axaml
+           Views\TaxFiling
+\IITView.axaml
+           Views\TaxFiling
+\SSCLView.axaml
+           Views\TaxFiling
+\TaxOthersAddRecordView.ax
+aml
+           Views\TaxFiling
+\TaxOthersView.axaml
+           Views\TaxFiling
+\VATView.axaml
+           Views\TaxFiling
+\WHTView.axaml
+           
+Views\Team\TeamView.axaml
+           App.axaml.cs
+           Views\ActivityL
+og\ActivityLogView.axaml.c
+s
+           Views\AuditAndA
+ccounts\AuditAssuranceAddR
+ecordView.axaml.cs
+           Views\AuditAndA
+ccounts\AuditAssuranceDeta
+ilView.axaml.cs
+           Views\AuditAndA
+ccounts\AuditAssuranceView
+.axaml.cs
+           Views\AuditAndA
+ccounts\AuditOthersAddReco
+rdView.axaml.cs
+           Views\AuditAndA
+ccounts\AuditOthersView.ax
+aml.cs
+           Views\AuditAndA
+ccounts\ForensicAuditAddRe
+cordView.axaml.cs
+           Views\AuditAndA
+ccounts\ForensicAuditView.
+axaml.cs
+           Views\AuditAndA
+ccounts\InternalAuditAddRe
+cordView.axaml.cs
+           Views\AuditAndA
+ccounts\InternalAuditView.
+axaml.cs
+           Views\AuditAndA
+ccounts\InternalControlAdd
+RecordView.axaml.cs
+           Views\AuditAndA
+ccounts\InternalControlVie
+w.axaml.cs
+           Views\AuditAndA
+ccounts\ManagementAccountA
+ddRecordView.axaml.cs
+           Views\AuditAndA
+ccounts\ManagementAccountV
+iew.axaml.cs
+           Views\AuditAndA
+ccounts\TaxAccountAddRecor
+dView.axaml.cs
+           Views\AuditAndA
+ccounts\TaxAccountView.axa
+ml.cs
+           Views\Clients\C
+lientsView.axaml.cs
+           Views\Dashboard
+View.axaml.cs
+           
+Views\MainWindow.axaml.cs
+           Views\Nexora\Ne
+xoraView.axaml.cs
+           Views\Secretari
+alAdvisory\AddCompanyRegis
+trationView.axaml.cs
+           Views\Secretari
+alAdvisory\BOIView.axaml.c
+s
+           Views\Secretari
+alAdvisory\BusinessPlanVie
+w.axaml.cs
+           Views\Secretari
+alAdvisory\CompanyRegistra
+tionView.axaml.cs
+           Views\Secretari
+alAdvisory\EPFETFView.axam
+l.cs
+           Views\Secretari
+alAdvisory\HRConsultingVie
+w.axaml.cs
+           Views\Secretari
+alAdvisory\ImportExportVie
+w.axaml.cs
+           Views\Secretari
+alAdvisory\SecretarialOthe
+rsView.axaml.cs
+           Views\Secretari
+alAdvisory\TradeLicenseVie
+w.axaml.cs
+           Views\Secretari
+alAdvisory\TradeMarkView.a
+xaml.cs
+           Views\Shared\Sh
+aredAuditTableView.axaml.c
+s
+           Views\Shared\Sh
+aredTaxTableView.axaml.cs
+           Views\TaxFiling
+\CITView.axaml.cs
+           Views\TaxFiling
+\IITView.axaml.cs
+           Views\TaxFiling
+\SSCLView.axaml.cs
+           Views\TaxFiling
+\TaxOthersAddRecordView.ax
+aml.cs
+           Views\TaxFiling
+\TaxOthersView.axaml.cs
+           Views\TaxFiling
+\VATView.axaml.cs
+           Views\TaxFiling
+\WHTView.axaml.cs
+           Views\Team\Team
+View.axaml.cs
+           App.axaml
+           Views\ActivityL
+og\ActivityLogView.axaml
+           Views\AuditAndA
+ccounts\AuditAssuranceAddR
+ecordView.axaml
+           Views\AuditAndA
+ccounts\AuditAssuranceDeta
+ilView.axaml
+           Views\AuditAndA
+ccounts\AuditAssuranceView
+.axaml
+           Views\AuditAndA
+ccounts\AuditOthersAddReco
+rdView.axaml
+           Views\AuditAndA
+ccounts\AuditOthersView.ax
+aml
+           Views\AuditAndA
+ccounts\ForensicAuditAddRe
+cordView.axaml
+           Views\AuditAndA
+ccounts\ForensicAuditView.
+axaml
+           Views\AuditAndA
+ccounts\InternalAuditAddRe
+cordView.axaml
+           Views\AuditAndA
+ccounts\InternalAuditView.
+axaml
+           Views\AuditAndA
+ccounts\InternalControlAdd
+RecordView.axaml
+           Views\AuditAndA
+ccounts\InternalControlVie
+w.axaml
+           Views\AuditAndA
+ccounts\ManagementAccountA
+ddRecordView.axaml
+           Views\AuditAndA
+ccounts\ManagementAccountV
+iew.axaml
+           Views\AuditAndA
+ccounts\TaxAccountAddRecor
+dView.axaml
+           Views\AuditAndA
+ccounts\TaxAccountView.axa
+ml
+           Views\Clients\C
+lientsView.axaml
+           
+Views\DashboardView.axaml
+           
+Views\MainWindow.axaml
+           Views\Nexora\Ne
+xoraView.axaml
+           Views\Secretari
+alAdvisory\AddCompanyRegis
+trationView.axaml
+           Views\Secretari
+alAdvisory\BOIView.axaml
+           Views\Secretari
+alAdvisory\BusinessPlanVie
+w.axaml
+           Views\Secretari
+alAdvisory\CompanyRegistra
+tionView.axaml
+           Views\Secretari
+alAdvisory\EPFETFView.axam
+l
+           Views\Secretari
+alAdvisory\HRConsultingVie
+w.axaml
+           Views\Secretari
+alAdvisory\ImportExportVie
+w.axaml
+           Views\Secretari
+alAdvisory\SecretarialOthe
+rsView.axaml
+           Views\Secretari
+alAdvisory\TradeLicenseVie
+w.axaml
+           Views\Secretari
+alAdvisory\TradeMarkView.a
+xaml
+           Views\Shared\Sh
+aredAuditTableView.axaml
+           Views\Shared\Sh
+aredTaxTableView.axaml
+           Views\TaxFiling
+\CITView.axaml
+           Views\TaxFiling
+\IITView.axaml
+           Views\TaxFiling
+\SSCLView.axaml
+           Views\TaxFiling
+\TaxOthersAddRecordView.ax
+aml
+           Views\TaxFiling
+\TaxOthersView.axaml
+           Views\TaxFiling
+\VATView.axaml
+           Views\TaxFiling
+\WHTView.axaml
+           
+Views\Team\TeamView.axaml
+    0 Warning(s)
+    0 Error(s)
+
+

@@ -1,0 +1,20 @@
+﻿dotnet : The provided 
+file path does not exist: 
+AATS.Desktop.
+At line:1 char:35
++ ... top.csproj; dotnet 
+run --project 
+AATS.Desktop --no-build > 
+launch_res ...
++                 ~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (T  
+  he provided fi...: AA   
+ TS.Desktop.:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
