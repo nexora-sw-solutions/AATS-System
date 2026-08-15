@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.TaxFiling"
+             xmlns:shared="clr-namespace:AATS.Desktop.Views.Shared"
+             x:Class="AATS.Desktop.Views.TaxFiling.TaxOthersView"
+             x:DataType="vm:TaxOthersViewModel"
+             ClipToBounds="False"
+             x:CompileBindings="False">
+
+    <shared:SharedTaxTableView DataContext="{Binding}" />
+
+</UserControl>

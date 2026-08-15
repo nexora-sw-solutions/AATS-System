@@ -1,0 +1,640 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.SecretarialAdvisory"
+             xmlns:models="clr-namespace:AATS.Desktop.Models"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="1000"
+             x:Class="AATS.Desktop.Views.SecretarialAdvisory.StaffDetailView"
+             x:DataType="vm:StaffDetailViewModel"
+             x:CompileBindings="False">
+
+    <UserControl.Resources>
+        <!-- Reusing project-standard converters if they exist globally, 
+             otherwise assuming these paths for local binding -->
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="Border.detail-card">
+            <Setter Property="Background" Value="{DynamicResource TableBg}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="32"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style Selector="TextBlock.card-label">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+        <Style Selector="TextBlock.card-value">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style Selector="Border.doc-upload-card">
+            <Setter Property="Background" Value="{DynamicResource HoverBg}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Height" Value="180"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        
+
+        <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+            <Setter Property="Fill" Value="Transparent"/>
+        </Style>
+        <Style Selector="DataGridRow:selected">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="DataGridCell:focus /template/ Grid#FocusVisual">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="DataGridCell:selected /template/ Grid#FocusVisual">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="DataGridCell:selected /template/ Border#CellBackground">
+             <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="DataGridCell:selected">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="DataGridCell">
+            <Setter Property="IsHitTestVisible" Value="False"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Panel>
+        <ScrollViewer>
+            <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" Margin="40,20,40,40" Name="RootLayout">
+                
+                <!-- 1. Header Section -->
+                <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" Margin="0,0,0,32">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="20">
+                        <Border Width="50" Height="50" Background="{DynamicResource HoverBg}" CornerRadius="8">
+                            <i:Icon Value="fa-solid fa-user-circle" Foreground="{DynamicResource AccentPrimary}" FontSize="24"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center" Spacing="2">
+                            <TextBlock Text="STAFF DETAILS" FontSize="28" FontWeight="ExtraBold" Foreground="{DynamicResource TextPrimary}" LetterSpacing="1"/>
+                            <TextBlock Text="{Binding StaffIdDisplay}" FontSize="12" Foreground="{DynamicResource TextMuted}" FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Header Actions -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                        <Button Classes="btn-secondary" Command="{Binding DownloadRecordCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <i:Icon Value="fa-solid fa-download" FontSize="14" Foreground="{DynamicResource TextPrimary}"/>
+                                <TextBlock Text="Download Report" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Classes="btn-print" Command="{Binding PrintRecordCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <i:Icon Value="fa-solid fa-print" FontSize="14" Foreground="{DynamicResource AddRecordFg}"/>
+                                <TextBlock Text="Print" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                </Grid>
+
+                <!-- 2. Metric Row -->
+                <Grid Grid.Row="1" ColumnDefinitions="*, 20, *, 20, *, 20, *" Margin="0,0,0,32">
+                    <Border Grid.Column="0" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="COMPANY" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding CompanyName}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="2" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="STAFF ID" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding StaffIdDisplay}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="4" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="TOTAL STAFF" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding TotalStaffCount}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="6" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="PHONE" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding StaffPhone}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- 3. Process Section & Upload -->
+                <StackPanel Grid.Row="2" Spacing="24" Margin="0,0,0,32">
+                    <Border Classes="detail-card" Padding="32">
+                    <StackPanel Spacing="24">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <i:Icon Value="fa-solid fa-bars-progress" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                            <TextBlock Text="REGISTRATION PROCESS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Grid HorizontalAlignment="Center" Margin="0,10">
+                            <ItemsControl ItemsSource="{Binding Steps}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                                            <Button Classes="process-step-btn" 
+                                                    Command="{Binding ElementName=RootLayout, Path=DataContext.StaffStepClickCommand}" 
+                                                    CommandParameter="{Binding}"
+                                                    IsEnabled="{Binding IsClickable}">
+                                                <StackPanel Spacing="12">
+                                                    <Border Classes="step-indicator-circle" 
+                                                            Classes.active="{Binding IsActive}"
+                                                            Classes.clickable="{Binding IsClickable}"
+                                                            Width="40" Height="40">
+                                                        <Panel>
+                                                            <TextBlock Text="{Binding Number}" 
+                                                                      Classes="step-indicator-num" 
+                                                                      Classes.active="{Binding IsActive}"
+                                                                      FontSize="16"
+                                                                      IsVisible="{Binding !IsIconStep}"/>
+                                                            <i:Icon Value="{Binding IconValue}" 
+                                                                   Foreground="{DynamicResource TextPrimary}" 
+                                                                   FontSize="18"
+                                                                   IsVisible="{Binding IsIconStep}"/>
+                                                        </Panel>
+                                                    </Border>
+                                                    <TextBlock Text="{Binding Name}" 
+                                                              Classes="step-indicator-label" 
+                                                              Classes.active="{Binding IsActive}"
+                                                              Width="110" TextAlignment="Center" FontSize="11"/>
+                                                </StackPanel>
+                                            </Button>
+                                            
+                                            <Rectangle Width="60" Height="2" Fill="{DynamicResource BorderSubtle}" Margin="5,20,5,0" VerticalAlignment="Top" IsVisible="{Binding IsNotLast}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+                
+                <!-- BR Document Upload Card -->
+                <Border Classes="detail-card" IsVisible="{Binding IsCompleteUploadVisible}">
+                    <StackPanel Spacing="24">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                                <i:Icon Value="fa-solid fa-file-arrow-up" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                <TextBlock Text="BR DOCUMENT UPLOAD" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Classes="btn-primary" Background="{DynamicResource AccentPrimary}" Padding="12,6" Command="{Binding UploadProcessDocumentCommand}" CommandParameter="BR Document" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <i:Icon Value="fa-solid fa-plus" FontSize="12" Foreground="{DynamicResource TextPrimary}"/>
+                                    <TextBlock Text="Upload" FontSize="12" FontWeight="SemiBold"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                        <TextBlock Text="Please upload the BR Document required for the Complete stage." Foreground="{DynamicResource TextSecondary}" FontSize="12" Margin="0,-8,0,0" TextWrapping="Wrap"/>
+
+                        <StackPanel Spacing="16">
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock Text="UPLOADED FILES" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                            </StackPanel>
+                            
+                            <TextBlock Text="No documents uploaded." Foreground="{DynamicResource TextFaint}" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,20" IsVisible="{Binding !FilteredProcessDocuments.Count}"/>
+                            
+                            <ScrollViewer MaxHeight="350" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding FilteredProcessDocuments}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="models:AppDocument">
+                                            <Border Classes="document-item" Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                <Grid ColumnDefinitions="Auto, *, Auto">
+                                                    <i:Icon Value="fa-solid fa-file-pdf" Foreground="{DynamicResource AccentPrimary}" FontSize="20" Margin="0,0,16,0"/>
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding FileName}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold"/>
+                                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                                            <TextBlock Text="{Binding FileSize}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                            <TextBlock Text="&#183;" Foreground="{DynamicResource TextFaint}" FontSize="11"/>
+                                                            <TextBlock Text="{Binding Category}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    
+                                                    <StackPanel Grid.Column="2" Classes="action-icons" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:StaffDetailViewModel)DataContext).PreviewProcessDocumentCommand}" CommandParameter="{Binding}">
+                                                            <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource TextSecondary}"/>
+                                                        </Button>
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:StaffDetailViewModel)DataContext).EditProcessDocumentCommand}" CommandParameter="{Binding}" ToolTip.Tip="Edit/Replace">
+                                                            <i:Icon Value="fa-solid fa-pen" Foreground="{DynamicResource TextSecondary}"/>
+                                                        </Button>
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:StaffDetailViewModel)DataContext).RemoveProcessDocumentCommand}" CommandParameter="{Binding}">
+                                                            <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+                <!-- 4. Main Cards Row -->
+                <Grid Grid.Row="3" RowDefinitions="Auto, 32, Auto" VerticalAlignment="Top" Margin="0,0,0,32">
+                    <!-- General Info (Full Width) -->
+                    <Border Grid.Row="0" Classes="detail-card" VerticalAlignment="Top">
+                        <StackPanel Spacing="20">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <i:Icon Value="fa-solid fa-circle-info" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                <TextBlock Text="GENERAL INFORMATION" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <Grid RowDefinitions="Auto, 24, Auto, 24, Auto" ColumnDefinitions="*, *">
+                                <StackPanel Grid.Row="0" Grid.Column="0">
+                                    <TextBlock Text="RECORD ID" Classes="card-label"/>
+                                    <TextBlock Text="{Binding RecordID}" Classes="card-value"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1">
+                                    <TextBlock Text="COMPANY NAME" Classes="card-label"/>
+                                    <TextBlock Text="{Binding CompanyName}" Classes="card-value"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="2" Grid.Column="0">
+                                    <TextBlock Text="STAFF ID" Classes="card-label"/>
+                                    <TextBlock Text="{Binding StaffIdDisplay}" Classes="card-value"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="1">
+                                    <TextBlock Text="STAFF NAME" Classes="card-label"/>
+                                    <TextBlock Text="{Binding StaffName}" Classes="card-value"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="4" Grid.Column="0">
+                                    <TextBlock Text="NO OF STAFFS" Classes="card-label"/>
+                                    <TextBlock Text="{Binding TotalStaffCount}" Classes="card-value"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="4" Grid.Column="1">
+                                    <TextBlock Text="PHONE NUMBER" Classes="card-label"/>
+                                    <TextBlock Text="{Binding StaffPhone}" Classes="card-value"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Row 2: History and BR Documents side-by-side -->
+                    <Grid Grid.Row="2" ColumnDefinitions="*, 32, *">
+                        <!-- History -->
+                        <Border Grid.Column="0" Classes="detail-card" Height="420" VerticalAlignment="Top">
+                        <StackPanel Spacing="20">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <StackPanel Orientation="Horizontal" Spacing="12">
+                                    <i:Icon Value="fa-solid fa-history" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                    <TextBlock Text="EPF/ETF HISTORY" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Button Grid.Column="1" Classes="circle-nav-button" Command="{Binding ShowAddTransactionCommand}" ToolTip.Tip="Add Transaction" VerticalAlignment="Center">
+                                    <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource AccentPrimary}" FontSize="14"/>
+                                </Button>
+                            </Grid>
+
+                             <DataGrid ItemsSource="{Binding History}" 
+                                       Height="300"
+                                       HeadersVisibility="Column"
+                                       IsReadOnly="True"
+                                       SelectionMode="Single"
+                                       GridLinesVisibility="Horizontal"
+                                       VerticalScrollBarVisibility="Auto"
+                                       Margin="0,0,0,0">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="Date" Width="130">
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center" Margin="12,0">
+                                                <i:Icon Value="fa-regular fa-calendar" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                                                <TextBlock Text="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}" Foreground="{DynamicResource TextSecondary}" FontSize="13" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Description" Width="*">
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Description}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Center" Margin="12,0" TextWrapping="NoWrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Amount" Width="120">
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Amount, StringFormat={}{0:N2}}" 
+                                                       Foreground="{DynamicResource StatusSuccess}" FontWeight="Bold" FontSize="13"
+                                                       HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- BR DOCUMENTS -->
+                    <Border Grid.Column="2" Classes="detail-card" Height="420" VerticalAlignment="Top">
+                        <StackPanel Spacing="20">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <StackPanel Orientation="Horizontal" Spacing="12">
+                                    <i:Icon Value="fa-solid fa-folder-open" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                    <TextBlock Text="BR DOCUMENTS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock Text="No BR documents uploaded." Foreground="{DynamicResource TextFaint}" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,20" IsVisible="{Binding !FilteredProcessDocuments.Count}"/>
+                            
+                            <ScrollViewer Height="300" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding FilteredProcessDocuments}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="models:AppDocument">
+                                            <Border Classes="document-item" Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                <Grid ColumnDefinitions="Auto, *, Auto">
+                                                    <i:Icon Value="fa-solid fa-file-pdf" Foreground="{DynamicResource AccentPrimary}" FontSize="20" Margin="0,0,16,0"/>
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding FileName}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold"/>
+                                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                                            <TextBlock Text="{Binding FileSize}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                            <TextBlock Text="&#183;" Foreground="{DynamicResource TextFaint}" FontSize="11"/>
+                                                            <TextBlock Text="{Binding Category}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    
+                                                    <StackPanel Grid.Column="2" Classes="action-icons" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:StaffDetailViewModel)DataContext).PreviewProcessDocumentCommand}" CommandParameter="{Binding}">
+                                                            <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource TextSecondary}"/>
+                                                        </Button>
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:StaffDetailViewModel)DataContext).EditProcessDocumentCommand}" CommandParameter="{Binding}" ToolTip.Tip="Edit/Replace">
+                                                            <i:Icon Value="fa-solid fa-pen" Foreground="{DynamicResource TextSecondary}"/>
+                                                        </Button>
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:StaffDetailViewModel)DataContext).RemoveProcessDocumentCommand}" CommandParameter="{Binding}">
+                                                            <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                </Grid>
+
+                <!-- 5. Documents Section -->
+                <Border Grid.Row="4" Classes="detail-card" Margin="0,0,0,32">
+                    <StackPanel Spacing="24">
+                        <!-- Header -->
+                        <Grid ColumnDefinitions="*, Auto">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <i:Icon Value="fa-solid fa-file-invoice" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                <TextBlock Text="REQUIRED DOCUMENTS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Classes="btn-primary" Background="{DynamicResource AccentPrimary}" Padding="12,6" Command="{Binding UploadRequiredDocumentCommand}" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <i:Icon Value="fa-solid fa-arrow-up-from-bracket" FontSize="12" Foreground="{DynamicResource TextPrimary}"/>
+                                    <TextBlock Text="Upload" FontSize="12" FontWeight="SemiBold"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+                        <!-- Tabs -->
+                        <Border BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal" Spacing="0">
+                                <Button Classes="tab-btn" Classes.selected="{Binding SelectedRequiredDocumentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='NIC'}" Command="{Binding SelectRequiredDocumentTabCommand}" CommandParameter="NIC">
+                                    <TextBlock Text="NIC"/>
+                                </Button>
+                                <Button Classes="tab-btn" Classes.selected="{Binding SelectedRequiredDocumentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='R1'}" Command="{Binding SelectRequiredDocumentTabCommand}" CommandParameter="R1">
+                                    <TextBlock Text="R1"/>
+                                </Button>
+                                <Button Classes="tab-btn" Classes.selected="{Binding SelectedRequiredDocumentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='ART'}" Command="{Binding SelectRequiredDocumentTabCommand}" CommandParameter="ART">
+                                    <TextBlock Text="ART"/>
+                                </Button>
+                                <Button Classes="tab-btn" Classes.selected="{Binding SelectedRequiredDocumentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='STAFF NIC'}" Command="{Binding SelectRequiredDocumentTabCommand}" CommandParameter="STAFF NIC">
+                                    <TextBlock Text="STAFF NIC"/>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Tab Content -->
+                        <StackPanel Spacing="16">
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock Text="FILES IN" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedRequiredDocumentTab}" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                            </StackPanel>
+                            
+                            <TextBlock Text="No documents uploaded." Foreground="{DynamicResource TextFaint}" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,20" IsVisible="{Binding !FilteredRequiredDocuments.Count}"/>
+                            
+                            <!-- Document List with max height for 5 items -->
+                            <ScrollViewer MaxHeight="350" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding FilteredRequiredDocuments}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="models:AppDocument">
+                                            <Border Classes="document-item" Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                <Grid ColumnDefinitions="Auto, *, Auto">
+                                                    <i:Icon Value="fa-solid fa-file-pdf" Foreground="{DynamicResource AccentPrimary}" FontSize="20" Margin="0,0,16,0"/>
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding FileName}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold"/>
+                                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                                            <TextBlock Text="{Binding FileSize}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                            <TextBlock Text="&#183;" Foreground="{DynamicResource TextFaint}" FontSize="11"/>
+                                                            <TextBlock Text="{Binding Category}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    
+                                                    <StackPanel Grid.Column="2" Classes="action-icons" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:StaffDetailViewModel)DataContext).PreviewRequiredDocumentCommand}" CommandParameter="{Binding}" ToolTip.Tip="Preview">
+                                                            <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource TextSecondary}"/>
+                                                        </Button>
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:StaffDetailViewModel)DataContext).EditRequiredDocumentCommand}" CommandParameter="{Binding}" ToolTip.Tip="Edit/Replace">
+                                                            <i:Icon Value="fa-solid fa-pen" Foreground="{DynamicResource TextSecondary}"/>
+                                                        </Button>
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:StaffDetailViewModel)DataContext).RemoveRequiredDocumentCommand}" CommandParameter="{Binding}" ToolTip.Tip="Delete">
+                                                            <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Footer Actions -->
+                <Grid Grid.Row="5" ColumnDefinitions="Auto, *, Auto" VerticalAlignment="Bottom" Margin="0,40,0,0">
+                    <Button Grid.Column="0" Classes="footer-link" Command="{Binding OpenGuideCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <i:Icon Value="fa-solid fa-circle-question" Foreground="{DynamicResource TextSecondary}" FontSize="16"/>
+                            <TextBlock Text="Learn more about staff details" Foreground="{DynamicResource TextSecondary}" FontSize="13" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16">
+                        <Button Content="Edit" Classes="btn-edit" Width="140" Command="{Binding EditRecordCommand}"/>
+                        <Button Content="Delete" Classes="btn-delete" Width="140" Command="{Binding DeleteRecordCommand}"/>
+                    </StackPanel>
+                </Grid>
+            
+                            </Grid></ScrollViewer>
+
+        <!-- Add Transaction Modal -->
+        <Border Classes="premium-modal-overlay" IsVisible="{Binding IsAddTransactionVisible}" ZIndex="2000">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
+                <StackPanel Spacing="24">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                             <Border Width="40" Height="40" CornerRadius="20" Background="{DynamicResource HoverBg}">
+                                <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                            </Border>
+                            <TextBlock Text="Add Transaction" Foreground="{DynamicResource TextHeading}" FontSize="20" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Classes="footer-link" Command="{Binding CancelAddTransactionCommand}" VerticalAlignment="Top" Margin="0,-5,-5,0">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="18"/>
+                        </Button>
+                    </Grid>
+
+                    <StackPanel Spacing="15">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="Date" Classes="card-label"/>
+                            <CalendarDatePicker SelectedDate="{Binding NewTransactionDate}" 
+                                                Classes="form-input"
+                                                HorizontalAlignment="Stretch"
+                                                Height="40"/>
+                        </StackPanel>
+
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="Description" Classes="card-label"/>
+                            <TextBox Text="{Binding NewTransactionDescription}" 
+                                     Watermark="Enter description..." 
+                                     Classes="form-input" 
+                                     Height="40"/>
+                        </StackPanel>
+
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="Amount" Classes="card-label"/>
+                            <TextBox Text="{Binding NewTransactionAmountText}" 
+                                     Watermark="0.00"
+                                     Classes="form-input" 
+                                     Height="40"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Cancel" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Command="{Binding CancelAddTransactionCommand}"/>
+                        <Button Grid.Column="2" Content="Add Transaction" Classes="btn-primary" 
+                                Background="{DynamicResource AccentPrimary}" Foreground="White"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Command="{Binding SaveNewTransactionCommand}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <!-- Instruction Guide Popup -->
+        <Border ZIndex="10" IsVisible="{Binding IsGuideVisible}" Background="{DynamicResource OverlayBg}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border Background="{DynamicResource InputBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="12" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="40" BoxShadow="0 20 60 0 #66000000">
+                <StackPanel Spacing="30">
+                    <!-- Header -->
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                            <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                <i:Icon Value="fa-regular fa-lightbulb" FontSize="22" Foreground="{DynamicResource AccentPrimary}"/>
+                            </Border>
+                            <TextBlock Text="Staff Details Guide" Foreground="{DynamicResource TextHeading}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Classes="footer-link" Command="{Binding CloseGuideCommand}" VerticalAlignment="Top">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                        </Button>
+                    </Grid>
+                    
+                    <TextBlock Text="Manage staff records and track related operations efficiently." Foreground="{DynamicResource TextSecondary}" FontSize="16" Margin="0,-10,0,0"/>
+
+                    <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *" Margin="0,0,0,0">
+                        <Border Grid.Row="0" Grid.Column="0" Background="{DynamicResource GuideCardBg}" CornerRadius="8" Padding="15" Margin="0,0,12,12">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="1" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Status Tracking" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="Click on any process step to update the staff current status." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="1" Background="{DynamicResource GuideCardBg}" CornerRadius="8" Padding="15" Margin="12,0,0,12">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="2" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Documents" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="View and download all associated source documents for this record." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="0" Background="{DynamicResource GuideCardBg}" CornerRadius="8" Padding="15" Margin="0,12,12,0">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="3" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Quick Actions" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="Use Download and Print buttons to generate physical record reports." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="1" Background="{DynamicResource GuideCardBg}" CornerRadius="8" Padding="15" Margin="12,12,0,0">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="4" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Data Integrity" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="Edit or Delete records securely with the actions panel." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <Button Content="Got it, thanks!" Classes="btn-primary" Background="{DynamicResource GuideBadgeBg}" Foreground="{DynamicResource GuideCardBg}" HorizontalAlignment="Right" Command="{Binding CloseGuideCommand}"/>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <!-- Premium Global Confirmation Dialog Overlay -->
+        <Border Classes="premium-modal-overlay" IsVisible="{Binding IsConfirmDialogVisible}" ZIndex="3000">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
+                <StackPanel Spacing="28">
+                    <!-- Close button in top right corner -->
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                             <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                <i:Icon Value="fa-solid fa-circle-exclamation" Foreground="{DynamicResource StatusDanger}" FontSize="22"/>
+                            </Border>
+                            <TextBlock Text="{Binding ConfirmDialogTitle}" Foreground="{DynamicResource TextHeading}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Classes="footer-link" Command="{Binding CancelActionCommand}" VerticalAlignment="Top" Margin="0,-10,-10,0">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                        </Button>
+                    </Grid>
+ 
+                    <TextBlock Text="{Binding ConfirmDialogMessage}" Foreground="{DynamicResource TextSecondary}" FontSize="16" LineHeight="26" TextWrapping="Wrap"/>
+ 
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Cancel" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Command="{Binding CancelActionCommand}"/>
+                        <Button Grid.Column="2" Content="Confirm" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Command="{Binding ConfirmActionCommand}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Panel>
+</UserControl>

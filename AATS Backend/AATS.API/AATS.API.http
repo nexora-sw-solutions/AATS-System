@@ -1,0 +1,6 @@
+@AATS.API_HostAddress = http://localhost:5152
+
+GET {{AATS.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

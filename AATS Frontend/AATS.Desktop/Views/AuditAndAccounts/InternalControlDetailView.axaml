@@ -1,0 +1,423 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.AuditAndAccounts"
+             xmlns:vmb="clr-namespace:AATS.Desktop.ViewModels"
+             xmlns:models="clr-namespace:AATS.Desktop.Models"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="900"
+             x:Class="AATS.Desktop.Views.AuditAndAccounts.InternalControlDetailView"
+             x:DataType="vm:InternalControlDetailViewModel">
+
+    
+    <UserControl.Styles>
+        <Style Selector="Border.detail-card">
+            <Setter Property="Background" Value="{DynamicResource TableBg}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="32"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style Selector="TextBlock.card-label">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+        <Style Selector="TextBlock.card-value">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </UserControl.Styles>
+    <Panel>
+
+        <ScrollViewer>
+            <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto" Margin="40,20,40,40">
+                
+                <!-- 1. Header & Actions -->
+                <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" Margin="0,0,0,32">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16">
+                        <Border Width="56" Height="56" CornerRadius="14" Background="{DynamicResource CardBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                            <i:Icon Value="fa-solid fa-shield-halved" Foreground="{DynamicResource AccentPrimary}" FontSize="24"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="{Binding ClientName}" FontSize="32" FontWeight="Bold" Foreground="{DynamicResource TextHeading}"/>
+                            <Border Background="{Binding ClientCategoryColor}" CornerRadius="12" Padding="12,4" VerticalAlignment="Center" IsVisible="{Binding HasClientCategory}">
+                                <TextBlock Text="{Binding ClientCategory}" Foreground="Black" FontSize="12" FontWeight="Bold"/>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+ 
+                    <!-- Header Actions -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                        <Button Classes="btn-secondary" Command="{Binding DownloadRecordCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <i:Icon Value="fa-solid fa-download" FontSize="14" Foreground="{DynamicResource TextPrimary}"/>
+                                <TextBlock Text="Download Report" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Classes="btn-print" Command="{Binding PrintRecordCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <i:Icon Value="fa-solid fa-print" FontSize="14" Foreground="{DynamicResource AddRecordFg}"/>
+                                <TextBlock Text="Print" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+ 
+                </Grid>
+ 
+                <!-- 2. Summary Info Cards -->
+                <Grid Grid.Row="1" ColumnDefinitions="*, 20, *, 20, *, 20, *, 20, *" Margin="0,0,0,32">
+                    <Border Grid.Column="0" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="ID" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding ID}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="2" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="DATE" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding Date}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="4" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="PERIOD" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding Period}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="6" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="PAYMENT OPTION" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding PaymentOption}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="8" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="PAYMENT STATUS" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding PaymentStatus}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+ 
+                <!-- Billing Details Section (only visible if payment status is Partial) -->
+                <Border Grid.Row="2" Classes="detail-card" Margin="0,0,0,32" IsVisible="{Binding IsPaymentStatusPartial}">
+                    <Grid ColumnDefinitions="*, *, *, *">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="PAYMENT STATUS" Classes="detail-card-label" Foreground="{DynamicResource TextSecondary}" FontSize="11" FontWeight="Bold" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding PaymentStatus}" Classes="detail-card-value" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource StatusWarning}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="PARTIALLY PAID AMOUNT" Classes="detail-card-label" Foreground="{DynamicResource TextSecondary}" FontSize="11" FontWeight="Bold" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding PartiallyPaidAmount, StringFormat='{}Rs. {0:N2}'}" Classes="detail-card-value" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimary}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="OUTSTANDING BALANCE" Classes="detail-card-label" Foreground="{DynamicResource TextSecondary}" FontSize="11" FontWeight="Bold" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding OutstandingBalance, StringFormat='{}Rs. {0:N2}'}" Classes="detail-card-value" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource StatusDanger}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="3">
+                            <TextBlock Text="TOTAL PAYMENT DUE" Classes="detail-card-label" Foreground="{DynamicResource TextSecondary}" FontSize="11" FontWeight="Bold" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding TotalPaymentDue, StringFormat='{}Rs. {0:N2}'}" Classes="detail-card-value" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource StatusDanger}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+ 
+                <!-- 3. General Information Section -->
+                <Border Grid.Row="3" Classes="detail-card" Margin="0,0,0,32">
+                    <StackPanel Spacing="24">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <i:Icon Value="fa-solid fa-address-card" Foreground="{DynamicResource AccentPrimary}" FontSize="16"/>
+                            <TextBlock Text="GENERAL INFORMATION" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextSecondary}" LetterSpacing="1"/>
+                        </StackPanel>
+                        
+                        <Grid RowDefinitions="Auto, 32, Auto, 32, Auto, 32, Auto, 32, Auto" ColumnDefinitions="*, *" x:CompileBindings="False">
+                            <!-- Row 1 -->
+                            <StackPanel Grid.Row="0" Grid.Column="0">
+                                <TextBlock Text="CLIENT NAME" Classes="card-label"/>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{Binding ClientName}" Classes="card-value"/>
+                                    <Border Background="{Binding ClientCategoryColor}" CornerRadius="12" Padding="8,2" VerticalAlignment="Center" IsVisible="{Binding HasClientCategory}">
+                                        <TextBlock Text="{Binding ClientCategory}" Foreground="Black" FontSize="10" FontWeight="Bold"/>
+                                    </Border>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="1">
+                                <TextBlock Text="ID" Classes="card-label"/>
+                                <TextBlock Text="{Binding ID}" Classes="card-value"/>
+                            </StackPanel>
+
+                            <!-- Row 2 -->
+                            <StackPanel Grid.Row="2" Grid.Column="0">
+                                <TextBlock Text="PERIOD" Classes="card-label"/>
+                                <TextBlock Text="{Binding Period, FallbackValue='-'}" Classes="card-value"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="1">
+                                <TextBlock Text="TIME RANGE" Classes="card-label"/>
+                                <TextBlock Text="{Binding Record.TimeRangeText, FallbackValue='-'}" Classes="card-value"/>
+                            </StackPanel>
+
+                            <!-- Row 3 -->
+                            <StackPanel Grid.Row="4" Grid.Column="0">
+                                <TextBlock Text="REPORTING DATE" Classes="card-label"/>
+                                <TextBlock Text="{Binding Record.ReportingDate, StringFormat='{}{0:dd MMM yyyy}', FallbackValue='-'}" Classes="card-value"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="4" Grid.Column="1">
+                                <TextBlock Text="STAFF NAME" Classes="card-label"/>
+                                <TextBlock Text="{Binding Record.StaffName, FallbackValue='-'}" Classes="card-value"/>
+                            </StackPanel>
+
+                            <!-- Row 4 -->
+                            <StackPanel Grid.Row="6" Grid.Column="0">
+                                <TextBlock Text="SUPERVISOR NAME" Classes="card-label"/>
+                                <TextBlock Text="{Binding Record.SupervisorName, FallbackValue='-'}" Classes="card-value"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="6" Grid.Column="1">
+                                <TextBlock Text="AMOUNT" Classes="card-label"/>
+                                <TextBlock Text="{Binding Record.AmountText, FallbackValue='-'}" Classes="card-value"/>
+                            </StackPanel>
+
+                            <!-- Row 5 -->
+                            <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2">
+                                <TextBlock Text="ASSIGNMENT" Classes="card-label"/>
+                                <TextBlock Text="{Binding Assignment, FallbackValue='-'}" Classes="card-value" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+ 
+                <!-- 4. Dynamic Process Timeline -->
+                <Border Grid.Row="4" Classes="detail-card" Margin="0,0,0,32">
+                    <StackPanel Spacing="24">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <i:Icon Value="fa-solid fa-bars-progress" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                            <TextBlock Text="PROCESS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding Steps}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vmb:ProcessStep">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                                        <!-- Step Content -->
+                                        <Button Classes="process-step-btn" 
+                                                Command="{Binding $parent[UserControl].((vm:InternalControlDetailViewModel)DataContext).StepClickCommand}" 
+                                                CommandParameter="{Binding}"
+                                                IsEnabled="{Binding IsClickable}">
+                                            <StackPanel>
+                                                <Border Classes="step-indicator-circle" 
+                                                        Classes.active="{Binding IsActive}"
+                                                        Classes.clickable="{Binding IsClickable}">
+                                                    <Panel>
+                                                        <TextBlock Text="{Binding Number}" 
+                                                                  Classes="step-indicator-num" 
+                                                                  Classes.active="{Binding IsActive}"
+                                                                  IsVisible="{Binding !IsIconStep}"/>
+                                                        <i:Icon Value="{Binding IconValue}" 
+                                                               Foreground="{DynamicResource TextPrimary}" 
+                                                               FontSize="18"
+                                                               IsVisible="{Binding IsIconStep}"/>
+                                                    </Panel>
+                                                </Border>
+                                                <TextBlock Text="{Binding Name}" 
+                                                          Classes="step-indicator-label" 
+                                                          Classes.active="{Binding IsActive}"/>
+                                            </StackPanel>
+                                        </Button>
+                                        
+                                        <!-- Connecting Line (only if not last) -->
+                                        <Rectangle Width="60" Height="2" Fill="{DynamicResource BorderDefault}" Margin="10,20,10,0" VerticalAlignment="Top" IsVisible="{Binding IsNotLast}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+ 
+                <!-- 5. Source Documents -->
+                <Border Grid.Row="5" Classes="detail-card" Margin="0,0,0,48">
+                    <StackPanel Spacing="24">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <i:Icon Value="fa-solid fa-folder-open" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                            <TextBlock Text="SOURCE DOCUMENTS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Text="No source documents attached." Foreground="{DynamicResource TextMuted}" FontSize="14" IsVisible="{Binding !SourceDocuments.Count}"/>
+                        <ItemsControl ItemsSource="{Binding SourceDocuments}" IsVisible="{Binding SourceDocuments.Count}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:SourceDocument">
+                                <Border Classes="premium-doc-item" Margin="0,0,16,16" Width="320">
+                                    <Grid ColumnDefinitions="Auto, *, Auto">
+                                        <Border Grid.Column="0" Width="44" Height="44" CornerRadius="10" Background="{DynamicResource DrawerHeaderBg}" Margin="0,0,16,0" BorderBrush="#192435" BorderThickness="1">
+                                            <i:Icon Value="fa-solid fa-file-pdf" Foreground="{DynamicResource AccentPrimary}" FontSize="20"/>
+                                        </Border>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,16,0">
+                                            <TextBlock Text="{Binding FileName}" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                                            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4,0,0">
+                                                <Border Background="{DynamicResource HoverBg}" CornerRadius="4" Padding="6,2">
+                                                    <TextBlock Text="{Binding FileType}" Foreground="{DynamicResource AccentPrimary}" FontSize="10" FontWeight="Bold"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding UploadDateDisplay}" Foreground="{DynamicResource TextSecondary}" FontSize="11" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            <TextBlock Text="{Binding UploaderName, StringFormat='By: {0}'}" Foreground="{DynamicResource TextMuted}" FontSize="10" Margin="0,2,0,0" IsVisible="{Binding UploaderName, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                            <Button Classes="btn-detail-action" Padding="8" BorderThickness="0"
+                                                    Command="{Binding $parent[UserControl].((vm:InternalControlDetailViewModel)DataContext).DownloadSourceDocumentCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    ToolTip.Tip="Download this document">
+                                                <i:Icon Value="fa-solid fa-download" Foreground="{DynamicResource TextSecondary}" FontSize="14"/>
+                                            </Button>
+                                            <Button Classes="btn-detail-action" Padding="8" BorderThickness="0"
+                                                    Command="{Binding $parent[UserControl].((vm:InternalControlDetailViewModel)DataContext).PrintSourceDocumentCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    ToolTip.Tip="Print this document">
+                                                <i:Icon Value="fa-solid fa-print" Foreground="{DynamicResource TextSecondary}" FontSize="14"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    </StackPanel>
+                </Border>
+ 
+                <!-- 6. Footer Actions -->
+                <Grid Grid.Row="6" ColumnDefinitions="Auto, *, Auto" VerticalAlignment="Center">
+                    <Button Grid.Column="0" Classes="footer-link" Command="{Binding OpenGuideCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <i:Icon Value="fa-solid fa-circle-question" Foreground="{DynamicResource TextSecondary}" FontSize="16"/>
+                            <TextBlock Text="Learn more about Client Page" Foreground="{DynamicResource TextSecondary}" FontSize="13" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+ 
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16">
+                        <Button Content="Edit" Classes="btn-edit" Width="140" Command="{Binding EditRecordCommand}"/>
+                        <Button Content="Delete" Classes="btn-delete" Width="140" Command="{Binding DeleteRecordCommand}"/>
+                    </StackPanel>
+                </Grid>
+            
+                            </Grid></ScrollViewer>
+
+                <!-- Instruction Guide Popup -->
+        <Border ZIndex="10" IsVisible="{Binding IsGuideVisible}" Background="{DynamicResource OverlayBg}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border Background="{DynamicResource InputBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="12" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="40" BoxShadow="0 20 60 0 #66000000">
+                <StackPanel Spacing="30">
+                    <!-- Header -->
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                            <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                <i:Icon Value="fa-regular fa-lightbulb" FontSize="22" Foreground="{DynamicResource AccentPrimary}"/>
+                            </Border>
+                            <TextBlock Text="Client Page Guide" Foreground="{DynamicResource TextHeading}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Classes="footer-link" Command="{Binding CloseGuideCommand}" VerticalAlignment="Top">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                        </Button>
+                    </Grid>
+                    
+                    <TextBlock Text="Manage client records and track project progress efficiently." Foreground="{DynamicResource TextSecondary}" FontSize="16" Margin="0,-10,0,0"/>
+
+                                        <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *" Margin="0,0,0,0">
+                        <Border Grid.Row="0" Grid.Column="0" Background="{DynamicResource GuideCardBg}" CornerRadius="8" Padding="15" Margin="0,0,12,12">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="1" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Status Tracking" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="Click on any process step to update the client's current status." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="1" Background="{DynamicResource GuideCardBg}" CornerRadius="8" Padding="15" Margin="12,0,0,12">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="2" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Documents" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="View and download all associated source documents for this record." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="0" Background="{DynamicResource GuideCardBg}" CornerRadius="8" Padding="15" Margin="0,12,12,0">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="3" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Quick Actions" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="Use Download and Print buttons to generate physical record reports." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="1" Background="{DynamicResource GuideCardBg}" CornerRadius="8" Padding="15" Margin="12,12,0,0">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="4" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Data Integrity" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="Edit or Delete records securely with the actions panel." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <Button Content="Got it, thanks!" Classes="btn-primary" Background="{DynamicResource GuideBadgeBg}" Foreground="{DynamicResource GuideCardBg}" HorizontalAlignment="Right" Command="{Binding CloseGuideCommand}"/>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <!-- Premium Global Confirmation Dialog Overlay -->
+        <Border Classes="premium-modal-overlay" IsVisible="{Binding IsConfirmDialogVisible}" ZIndex="1000">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
+                <StackPanel Spacing="28">
+                    <!-- Close button in top right corner -->
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                             <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                <i:Icon Value="fa-solid fa-circle-exclamation" Foreground="{DynamicResource StatusDanger}" FontSize="22"/>
+                            </Border>
+                            <TextBlock Text="{Binding ConfirmDialogTitle}" Foreground="{DynamicResource TextHeading}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Classes="footer-link" Command="{Binding CancelActionCommand}" VerticalAlignment="Top" Margin="0,-10,-10,0">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                        </Button>
+                    </Grid>
+ 
+                    <TextBlock Text="{Binding ConfirmDialogMessage}" Foreground="{DynamicResource TextSecondary}" FontSize="16" LineHeight="26" TextWrapping="Wrap"/>
+ 
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Cancel" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Command="{Binding CancelActionCommand}"/>
+                        <Button Grid.Column="2" Content="Confirm" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Command="{Binding ConfirmActionCommand}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <!-- Loading Busy Overlay -->
+        <Border Background="#80000000" IsVisible="{Binding IsBusy}" ZIndex="2000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
+                <ProgressBar IsIndeterminate="True" Width="200" Height="4" Foreground="{DynamicResource AccentPrimary}"/>
+                <TextBlock Text="Processing document..." Foreground="White" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+            </StackPanel>
+        </Border>
+    </Panel>
+</UserControl>
+
+
+
+
+
+
