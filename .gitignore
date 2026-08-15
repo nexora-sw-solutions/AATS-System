@@ -1,0 +1,22 @@
+# Ignore antigravity agent's scratch folder
+scratch/
+
+# IDE configurations
+.vs/
+.idea/
+.vscode/
+*.user
+*.userosscache
+*.suo
+
+# Build & binary outputs
+[Bb]in/
+[Oo]bj/
+sent_emails/
+*.log
+
+# Environment secrets
+.env
+*.env
+*.env.local
+

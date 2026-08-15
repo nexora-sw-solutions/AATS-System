@@ -1,0 +1,184 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.SecretarialAdvisory"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="1000"
+             x:Class="AATS.Desktop.Views.SecretarialAdvisory.AddEPFETFView"
+             x:DataType="vm:AddEPFETFViewModel"
+             x:CompileBindings="False">
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock.input-label">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextHeading}"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        <Style Selector="TextBox.form-input">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style Selector="Border.card-panel">
+            <Setter Property="Background" Value="{DynamicResource CardBg}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="25"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+
+    </UserControl.Styles>
+
+    <Panel>
+        <ScrollViewer>
+            <Grid RowDefinitions="Auto, *" Margin="25,20,15,20">
+                <!-- Header Section -->
+                <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,25">
+                    <StackPanel Spacing="5">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="Home" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                            <TextBlock Text=">" Foreground="{DynamicResource CalendarInactiveFg}" FontSize="12"/>
+                            <TextBlock Text="Secretarial &amp; Advisory" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                            <TextBlock Text=">" Foreground="{DynamicResource CalendarInactiveFg}" FontSize="12"/>
+                            <TextBlock Text="EPF / ETF" Foreground="{DynamicResource CalendarInactiveFg}" FontSize="12"/>
+                            <TextBlock Text=">" Foreground="{DynamicResource CalendarInactiveFg}" FontSize="12"/>
+                            <TextBlock Text="{Binding PageTitle}" Foreground="{DynamicResource AccentPrimary}" FontSize="12" FontWeight="SemiBold"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="20" Margin="0,10,0,0">
+                            <Button Command="{Binding DiscardChangesCommand}" Background="Transparent" BorderThickness="0" Padding="0" Cursor="Hand">
+                                <i:Icon Value="fa-solid fa-chevron-left" Foreground="{DynamicResource TextPrimary}" FontSize="18"/>
+                            </Button>
+                            <TextBlock Text="Add EPF/ETF Record" FontSize="26" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="15" VerticalAlignment="Bottom">
+                        <Button Classes="btn-cancel" Content="Cancel" Command="{Binding DiscardChangesCommand}"/>
+                        <Button Classes="btn-save" Command="{Binding SaveRecordCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <i:Icon Value="fa-regular fa-floppy-disk" FontSize="14"/>
+                                <TextBlock Text="{Binding SaveButtonText}"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Form Area -->
+                <StackPanel Grid.Row="1" Width="450" HorizontalAlignment="Left" Spacing="20">
+                    <Border Classes="card-panel">
+                        <StackPanel Spacing="20">
+                            <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,20">
+                                <i:Icon Value="fa-solid fa-address-card" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                <TextBlock Text="DETAILS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            
+                            <StackPanel>
+                                <TextBlock Text="ID" Classes="input-label"/>
+                                <Panel Name="ClientIdPanel">
+                                                                        <Grid ColumnDefinitions="Auto, *">
+                                        <!-- Subtle premium vertical bookmark indicator ribbon on the left-edge of the field -->
+                                        <Rectangle Grid.Column="0" Width="4" Height="24" Fill="{Binding SelectedClientCategoryColor}" Margin="0,0,8,0" RadiusX="2" RadiusY="2" IsVisible="{Binding HasSelectedClientCategory}" VerticalAlignment="Center"/>
+                                        <TextBox Grid.Column="1" Classes="form-input" Watermark="Enter Client ID (e.g. CL-00001)" Text="{Binding ClientId}" Name="ClientIdTextBox"/>
+                                    </Grid>
+                                </Panel>
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="Date" Classes="input-label"/>
+                                <CalendarDatePicker SelectedDate="{Binding Date}" HorizontalAlignment="Stretch" BorderBrush="{DynamicResource BorderDefault}" Background="{DynamicResource InputBg}" Padding="12,10" CornerRadius="6" Height="38"/>
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="Client Name" Classes="input-label"/>
+                                <TextBox Classes="form-input" Watermark="Enter Client Name" Text="{Binding ClientName}"/>
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="Company Name" Classes="input-label"/>
+                                <TextBox Classes="form-input" Watermark="Enter Company Name" Text="{Binding CompanyName}"/>
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="No of Staffs" Classes="input-label"/>
+                                <TextBox Classes="form-input" Watermark="Enter number of staff" Text="{Binding NoOfStaffsText}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- Modals -->
+        <Border ZIndex="100" IsVisible="{Binding IsConfirmSaveVisible}" Classes="premium-modal-overlay">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="420">
+                <StackPanel Spacing="20">
+                    <TextBlock Text="Save Record?" Foreground="{DynamicResource TextPrimary}" FontSize="18" FontWeight="Bold"/>
+                    <TextBlock Text="Are you sure you want to create this new EPF / ETF record?" Foreground="{DynamicResource TextSecondary}" FontSize="14" TextWrapping="Wrap" LineHeight="22"/>
+                    <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button Content="Keep Editing" Command="{Binding CancelSaveCommand}" Classes="btn-secondary"/>
+                        <Button Content="Save Record" Command="{Binding ConfirmSaveCommand}" Classes="btn-primary" Padding="25,10"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <Border ZIndex="101" IsVisible="{Binding IsDiscardConfirmVisible}" Classes="premium-modal-overlay">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="440">
+                <StackPanel Spacing="25">
+                    <i:Icon Value="fa-solid fa-triangle-exclamation" Foreground="{DynamicResource StatusWarning}" FontSize="40" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Discard changes?" Foreground="{DynamicResource TextPrimary}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock Text="You have unsaved information. Are you sure you want to discard it?" Foreground="{DynamicResource TextSecondary}" FontSize="13" TextAlignment="Center" TextWrapping="Wrap"/>
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Keep Editing" Command="{Binding CancelDiscardCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        <Button Grid.Column="2" Content="Discard" Command="{Binding ConfirmDiscardCommand}" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+        <Popup IsOpen="{Binding IsClientCodeDropdownOpen}" 
+               PlacementTarget="{Binding #ClientIdPanel}"
+               Placement="Bottom"
+               VerticalOffset="2"
+               IsLightDismissEnabled="True"
+               MinWidth="{Binding #ClientIdPanel.Bounds.Width}">
+            <Border Background="{DynamicResource CardBg}" 
+                    BorderBrush="{DynamicResource BorderDefault}" 
+                    BorderThickness="1" 
+                    CornerRadius="8" 
+                    BoxShadow="0 10 30 0 #40000000"
+                    ClipToBounds="True">
+                <ScrollViewer MaxHeight="300" VerticalScrollBarVisibility="Auto" IsScrollChainingEnabled="False">
+                    <ItemsControl ItemsSource="{Binding ClientCodeSuggestions}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                                                <Button Background="Transparent" 
+                                        BorderThickness="0" 
+                                        Padding="0" 
+                                        HorizontalAlignment="Stretch" 
+                                        HorizontalContentAlignment="Stretch"
+                                        Cursor="Hand"
+                                        Command="{Binding $parent[UserControl].DataContext.SelectClientCodeCommand}" 
+                                        CommandParameter="{Binding}">
+                                    <Grid ColumnDefinitions="Auto, *" Height="36" Background="Transparent">
+                                        <!-- Subtle premium vertical bookmark accent strip -->
+                                        <Rectangle Grid.Column="0" Width="4" Height="20" Fill="{Binding CategoryColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0" RadiusX="2" RadiusY="2"/>
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="10,0" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding ClientCode}" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" FontSize="13"/>
+                                            <TextBlock Text="-" Foreground="{DynamicResource TextSecondary}" Opacity="0.7" FontSize="13"/>
+                                            <TextBlock Text="{Binding Name}" Foreground="{DynamicResource TextSecondary}" Opacity="0.8" FontSize="12" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+        </Popup>
+    </Panel>
+</UserControl>

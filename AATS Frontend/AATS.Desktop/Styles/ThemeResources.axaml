@@ -1,0 +1,452 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.ThemeDictionaries>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!--                DARK THEME                   -->
+        <!-- ═══════════════════════════════════════════ -->
+        <ResourceDictionary x:Key="Dark">
+
+            <!-- ── Surfaces ── -->
+            <SolidColorBrush x:Key="AppBackground" Color="#0A1931"/>
+            <SolidColorBrush x:Key="SidebarBg" Color="#020617"/>
+            <SolidColorBrush x:Key="NavbarBg" Color="#0A0F1A"/>
+            <SolidColorBrush x:Key="ContentBg" Color="#0A1931"/>
+            <SolidColorBrush x:Key="CardBg" Color="#151E2E"/>
+            <SolidColorBrush x:Key="FilterBarBg" Color="#1A2B44"/>
+            <SolidColorBrush x:Key="InputBg" Color="#0A0F1A"/>
+            <SolidColorBrush x:Key="ModalBg" Color="#0A0F1A"/>
+            <SolidColorBrush x:Key="DrawerBg" Color="#0A111E"/>
+            <SolidColorBrush x:Key="DrawerHeaderBg" Color="#0F172A"/>
+            <SolidColorBrush x:Key="DrawerFooterBg" Color="#0A0F1A"/>
+            <SolidColorBrush x:Key="DrawerCardBg" Color="#151D2F"/>
+            <SolidColorBrush x:Key="DrawerInputBg" Color="#0F172A"/>
+            <SolidColorBrush x:Key="GuideCardBg" Color="#121826"/>
+            <SolidColorBrush x:Key="ProTipBg" Color="#0F172A"/>
+
+            <!-- ── Hover / Interactive Surfaces ── -->
+            <SolidColorBrush x:Key="HoverBg" Color="#1E293B"/>
+            <SolidColorBrush x:Key="HoverBgStrong" Color="#4E618A"/>
+            <SolidColorBrush x:Key="HoverBgSubtle" Color="#2D3748"/>
+            <SolidColorBrush x:Key="RowHoverBg" Color="#1F2942"/>
+            <SolidColorBrush x:Key="SelectedRowBg" Color="#1E2B3C"/>
+            <SolidColorBrush x:Key="ActiveNavBg" Color="#CBD5E1"/>
+            <SolidColorBrush x:Key="ActiveNavFg" Color="#0F172A"/>
+            <SolidColorBrush x:Key="UserHeaderBg" Color="#1E293B"/>
+            <SolidColorBrush x:Key="UserDropdownBg" Color="#0F172A"/>
+            <SolidColorBrush x:Key="SignOutHoverBg" Color="#451A1A"/>
+            <SolidColorBrush x:Key="ProcessBadgeBg" Color="#1C263A"/>
+
+            <!-- ── Borders ── -->
+            <SolidColorBrush x:Key="BorderDefault" Color="#1E293B"/>
+            <SolidColorBrush x:Key="BorderSubtle" Color="#2D3748"/>
+            <SolidColorBrush x:Key="BorderMuted" Color="#111827"/>
+            <SolidColorBrush x:Key="BorderFocus" Color="#4E618A"/>
+            <SolidColorBrush x:Key="SidebarBorder" Color="#2D3748"/>
+            <SolidColorBrush x:Key="NavbarBorder" Color="#1F2937"/>
+
+            <!-- ── Text ── -->
+            <SolidColorBrush x:Key="TextPrimary" Color="White"/>
+            <SolidColorBrush x:Key="TextHeading" Color="#F8FAFC"/>
+            <SolidColorBrush x:Key="TextSecondary" Color="#94A3B8"/>
+            <SolidColorBrush x:Key="TextMuted" Color="#64748B"/>
+            <SolidColorBrush x:Key="TextDimmed" Color="#6B7280"/>
+            <SolidColorBrush x:Key="TextFaint" Color="#4B5563"/>
+            <SolidColorBrush x:Key="TextNav" Color="#D1D5DB"/>
+            <SolidColorBrush x:Key="TextSubNav" Color="#94A3B8"/>
+            <SolidColorBrush x:Key="TextInput" Color="#F1F5F9"/>
+            <SolidColorBrush x:Key="TextOnActive" Color="#0F172A"/>
+            <SolidColorBrush x:Key="TextBody" Color="#E2E8F0"/>
+            <SolidColorBrush x:Key="TextLabel" Color="#8695B1"/>
+
+            <!-- ── Accent ── -->
+            <SolidColorBrush x:Key="AccentBlue" Color="#60A5FA"/>
+            <SolidColorBrush x:Key="AccentPrimary" Color="#3B82F6"/>
+            <SolidColorBrush x:Key="AccentBlueDark" Color="#1E40AF"/>
+
+            <!-- ── Logo ── -->
+            <SolidColorBrush x:Key="LogoTitle" Color="#8FA3D1"/>
+            <SolidColorBrush x:Key="LogoSubtitle" Color="#E5E7EB"/>
+
+            <!-- ── Breadcrumb ── -->
+            <SolidColorBrush x:Key="BreadcrumbMain" Color="#94A3B8"/>
+            <SolidColorBrush x:Key="BreadcrumbSub" Color="#60A5FA"/>
+            <SolidColorBrush x:Key="BreadcrumbChevron" Color="#4B5563"/>
+
+            <!-- ── Buttons ── -->
+            <SolidColorBrush x:Key="BtnSecondaryBg" Color="#1E293B"/>
+            <SolidColorBrush x:Key="BtnSecondaryFg" Color="#F1F5F9"/>
+            <SolidColorBrush x:Key="BtnDetailBg" Color="#1E293B"/>
+            <SolidColorBrush x:Key="BtnDetailHover" Color="#2D3A4F"/>
+            <SolidColorBrush x:Key="BtnEditBorder" Color="#2D3748"/>
+            <SolidColorBrush x:Key="BtnEditHover" Color="#1E293B"/>
+            <SolidColorBrush x:Key="CircleNavBg" Color="#1E293B"/>
+            <SolidColorBrush x:Key="AddRecordBg" Color="#AEC9E0"/>
+            <SolidColorBrush x:Key="AddRecordFg" Color="#0A0F1A"/>
+            <SolidColorBrush x:Key="AddRecordHover" Color="#9ABBD2"/>
+
+            <!-- ── Overlay ── -->
+            <SolidColorBrush x:Key="OverlayBg" Color="#CC020617"/>
+
+            <!-- ── Shadows (as BoxShadows) ── -->
+            <BoxShadows x:Key="CardShadow">0 4 20 0 #40000000</BoxShadows>
+            <BoxShadows x:Key="ModalShadow">0 20 50 0 #80000000</BoxShadows>
+            <BoxShadows x:Key="DrawerShadow">-15 0 35 0 #000000</BoxShadows>
+            <BoxShadows x:Key="DetailCardShadow">0 4 15 0 #20000000</BoxShadows>
+
+            <!-- ── Chevron / Expander ── -->
+            <SolidColorBrush x:Key="ChevronStroke" Color="#D1D5DB"/>
+
+            <!-- ── Search / Misc ── -->
+            <SolidColorBrush x:Key="SearchIcon" Color="#9CA3AF"/>
+            <SolidColorBrush x:Key="BellIcon" Color="#9CA3AF"/>
+            <SolidColorBrush x:Key="UserAvatarBg" Color="#1F2937"/>
+            <SolidColorBrush x:Key="UserAvatarBorder" Color="#2D3748"/>
+
+            <!-- ── Dashboard Specific ── -->
+            <SolidColorBrush x:Key="DashCardBg" Color="#151E2E"/>
+            <SolidColorBrush x:Key="DashActionBg" Color="#111827"/>
+            <SolidColorBrush x:Key="DashActionBorder" Color="#1F2937"/>
+            <SolidColorBrush x:Key="DashActionHover" Color="#1F2937"/>
+            <SolidColorBrush x:Key="DashModuleBg" Color="#1F2937"/>
+            <SolidColorBrush x:Key="DashModuleIconBg" Color="#1E293B"/>
+            <SolidColorBrush x:Key="DashChartBg" Color="#1F2937"/>
+            <SolidColorBrush x:Key="DashActivityIconBg" Color="#1E293B"/>
+
+            <!-- ── Table / DataGrid ── -->
+            <SolidColorBrush x:Key="TableBg" Color="#1A2B44"/>
+            <SolidColorBrush x:Key="TableHeaderFg" Color="#94A3B8"/>
+            <SolidColorBrush x:Key="TableRowBorder" Color="#2D3748"/>
+            <SolidColorBrush x:Key="TableCellFg" Color="#94A3B8"/>
+            <SolidColorBrush x:Key="TableCellPrimaryFg" Color="White"/>
+
+            <!-- ── Pagination Buttons ── -->
+            <SolidColorBrush x:Key="PaginationBg" Color="#1A2B44"/>
+            <SolidColorBrush x:Key="PaginationBorder" Color="#2D3748"/>
+
+            <!-- ── Calendar ── -->
+            <SolidColorBrush x:Key="CalendarBg" Color="#0B1221"/>
+            <SolidColorBrush x:Key="CalendarBorder" Color="#1C273D"/>
+            <SolidColorBrush x:Key="CalendarHeaderBg" Color="#0B1221"/>
+            <SolidColorBrush x:Key="CalendarWeekdayFg" Color="#8E9BB0"/>
+            <SolidColorBrush x:Key="CalendarDayHover" Color="#152238"/>
+            <SolidColorBrush x:Key="CalendarDaySelected" Color="#1E293B"/>
+            <SolidColorBrush x:Key="CalendarInactiveFg" Color="#475569"/>
+
+            <!-- ── Drawer Edit Button ── -->
+            <SolidColorBrush x:Key="DrawerEditBtnBg" Color="#111B2D"/>
+            <SolidColorBrush x:Key="DrawerEditBtnHover" Color="#1E293B"/>
+            <SolidColorBrush x:Key="DrawerSaveBtnBg" Color="#AECACE"/>
+            <SolidColorBrush x:Key="DrawerSaveBtnFg" Color="#0A0F1A"/>
+            <SolidColorBrush x:Key="DrawerSaveBtnHover" Color="#C0DAE0"/>
+            <BoxShadows x:Key="FlyoutShadow">0 10 30 0 #A0000000</BoxShadows>
+
+            <!-- ── Icon Action Buttons (Drawer) ── -->
+            <SolidColorBrush x:Key="IconActionBg" Color="#1E293B"/>
+            <SolidColorBrush x:Key="IconActionBorder" Color="#334155"/>
+            <SolidColorBrush x:Key="IconActionHover" Color="#334155"/>
+
+            <!-- ── Guide Number Badge ── -->
+            <SolidColorBrush x:Key="GuideBadgeBg" Color="#D1D5DB"/>
+            <SolidColorBrush x:Key="GuideBadgeFg" Color="#121826"/>
+            <SolidColorBrush x:Key="GuideGotItBg" Color="#CBD5E1"/>
+            <SolidColorBrush x:Key="GuideGotItFg" Color="#0F172A"/>
+
+            <!-- ── Date Flyout ── -->
+            <SolidColorBrush x:Key="DateFlyoutBg" Color="#1C263A"/>
+            <SolidColorBrush x:Key="DateFlyoutBorder" Color="#2D3748"/>
+
+            <!-- ── Step Indicator ── -->
+            <SolidColorBrush x:Key="StepCircleBorder" Color="#1E293B"/>
+            <SolidColorBrush x:Key="StepNumFg" Color="#64748B"/>
+            <SolidColorBrush x:Key="StepLabelFg" Color="#94A3B8"/>
+
+            <!-- ── Confirmation Dialog Icon Circle ── -->
+            <SolidColorBrush x:Key="ConfirmIconBg" Color="#1E1E2E"/>
+
+            <!-- ── Filter / ComboBox Dropdown ── -->
+            <SolidColorBrush x:Key="InputPointerOverBg" Color="#1E293B"/>
+            <SolidColorBrush x:Key="InputFocusBg" Color="#0A0F1A"/>
+            <SolidColorBrush x:Key="ComboPointerOverBg" Color="#1E293B"/>
+            <SolidColorBrush x:Key="ComboFocusBg" Color="#0A0F1A"/>
+            <SolidColorBrush x:Key="ComboDropdownBg" Color="#0B1121"/>
+            <SolidColorBrush x:Key="ComboDropdownBorder" Color="#1E293B"/>
+            <SolidColorBrush x:Key="ComboItemHover" Color="#1F2937"/>
+            <SolidColorBrush x:Key="ComboItemSelected" Color="#334155"/>
+            <SolidColorBrush x:Key="ComboItemSelectedHover" Color="#475569"/>
+
+            <!-- ── Action Button States ── -->
+            <SolidColorBrush x:Key="ActionBtnPointerOver" Color="#2D3A4F"/>
+
+            <!-- ── Selection Indicator ── -->
+            <SolidColorBrush x:Key="SelectionIndicatorBg" Color="#1F2937"/>
+
+            <!-- ── Semantic Status Colors ── -->
+            <SolidColorBrush x:Key="StatusSuccess" Color="#10B981"/>
+            <SolidColorBrush x:Key="StatusDanger" Color="#FA003F"/>
+            <SolidColorBrush x:Key="StatusWarning" Color="#F59E0B"/>
+            <SolidColorBrush x:Key="StatusInfo" Color="#3B82F6"/>
+
+            <!-- ── Nexora Dashboard Colors ── -->
+            <SolidColorBrush x:Key="NexoraBackground" Color="#020205"/>
+            <SolidColorBrush x:Key="NexoraPurple" Color="#a855f7"/>
+            <SolidColorBrush x:Key="NexoraOrange" Color="#f97316"/>
+            <SolidColorBrush x:Key="NexoraMagenta" Color="#d946ef"/>
+            <SolidColorBrush x:Key="NexoraIndigo" Color="#6366f1"/>
+            <SolidColorBrush x:Key="NexoraCyan" Color="#06b6d4"/>
+            <SolidColorBrush x:Key="GlassBg" Color="#12FFFFFF"/>
+            <SolidColorBrush x:Key="GlassBorder" Color="#20FFFFFF"/>
+            <BoxShadows x:Key="GlassShadow">0 8 32 0 #CC000000</BoxShadows>
+            
+            <SolidColorBrush x:Key="NexoraFormCardBg" Color="#1A5B21B6"/>
+            <SolidColorBrush x:Key="NexoraFormCardBorder" Color="#33FFFFFF"/>
+            <BoxShadows x:Key="NexoraFormCardShadow">0 10 40 0 #40000000</BoxShadows>
+            
+            <SolidColorBrush x:Key="NexoraModalInputBg" Color="#0A101C"/>
+            <SolidColorBrush x:Key="NexoraBtnPrimaryFg" Color="#020205"/>
+            <SolidColorBrush x:Key="NexoraBtnPrimaryHoverBg" Color="#22d3ee"/>
+            
+            <SolidColorBrush x:Key="NexoraErrorBg" Color="#450a0a"/>
+            <SolidColorBrush x:Key="NexoraErrorBorder" Color="#991b1b"/>
+            <SolidColorBrush x:Key="NexoraErrorIcon" Color="#f87171"/>
+            <SolidColorBrush x:Key="NexoraErrorText" Color="#fecaca"/>
+            
+            <SolidColorBrush x:Key="NexoraDocUploadBorder" Color="#4E618A"/>
+            <SolidColorBrush x:Key="NexoraDocItemBg" Color="#1AFFFFFF"/>
+            <SolidColorBrush x:Key="NexoraDocItemBorder" Color="Transparent"/>
+            
+            <SolidColorBrush x:Key="NexoraTableHeaderBg" Color="#1AFFFFFF"/>
+            <SolidColorBrush x:Key="NexoraTableRowBorder" Color="#1AFFFFFF"/>
+            <SolidColorBrush x:Key="NexoraBadgeBg" Color="#1A06B6D4"/>
+            
+            <SolidColorBrush x:Key="NexoraOverlayBg" Color="#66000000"/>
+            <SolidColorBrush x:Key="NexoraDrawerBorder" Color="#1AFFFFFF"/>
+
+        </ResourceDictionary>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!--                LIGHT THEME                  -->
+        <!-- ═══════════════════════════════════════════ -->
+        <ResourceDictionary x:Key="Light">
+
+            <!-- ── Surfaces ── -->
+            <SolidColorBrush x:Key="AppBackground" Color="#F4F7FB"/>
+            <SolidColorBrush x:Key="SidebarBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="NavbarBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="ContentBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="CardBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="FilterBarBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="InputBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="ModalBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="DrawerBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="DrawerHeaderBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="DrawerFooterBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="DrawerCardBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="DrawerInputBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="GuideCardBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="ProTipBg" Color="#E8EFF9"/>
+
+            <!-- ── Hover / Interactive Surfaces ── -->
+            <SolidColorBrush x:Key="HoverBg" Color="#E1E8F0"/>
+            <SolidColorBrush x:Key="HoverBgStrong" Color="#D2DFED"/>
+            <SolidColorBrush x:Key="HoverBgSubtle" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="RowHoverBg" Color="#E5EFFC"/>
+            <SolidColorBrush x:Key="SelectedRowBg" Color="#D8E6FA"/>
+            <SolidColorBrush x:Key="ActiveNavBg" Color="#2563EB"/>
+            <SolidColorBrush x:Key="ActiveNavFg" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="UserHeaderBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="UserDropdownBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="SignOutHoverBg" Color="#FEE2E2"/>
+            <SolidColorBrush x:Key="ProcessBadgeBg" Color="#EEF3F8"/>
+
+            <!-- ── Borders ── -->
+            <SolidColorBrush x:Key="BorderDefault" Color="#D9E2EC"/>
+            <SolidColorBrush x:Key="BorderSubtle" Color="#BAC7D5"/>
+            <SolidColorBrush x:Key="BorderMuted" Color="#E2E8F0"/>
+            <SolidColorBrush x:Key="BorderFocus" Color="#3B82F6"/>
+            <SolidColorBrush x:Key="SidebarBorder" Color="#D9E2EC"/>
+            <SolidColorBrush x:Key="NavbarBorder" Color="#D9E2EC"/>
+
+            <!-- ── Text ── -->
+            <SolidColorBrush x:Key="TextPrimary" Color="#1F2937"/>
+            <SolidColorBrush x:Key="TextHeading" Color="#111827"/>
+            <SolidColorBrush x:Key="TextSecondary" Color="#64748B"/>
+            <SolidColorBrush x:Key="TextMuted" Color="#829AB1"/>
+            <SolidColorBrush x:Key="TextDimmed" Color="#9FB3C8"/>
+            <SolidColorBrush x:Key="TextFaint" Color="#BAC7D5"/>
+            <SolidColorBrush x:Key="TextNav" Color="#334E68"/>
+            <SolidColorBrush x:Key="TextSubNav" Color="#486581"/>
+            <SolidColorBrush x:Key="TextInput" Color="#1F2937"/>
+            <SolidColorBrush x:Key="TextOnActive" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="TextBody" Color="#334E68"/>
+            <SolidColorBrush x:Key="TextLabel" Color="#486581"/>
+
+            <!-- ── Accent ── -->
+            <SolidColorBrush x:Key="AccentBlue" Color="#3B82F6"/>
+            <SolidColorBrush x:Key="AccentPrimary" Color="#2563EB"/>
+            <SolidColorBrush x:Key="AccentBlueDark" Color="#1D4ED8"/>
+
+            <!-- ── Logo ── -->
+            <SolidColorBrush x:Key="LogoTitle" Color="#1E40AF"/>
+            <SolidColorBrush x:Key="LogoSubtitle" Color="#374151"/>
+
+            <!-- ── Breadcrumb ── -->
+            <SolidColorBrush x:Key="BreadcrumbMain" Color="#6B7280"/>
+            <SolidColorBrush x:Key="BreadcrumbSub" Color="#2563EB"/>
+            <SolidColorBrush x:Key="BreadcrumbChevron" Color="#D1D5DB"/>
+
+            <!-- ── Buttons ── -->
+            <SolidColorBrush x:Key="BtnSecondaryBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="BtnSecondaryFg" Color="#334E68"/>
+            <SolidColorBrush x:Key="BtnDetailBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="BtnDetailHover" Color="#E1E8F0"/>
+            <SolidColorBrush x:Key="BtnEditBorder" Color="#D9E2EC"/>
+            <SolidColorBrush x:Key="BtnEditHover" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="CircleNavBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="AddRecordBg" Color="#2563EB"/>
+            <SolidColorBrush x:Key="AddRecordFg" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="AddRecordHover" Color="#1D4ED8"/>
+
+            <!-- ── Overlay ── -->
+            <SolidColorBrush x:Key="OverlayBg" Color="#66000000"/>
+
+            <!-- ── Shadows ── -->
+            <BoxShadows x:Key="CardShadow">0 1 3 0 #1A000000</BoxShadows>
+            <BoxShadows x:Key="ModalShadow">0 20 50 0 #30000000</BoxShadows>
+            <BoxShadows x:Key="DrawerShadow">-8 0 25 0 #20000000</BoxShadows>
+            <BoxShadows x:Key="DetailCardShadow">0 1 3 0 #10000000</BoxShadows>
+
+            <!-- ── Chevron / Expander ── -->
+            <SolidColorBrush x:Key="ChevronStroke" Color="#6B7280"/>
+
+            <!-- ── Search / Misc ── -->
+            <SolidColorBrush x:Key="SearchIcon" Color="#829AB1"/>
+            <SolidColorBrush x:Key="BellIcon" Color="#6B7280"/>
+            <SolidColorBrush x:Key="UserAvatarBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="UserAvatarBorder" Color="#BAC7D5"/>
+
+            <!-- ── Dashboard Specific ── -->
+            <SolidColorBrush x:Key="DashCardBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="DashActionBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="DashActionBorder" Color="#D9E2EC"/>
+            <SolidColorBrush x:Key="DashActionHover" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="DashModuleBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="DashModuleIconBg" Color="#D8E6FA"/>
+            <SolidColorBrush x:Key="DashChartBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="DashActivityIconBg" Color="#EEF3F8"/>
+
+            <!-- ── Table / DataGrid ── -->
+            <SolidColorBrush x:Key="TableBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="TableHeaderFg" Color="#486581"/>
+            <SolidColorBrush x:Key="TableRowBorder" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="TableCellFg" Color="#486581"/>
+            <SolidColorBrush x:Key="TableCellPrimaryFg" Color="#1F2937"/>
+
+            <!-- ── Pagination Buttons ── -->
+            <SolidColorBrush x:Key="PaginationBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="PaginationBorder" Color="#D9E2EC"/>
+
+            <!-- ── Calendar ── -->
+            <SolidColorBrush x:Key="CalendarBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="CalendarBorder" Color="#D9E2EC"/>
+            <SolidColorBrush x:Key="CalendarHeaderBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="CalendarWeekdayFg" Color="#486581"/>
+            <SolidColorBrush x:Key="CalendarDayHover" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="CalendarDaySelected" Color="#D8E6FA"/>
+            <SolidColorBrush x:Key="CalendarInactiveFg" Color="#BAC7D5"/>
+
+            <!-- ── Drawer Edit Button ── -->
+            <SolidColorBrush x:Key="DrawerEditBtnBg" Color="#E5EFFC"/>
+            <SolidColorBrush x:Key="DrawerEditBtnHover" Color="#D8E6FA"/>
+            <SolidColorBrush x:Key="DrawerSaveBtnBg" Color="#2563EB"/>
+            <SolidColorBrush x:Key="DrawerSaveBtnFg" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="DrawerSaveBtnHover" Color="#1D4ED8"/>
+            <BoxShadows x:Key="FlyoutShadow">0 10 30 0 #20000000</BoxShadows>
+
+            <!-- ── Icon Action Buttons (Drawer) ── -->
+            <SolidColorBrush x:Key="IconActionBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="IconActionBorder" Color="#D9E2EC"/>
+            <SolidColorBrush x:Key="IconActionHover" Color="#D9E2EC"/>
+
+            <!-- ── Guide Number Badge ── -->
+            <SolidColorBrush x:Key="GuideBadgeBg" Color="#2563EB"/>
+            <SolidColorBrush x:Key="GuideBadgeFg" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="GuideGotItBg" Color="#2563EB"/>
+            <SolidColorBrush x:Key="GuideGotItFg" Color="#FFFFFF"/>
+
+            <!-- ── Date Flyout ── -->
+            <SolidColorBrush x:Key="DateFlyoutBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="DateFlyoutBorder" Color="#D9E2EC"/>
+
+            <!-- ── Step Indicator ── -->
+            <SolidColorBrush x:Key="StepCircleBorder" Color="#D9E2EC"/>
+            <SolidColorBrush x:Key="StepNumFg" Color="#829AB1"/>
+            <SolidColorBrush x:Key="StepLabelFg" Color="#486581"/>
+
+            <!-- ── Confirmation Dialog Icon Circle ── -->
+            <SolidColorBrush x:Key="ConfirmIconBg" Color="#EEF3F8"/>
+
+            <!-- ── Filter / ComboBox Dropdown ── -->
+            <SolidColorBrush x:Key="InputPointerOverBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="InputFocusBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="ComboPointerOverBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="ComboFocusBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="ComboDropdownBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="ComboDropdownBorder" Color="#D9E2EC"/>
+            <SolidColorBrush x:Key="ComboItemHover" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="ComboItemSelected" Color="#D8E6FA"/>
+            <SolidColorBrush x:Key="ComboItemSelectedHover" Color="#C5DCFA"/>
+
+            <!-- ── Action Button States ── -->
+            <SolidColorBrush x:Key="ActionBtnPointerOver" Color="#E1E8F0"/>
+
+            <!-- ── Selection Indicator ── -->
+            <SolidColorBrush x:Key="SelectionIndicatorBg" Color="#EEF3F8"/>
+
+            <!-- ── Semantic Status Colors ── -->
+            <SolidColorBrush x:Key="StatusSuccess" Color="#10B981"/>
+            <SolidColorBrush x:Key="StatusDanger" Color="#EF4444"/>
+            <SolidColorBrush x:Key="StatusWarning" Color="#F59E0B"/>
+            <SolidColorBrush x:Key="StatusInfo" Color="#3B82F6"/>
+
+            <!-- ── Nexora Dashboard Colors ── -->
+            <SolidColorBrush x:Key="NexoraBackground" Color="#F4F7FB"/>
+            <SolidColorBrush x:Key="NexoraPurple" Color="#9333ea"/>
+            <SolidColorBrush x:Key="NexoraOrange" Color="#ea580c"/>
+            <SolidColorBrush x:Key="NexoraMagenta" Color="#c026d3"/>
+            <SolidColorBrush x:Key="NexoraIndigo" Color="#4f46e5"/>
+            <SolidColorBrush x:Key="NexoraCyan" Color="#0891b2"/>
+            <SolidColorBrush x:Key="GlassBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="GlassBorder" Color="#D9E2EC"/>
+            <BoxShadows x:Key="GlassShadow">0 4 20 0 #0D000000</BoxShadows>
+            
+            <SolidColorBrush x:Key="NexoraFormCardBg" Color="#FAFBFD"/>
+            <SolidColorBrush x:Key="NexoraFormCardBorder" Color="#D9E2EC"/>
+            <BoxShadows x:Key="NexoraFormCardShadow">0 10 30 0 #0D000000</BoxShadows>
+            
+            <SolidColorBrush x:Key="NexoraModalInputBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="NexoraBtnPrimaryFg" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="NexoraBtnPrimaryHoverBg" Color="#0891b2"/>
+            
+            <SolidColorBrush x:Key="NexoraErrorBg" Color="#FEF2F2"/>
+            <SolidColorBrush x:Key="NexoraErrorBorder" Color="#FCA5A5"/>
+            <SolidColorBrush x:Key="NexoraErrorIcon" Color="#EF4444"/>
+            <SolidColorBrush x:Key="NexoraErrorText" Color="#991B1B"/>
+            
+            <SolidColorBrush x:Key="NexoraDocUploadBorder" Color="#BAC7D5"/>
+            <SolidColorBrush x:Key="NexoraDocItemBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="NexoraDocItemBorder" Color="#D9E2EC"/>
+            
+            <SolidColorBrush x:Key="NexoraTableHeaderBg" Color="#EEF3F8"/>
+            <SolidColorBrush x:Key="NexoraTableRowBorder" Color="#D9E2EC"/>
+            <SolidColorBrush x:Key="NexoraBadgeBg" Color="#CFFAFE"/>
+
+            <SolidColorBrush x:Key="NexoraOverlayBg" Color="#4D0A0F1A"/>
+            <SolidColorBrush x:Key="NexoraDrawerBorder" Color="#D9E2EC"/>
+
+        </ResourceDictionary>
+
+    </ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>

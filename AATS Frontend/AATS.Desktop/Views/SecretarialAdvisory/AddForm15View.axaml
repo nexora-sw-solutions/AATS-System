@@ -1,0 +1,420 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.SecretarialAdvisory"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="1000"
+             x:Class="AATS.Desktop.Views.SecretarialAdvisory.AddForm15View"
+             x:DataType="vm:AddForm15ViewModel"
+             x:CompileBindings="False"
+             Name="Root">
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock.section-title">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextHeading}"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>
+        <Style Selector="TextBlock.input-label">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextHeading}"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        <Style Selector="TextBox.form-input">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style Selector="TextBox.form-input:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}"/>
+        </Style>
+        <Style Selector="Border.card-panel">
+            <Setter Property="Background" Value="{DynamicResource CardBg}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+        <Style Selector="Button.action-btn-premium">
+            <Setter Property="Background" Value="{DynamicResource CardBg}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.action-btn-premium:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource SelectionIndicatorBg}"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Panel>
+        <ScrollViewer>
+            <Grid RowDefinitions="Auto, *" Margin="25,20,15,20">
+
+                <!-- Header Section -->
+                <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,25">
+                    <StackPanel Spacing="5">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="Home" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                            <TextBlock Text=">" Foreground="{DynamicResource CalendarInactiveFg}" FontSize="12"/>
+                            <TextBlock Text="Secretarial &amp; Advisory" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                            <TextBlock Text=">" Foreground="{DynamicResource CalendarInactiveFg}" FontSize="12"/>
+                            <TextBlock Text="Form - 15" Foreground="{DynamicResource CalendarInactiveFg}" FontSize="12"/>
+                            <TextBlock Text=">" Foreground="{DynamicResource CalendarInactiveFg}" FontSize="12"/>
+                            <TextBlock Text="Add Record" Foreground="{DynamicResource AccentPrimary}" FontSize="12" FontWeight="SemiBold"/>
+                        </StackPanel>
+                        <TextBlock Text="Add Form - 15 Record" FontSize="26" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" Margin="0,10,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                        <Button Classes="btn-cancel" Content="Cancel" Command="{Binding DiscardChangesCommand}"/>
+                        <Button Classes="btn-save" Command="{Binding SaveRecordCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <i:Icon Value="fa-regular fa-floppy-disk" FontSize="14"/>
+                                <TextBlock Text="Save Record"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Form Area – full-width stack -->
+                <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Spacing="0">
+
+                    <!-- ── DETAILS Card (full width) ─────────────────────────────── -->
+                    <Border Classes="card-panel">
+                        <StackPanel Spacing="20">
+                            <!-- Card header -->
+                            <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,20">
+                                <i:Icon Value="fa-solid fa-address-card" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                <TextBlock Text="DETAILS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <!-- Form fields in a 3-column grid -->
+                            <Grid ColumnDefinitions="*, 20, *, 20, *" RowDefinitions="Auto, 20, Auto">
+
+                                <!-- Row 0 -->
+                                <StackPanel Grid.Column="0" Grid.Row="0">
+                                    <TextBlock Text="Client ID" Classes="input-label"/>
+                                    <Panel Name="ClientIdPanel">
+                                        <Grid ColumnDefinitions="Auto, *">
+                                            <Rectangle Grid.Column="0" Width="4" Height="24" Fill="{Binding SelectedClientCategoryColor}" Margin="0,0,8,0" RadiusX="2" RadiusY="2" IsVisible="{Binding HasSelectedClientCategory}" VerticalAlignment="Center"/>
+                                            <TextBox Grid.Column="1" Classes="form-input" Watermark="Enter Client ID (e.g. CL-00001)" Text="{Binding ClientId}" Name="ClientIdTextBox"/>
+                                        </Grid>
+                                    </Panel>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Grid.Row="0">
+                                    <TextBlock Text="Client Name" Classes="input-label"/>
+                                    <TextBox Classes="form-input" Watermark="Enter Client Name" Text="{Binding ClientName}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="4" Grid.Row="0">
+                                    <TextBlock Text="Company Name" Classes="input-label"/>
+                                    <TextBox Classes="form-input" Watermark="Enter Company Name" Text="{Binding CompanyName}"/>
+                                </StackPanel>
+
+                                <!-- Row 2 -->
+                                <StackPanel Grid.Column="0" Grid.Row="2">
+                                    <TextBlock Text="Login ID" Classes="input-label"/>
+                                    <TextBox Classes="form-input" Watermark="Enter Login ID" Text="{Binding LoginId}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Grid.Row="2">
+                                    <TextBlock Text="Password" Classes="input-label"/>
+                                    <TextBox Classes="form-input" Watermark="Enter Password" Text="{Binding Password}" PasswordChar="*"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="4" Grid.Row="2">
+                                    <TextBlock Text="Phone Number" Classes="input-label"/>
+                                    <TextBox Classes="form-input" Watermark="Enter Phone Number" Text="{Binding Phone}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ── ATTACHMENTS Card (full width, standardized tab pane) ──── -->
+                    <Border Classes="card-panel">
+                        <StackPanel Spacing="24">
+
+                            <!-- Card Header -->
+                            <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,20">
+                                <i:Icon Value="fa-solid fa-paperclip" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                <TextBlock Text="ATTACHMENTS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <!-- Tab Strip -->
+                            <Border BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="0,0,0,1">
+                                <StackPanel Orientation="Horizontal" Spacing="0">
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='BR'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="BR">
+                                        <TextBlock Text="BR Document"/>
+                                    </Button>
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Form 01'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="Form 01">
+                                        <TextBlock Text="Form 01"/>
+                                    </Button>
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Articles'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="Articles">
+                                        <TextBlock Text="Articles of Association"/>
+                                    </Button>
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Form 20'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="Form 20">
+                                        <TextBlock Text="Form 20"/>
+                                    </Button>
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Audit Report'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="Audit Report">
+                                        <TextBlock Text="Audit Report"/>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Tab Content (fixed height, internal scroll) -->
+                            <ScrollViewer MaxHeight="370" VerticalScrollBarVisibility="Auto">
+                                <StackPanel>
+
+                                    <!-- BR Document Tab -->
+                                    <StackPanel IsVisible="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='BR'}">
+                                        <ItemsControl ItemsSource="{Binding BrDocuments}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="6" Padding="12" Margin="0,0,0,8">
+                                                        <Grid ColumnDefinitions="Auto,*,Auto">
+                                                            <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
+                                                            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                                                <TextBlock Text="{Binding FileName}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextInput}"/>
+                                                                <TextBlock Text="{Binding FileSize}" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                                <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveBrAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                    <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <Button Classes="action-btn-premium" HorizontalAlignment="Left" Command="{Binding PickBrAttachmentCommand}">
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource AccentPrimary}"/>
+                                                <TextBlock Text="Add BR Document" Foreground="{DynamicResource AccentPrimary}" FontSize="12"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <!-- Form 01 Tab -->
+                                    <StackPanel IsVisible="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Form 01'}">
+                                        <ItemsControl ItemsSource="{Binding Form01Documents}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="6" Padding="12" Margin="0,0,0,8">
+                                                        <Grid ColumnDefinitions="Auto,*,Auto">
+                                                            <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
+                                                            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                                                <TextBlock Text="{Binding FileName}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextInput}"/>
+                                                                <TextBlock Text="{Binding FileSize}" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                                <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveForm01AttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                    <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <Button Classes="action-btn-premium" HorizontalAlignment="Left" Command="{Binding PickForm01AttachmentCommand}">
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource AccentPrimary}"/>
+                                                <TextBlock Text="Add Form 01 Document" Foreground="{DynamicResource AccentPrimary}" FontSize="12"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <!-- Articles of Association Tab -->
+                                    <StackPanel IsVisible="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Articles'}">
+                                        <ItemsControl ItemsSource="{Binding ArticlesDocuments}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="6" Padding="12" Margin="0,0,0,8">
+                                                        <Grid ColumnDefinitions="Auto,*,Auto">
+                                                            <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
+                                                            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                                                <TextBlock Text="{Binding FileName}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextInput}"/>
+                                                                <TextBlock Text="{Binding FileSize}" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                                <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveArticlesAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                    <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <Button Classes="action-btn-premium" HorizontalAlignment="Left" Command="{Binding PickArticlesAttachmentCommand}">
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource AccentPrimary}"/>
+                                                <TextBlock Text="Add Articles Document" Foreground="{DynamicResource AccentPrimary}" FontSize="12"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <!-- Form 20 Tab -->
+                                    <StackPanel IsVisible="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Form 20'}">
+                                        <ItemsControl ItemsSource="{Binding Form20Documents}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="6" Padding="12" Margin="0,0,0,8">
+                                                        <Grid ColumnDefinitions="Auto,*,Auto">
+                                                            <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
+                                                            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                                                <TextBlock Text="{Binding FileName}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextInput}"/>
+                                                                <TextBlock Text="{Binding FileSize}" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                                <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveForm20AttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                    <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <Button Classes="action-btn-premium" HorizontalAlignment="Left" Command="{Binding PickForm20AttachmentCommand}">
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource AccentPrimary}"/>
+                                                <TextBlock Text="Add Form 20 Document" Foreground="{DynamicResource AccentPrimary}" FontSize="12"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <!-- Audit Report Tab -->
+                                    <StackPanel IsVisible="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Audit Report'}">
+                                        <ItemsControl ItemsSource="{Binding AuditReportDocuments}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="6" Padding="12" Margin="0,0,0,8">
+                                                        <Grid ColumnDefinitions="Auto,*,Auto">
+                                                            <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
+                                                            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                                                <TextBlock Text="{Binding FileName}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextInput}"/>
+                                                                <TextBlock Text="{Binding FileSize}" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                                <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveAuditReportAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                    <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <Button Classes="action-btn-premium" HorizontalAlignment="Left" Command="{Binding PickAuditReportAttachmentCommand}">
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource AccentPrimary}"/>
+                                                <TextBlock Text="Add Audit Report Document" Foreground="{DynamicResource AccentPrimary}" FontSize="12"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </ScrollViewer>
+
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- Modals -->
+        <Border ZIndex="100" IsVisible="{Binding IsConfirmSaveVisible}" Classes="premium-modal-overlay">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="420">
+                <StackPanel Spacing="20">
+                    <TextBlock Text="Save Record?" Foreground="{DynamicResource TextPrimary}" FontSize="18" FontWeight="Bold"/>
+                    <TextBlock Text="Are you sure you want to create this new Form - 15 record?" Foreground="{DynamicResource TextSecondary}" FontSize="14" TextWrapping="Wrap" LineHeight="22"/>
+                    <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button Content="Keep Editing" Command="{Binding CancelSaveCommand}" Classes="btn-secondary"/>
+                        <Button Content="Save Record" Command="{Binding ConfirmSaveCommand}" Classes="btn-primary" Padding="25,10"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <Border ZIndex="101" IsVisible="{Binding IsDiscardConfirmVisible}" Classes="premium-modal-overlay">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="440">
+                <StackPanel Spacing="25">
+                    <i:Icon Value="fa-solid fa-triangle-exclamation" Foreground="{DynamicResource StatusWarning}" FontSize="40" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Discard changes?" Foreground="{DynamicResource TextPrimary}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock Text="You have unsaved information. Are you sure you want to discard it?" Foreground="{DynamicResource TextSecondary}" FontSize="13" TextAlignment="Center" TextWrapping="Wrap"/>
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Keep Editing" Command="{Binding CancelDiscardCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        <Button Grid.Column="2" Content="Discard" Command="{Binding ConfirmDiscardCommand}" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <Popup IsOpen="{Binding IsClientCodeDropdownOpen}" 
+               PlacementTarget="{Binding #ClientIdPanel}"
+               Placement="Bottom"
+               VerticalOffset="2"
+               IsLightDismissEnabled="True"
+               MinWidth="{Binding #ClientIdPanel.Bounds.Width}">
+            <Border Background="{DynamicResource CardBg}" 
+                    BorderBrush="{DynamicResource BorderDefault}" 
+                    BorderThickness="1" 
+                    CornerRadius="8" 
+                    BoxShadow="0 10 30 0 #40000000"
+                    ClipToBounds="True">
+                <ScrollViewer MaxHeight="300" VerticalScrollBarVisibility="Auto" IsScrollChainingEnabled="False">
+                    <ItemsControl ItemsSource="{Binding ClientCodeSuggestions}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Background="Transparent" 
+                                        BorderThickness="0" 
+                                        Padding="0" 
+                                        HorizontalAlignment="Stretch" 
+                                        HorizontalContentAlignment="Stretch"
+                                        Cursor="Hand"
+                                        Command="{Binding $parent[UserControl].DataContext.SelectClientCodeCommand}" 
+                                        CommandParameter="{Binding}">
+                                    <Grid ColumnDefinitions="Auto, *" Height="36" Background="Transparent">
+                                        <!-- Subtle premium vertical bookmark accent strip -->
+                                        <Rectangle Grid.Column="0" Width="4" Height="20" Fill="{Binding CategoryColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0" RadiusX="2" RadiusY="2"/>
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="10,0" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding ClientCode}" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" FontSize="13"/>
+                                            <TextBlock Text="-" Foreground="{DynamicResource TextSecondary}" Opacity="0.7" FontSize="13"/>
+                                            <TextBlock Text="{Binding Name}" Foreground="{DynamicResource TextSecondary}" Opacity="0.8" FontSize="12" VerticalAlignment="Center"/>
+                                            <Border Classes="status-badge" VerticalAlignment="Center" Padding="6,1" Margin="5,0,0,0"
+                                                    Classes.status-active="{Binding Status, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Active}"
+                                                    Classes.status-inactive="{Binding Status, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Inactive}"
+                                                    Classes.status-blacklisted="{Binding Status, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Black Listed'}"
+                                                    Classes.status-suspended="{Binding Status, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Suspended}">
+                                                <TextBlock Text="{Binding Status}" FontSize="9" FontWeight="Bold"/>
+                                            </Border>
+                                            <Border Classes="status-badge" VerticalAlignment="Center" Padding="6,1" Margin="5,0,0,0"
+                                                    Classes.status-active="{Binding Status, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Active}"
+                                                    Classes.status-inactive="{Binding Status, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Inactive}"
+                                                    Classes.status-blacklisted="{Binding Status, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Black Listed'}"
+                                                    Classes.status-suspended="{Binding Status, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Suspended}">
+                                                <TextBlock Text="{Binding Status}" FontSize="9" FontWeight="Bold"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+        </Popup>
+    </Panel>
+</UserControl>
