@@ -1,6 +1,7 @@
 using AATS.Desktop.Models;
 using AATS.Desktop.ViewModels.Shared;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
 namespace AATS.Desktop.ViewModels.TaxFiling;

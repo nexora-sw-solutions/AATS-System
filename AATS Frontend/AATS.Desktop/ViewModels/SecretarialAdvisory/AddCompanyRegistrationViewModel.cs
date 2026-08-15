@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,14 +20,29 @@ public partial class AddCompanyRegistrationViewModel : ViewModelBase
     private string? _branchName;
 
     // General Details
-    [ObservableProperty] private string _clientId = string.Empty;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [Required(ErrorMessage = "Client ID is required")]
+    private string _clientId = string.Empty;
     [ObservableProperty] private DateTime? _date = DateTime.Now;
     [ObservableProperty] private string _clientName = string.Empty;
-    [ObservableProperty] private string _companyName = string.Empty;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [Required(ErrorMessage = "Company name is required")]
+    [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
+    private string _companyName = string.Empty;
     [ObservableProperty] private string _type = string.Empty;
     [ObservableProperty] private string _address = string.Empty;
-    [ObservableProperty] private string _email = string.Empty;
-    [ObservableProperty] private string _phoneNo = string.Empty;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [Required(ErrorMessage = "Email is required")]
+    [EmailAddress(ErrorMessage = "Invalid email format")]
+    private string _email = string.Empty;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [Required(ErrorMessage = "Phone number is required")]
+    [Phone(ErrorMessage = "Invalid phone format")]
+    private string _phoneNo = string.Empty;
     [ObservableProperty] private string _objective = string.Empty;
     [ObservableProperty] private string _description = string.Empty;
 

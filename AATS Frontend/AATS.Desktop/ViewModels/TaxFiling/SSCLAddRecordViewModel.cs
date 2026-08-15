@@ -1,5 +1,6 @@
 using System.Linq;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -14,8 +15,15 @@ namespace AATS.Desktop.ViewModels.TaxFiling
     {
         private TaxRecord? _originalRecord;
         [ObservableProperty] private bool _isEdit;
-        [ObservableProperty] private string _clientId = string.Empty;
-        [ObservableProperty] private string _clientName = string.Empty;
+        [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [Required(ErrorMessage = "Client ID is required")]
+        private string _clientId = string.Empty;
+        [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [Required(ErrorMessage = "Client name is required")]
+        [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
+        private string _clientName = string.Empty;
         [ObservableProperty] private string? _duration = "1";
         [ObservableProperty] private string _durationUnit = "Months";
         [ObservableProperty] private string _SsclNo = string.Empty;
@@ -253,10 +261,11 @@ namespace AATS.Desktop.ViewModels.TaxFiling
         [RelayCommand]
         public async Task SubmitAsync()
         {
-            if (string.IsNullOrWhiteSpace(ClientId) && string.IsNullOrWhiteSpace(ClientName))
+                        ValidateAllProperties();
+            if (HasErrors)
             {
+                FormErrorMessage = "Please correct the highlighted errors.";
                 HasFormError = true;
-                FormErrorMessage = "Please select or enter a Client ID and Client Name.";
                 return;
             }
 

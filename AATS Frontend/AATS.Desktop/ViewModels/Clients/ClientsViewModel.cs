@@ -9,6 +9,7 @@ using AATS.Desktop.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace AATS.Desktop.ViewModels.Clients;
 
@@ -122,16 +123,31 @@ public partial class ClientsViewModel : ViewModelBase
     [ObservableProperty] private string _guideLinkText = "Learn more about Clients";
 
     // Editable fields for Edit Mode
-    [ObservableProperty] private string _editClientName = string.Empty;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [Required(ErrorMessage = "Client name is required")]
+    [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
+    private string _editClientName = string.Empty;
     [ObservableProperty] private string _editStatus = string.Empty;
-    [ObservableProperty] private string _editEmail = string.Empty;
-    [ObservableProperty] private string _editPhone = string.Empty;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [Required(ErrorMessage = "Email is required")]
+    [EmailAddress(ErrorMessage = "Invalid email format")]
+    private string _editEmail = string.Empty;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [Required(ErrorMessage = "Phone number is required")]
+    [Phone(ErrorMessage = "Invalid phone format")]
+    private string _editPhone = string.Empty;
     [ObservableProperty] private string _editAssessmentYear = string.Empty;
     [ObservableProperty] private string _editCurrentPeriod = string.Empty;
     [ObservableProperty] private string _editAuditorNotes = string.Empty;
     [ObservableProperty] private string _editDirectorId = string.Empty;
     [ObservableProperty] private string _editTin = string.Empty;
-    [ObservableProperty] private string _editCategory = string.Empty;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [Required(ErrorMessage = "Category is required")]
+    private string _editCategory = string.Empty;
 
     // Display fields (read-only mode)
     public string DisplayClientName => SelectedClient?.Name ?? "N/A";
@@ -365,35 +381,14 @@ public partial class ClientsViewModel : ViewModelBase
     {
         if (SelectedClient == null) return;
         
+        ValidateAllProperties();
+        if (HasErrors)
+        {
+            FormErrorMessage = "Please correct the highlighted errors.";
+            HasFormError = true;
+            return;
+        }
         HasFormError = false;
-
-        if (!ValidationHelper.IsValidName(EditClientName))
-        {
-            FormErrorMessage = "Please enter a valid client name.";
-            HasFormError = true;
-            return;
-        }
-
-        if (!ValidationHelper.IsValidEmail(EditEmail))
-        {
-            FormErrorMessage = "Please enter a valid email address.";
-            HasFormError = true;
-            return;
-        }
-
-        if (!ValidationHelper.IsValidPhone(EditPhone))
-        {
-            FormErrorMessage = "Please enter a valid phone number.";
-            HasFormError = true;
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(EditCategory))
-        {
-            FormErrorMessage = "Please enter or select a category.";
-            HasFormError = true;
-            return;
-        }
 
         if (string.IsNullOrWhiteSpace(EditStatus))
         {

@@ -2,6 +2,7 @@ using System.Linq;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using AATS.Desktop.Models;
@@ -15,9 +16,16 @@ public partial class AddForm15ViewModel : ViewModelBase
 
     private bool _isEdit = false;
     private AuditRecord? _originalRecord;
-    [ObservableProperty] private string _clientId = string.Empty;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [Required(ErrorMessage = "Client ID is required")]
+    private string _clientId = string.Empty;
     [ObservableProperty] private string _clientName = string.Empty;
-    [ObservableProperty] private string _companyName = string.Empty;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [Required(ErrorMessage = "Company name is required")]
+    [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
+    private string _companyName = string.Empty;
     [ObservableProperty] private string _loginId = string.Empty;
     [ObservableProperty] private string _password = string.Empty;
     [ObservableProperty] private string _phone = string.Empty;
@@ -89,10 +97,10 @@ public partial class AddForm15ViewModel : ViewModelBase
     }
 
 
-    // ── Tab Selection ───────────────────────────────────────────────────────
+    // â”€â”€ Tab Selection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     [RelayCommand] private void SelectAttachmentTab(string tab) => SelectedAttachmentTab = tab;
 
-    // ── Save / Discard ──────────────────────────────────────────────────────
+    // â”€â”€ Save / Discard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     [RelayCommand]
     private void SaveRecord()
     {
@@ -179,7 +187,7 @@ public partial class AddForm15ViewModel : ViewModelBase
 
     [RelayCommand] private void CancelDiscard() => IsDiscardConfirmVisible = false;
 
-    // ── Per-tab Pick / Remove commands ──────────────────────────────────────
+    // â”€â”€ Per-tab Pick / Remove commands â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     [RelayCommand] private async Task PickBrAttachment() => await AddDocsToCollection(BrDocuments);
     [RelayCommand] private void RemoveBrAttachment(AppDocument doc) => BrDocuments.Remove(doc);
 
@@ -195,7 +203,7 @@ public partial class AddForm15ViewModel : ViewModelBase
     [RelayCommand] private async Task PickAuditReportAttachment() => await AddDocsToCollection(AuditReportDocuments);
     [RelayCommand] private void RemoveAuditReportAttachment(AppDocument doc) => AuditReportDocuments.Remove(doc);
 
-    // ── Legacy upload command (kept for backward compatibility) ─────────────
+    // â”€â”€ Legacy upload command (kept for backward compatibility) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     [RelayCommand]
     private async Task UploadDocumentAsync(string category)
     {
@@ -233,7 +241,7 @@ public partial class AddForm15ViewModel : ViewModelBase
         else if (AuditReportDocuments.Contains(doc)) AuditReportDocuments.Remove(doc);
     }
 
-    // ── Helpers ─────────────────────────────────────────────────────────────
+    // â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     private async Task AddDocsToCollection(ObservableCollection<AppDocument> collection)
     {
         if (RequestMultipleFiles == null) return;

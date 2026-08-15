@@ -9,7 +9,7 @@ using AATS.Desktop.Helpers;
 
 namespace AATS.Desktop.ViewModels
 {
-    public abstract partial class ViewModelBase : ObservableObject
+    public abstract partial class ViewModelBase : ObservableValidator
     {
         [ObservableProperty] private bool _hasFormError = false;
         [ObservableProperty] private string _formErrorMessage = string.Empty;

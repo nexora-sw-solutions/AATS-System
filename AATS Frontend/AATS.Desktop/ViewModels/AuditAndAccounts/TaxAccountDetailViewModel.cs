@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using AATS.Desktop.Models;
 using CommunityToolkit.Mvvm.ComponentModel;

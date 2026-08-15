@@ -1,5 +1,6 @@
 using System.Linq;
 using System;
+using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using AATS.Desktop.Models;
@@ -10,10 +11,17 @@ namespace AATS.Desktop.ViewModels.SecretarialAdvisory;
 public partial class AddSecretarialOthersViewModel : ViewModelBase
 {
     // General Details
-    [ObservableProperty] private string _clientId = string.Empty;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [Required(ErrorMessage = "Client ID is required")]
+    private string _clientId = string.Empty;
     [ObservableProperty] private DateTime? _date = DateTime.Now;
     [ObservableProperty] private string _clientName = string.Empty;
-    [ObservableProperty] private string _companyName = string.Empty;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
+    [Required(ErrorMessage = "Company name is required")]
+    [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
+    private string _companyName = string.Empty;
     [ObservableProperty] private string _assignment = string.Empty;
     [ObservableProperty] private string _description = string.Empty;
     private Guid? _clientGuid;

@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using AATS.Desktop.Models;

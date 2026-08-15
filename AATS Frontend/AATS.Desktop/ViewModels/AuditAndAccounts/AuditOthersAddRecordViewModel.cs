@@ -1,5 +1,6 @@
 using System.Linq;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -11,6 +12,8 @@ namespace AATS.Desktop.ViewModels.AuditAndAccounts
     public partial class AuditOthersAddRecordViewModel : ViewModelBase
     {
         [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [Required(ErrorMessage = "Client ID is required")]
         private string _clientId = string.Empty;
         private Guid? _clientGuid;
         private Guid? _branchGuid;
@@ -19,6 +22,9 @@ namespace AATS.Desktop.ViewModels.AuditAndAccounts
         private DateTime? _date = DateTime.UtcNow;
 
         [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [Required(ErrorMessage = "Client name is required")]
+        [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
         private string _clientName = string.Empty;
 
         [ObservableProperty]

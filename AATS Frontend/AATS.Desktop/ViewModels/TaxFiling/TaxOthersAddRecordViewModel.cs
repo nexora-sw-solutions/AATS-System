@@ -1,5 +1,6 @@
 using System.Linq;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,9 +12,16 @@ namespace AATS.Desktop.ViewModels.TaxFiling
 {
     public partial class TaxOthersAddRecordViewModel : ViewModelBase
     {
-        [ObservableProperty] private string _clientId = string.Empty;
+        [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [Required(ErrorMessage = "Client ID is required")]
+        private string _clientId = string.Empty;
         [ObservableProperty] private DateTime? _date = DateTime.Now;
-        [ObservableProperty] private string _clientName = string.Empty;
+        [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [Required(ErrorMessage = "Client name is required")]
+        [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
+        private string _clientName = string.Empty;
         [ObservableProperty] private string _company = string.Empty;
         [ObservableProperty] private string _assignment = string.Empty;
         [ObservableProperty] private string _description = string.Empty;

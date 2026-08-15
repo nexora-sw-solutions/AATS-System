@@ -8,6 +8,7 @@ using AATS.Desktop.Models;
 using AATS.Desktop.Services;
 using AATS.Desktop.Helpers;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace AATS.Desktop.ViewModels.Clients
 {
@@ -15,9 +16,21 @@ namespace AATS.Desktop.ViewModels.Clients
     {
         private ClientRecord? _originalRecord;
         [ObservableProperty] private bool _isEdit;
-        [ObservableProperty] private string _clientName = string.Empty;
-        [ObservableProperty] private string _email = string.Empty;
-        [ObservableProperty] private string _phone = string.Empty;
+        [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [Required(ErrorMessage = "Client name is required")]
+        [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
+        private string _clientName = string.Empty;
+        [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        private string _email = string.Empty;
+        [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [Required(ErrorMessage = "Phone number is required")]
+        [Phone(ErrorMessage = "Invalid phone format")]
+        private string _phone = string.Empty;
         [ObservableProperty] private Branch? _branch;
         [ObservableProperty] private string? _status;
         [ObservableProperty] private string? _category;
@@ -146,28 +159,14 @@ namespace AATS.Desktop.ViewModels.Clients
         [RelayCommand]
         private async Task SaveClient()
         {
+            ValidateAllProperties();
+            if (HasErrors)
+            {
+                FormErrorMessage = "Please correct the highlighted errors.";
+                HasFormError = true;
+                return;
+            }
             HasFormError = false;
-
-            if (!ValidationHelper.IsValidName(ClientName))
-            {
-                FormErrorMessage = "Please enter a valid client name.";
-                HasFormError = true;
-                return;
-            }
-
-            if (!ValidationHelper.IsValidEmail(Email))
-            {
-                FormErrorMessage = "Please enter a valid email address.";
-                HasFormError = true;
-                return;
-            }
-
-            if (!ValidationHelper.IsValidPhone(Phone))
-            {
-                FormErrorMessage = "Please enter a valid phone number.";
-                HasFormError = true;
-                return;
-            }
 
             if (Branch == null)
             {
