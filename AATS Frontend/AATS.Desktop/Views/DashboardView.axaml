@@ -61,6 +61,7 @@
 
         <!-- Action Button Style -->
         <Style Selector="Button.action-button">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Background" Value="{DynamicResource DashActionBg}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource DashActionBorder}"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -264,7 +265,7 @@
                                 <i:Icon Value="fa-solid fa-circle" Foreground="{DynamicResource StatusSuccess}" FontSize="6" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding ActiveClients, StringFormat='{}{0} active'}" Foreground="{DynamicResource StatusSuccess}" FontSize="12"/>
                             </StackPanel>
-                            <TextBlock Text="ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
+                            <TextBlock Text="ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding InactiveClients, StringFormat='{}{0} inactive'}" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
                         </StackPanel>
                     </Grid>
@@ -313,9 +314,9 @@
                         <TextBlock Grid.Row="1" Text="{Binding TotalAuditRecords}" FontSize="36" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" Margin="0,15,0,5"/>
                         <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8">
                             <TextBlock Text="{Binding PaidAudits, StringFormat='{}{0} paid'}" Foreground="{DynamicResource StatusSuccess}" FontSize="12"/>
-                            <TextBlock Text="ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
+                            <TextBlock Text="ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding PartialAudits, StringFormat='{}{0} partial'}" Foreground="{DynamicResource StatusWarning}" FontSize="12"/>
-                            <TextBlock Text="ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
+                            <TextBlock Text="ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding UnpaidAudits, StringFormat='{}{0} unpaid'}" Foreground="{DynamicResource StatusDanger}" FontSize="12"/>
                         </StackPanel>
                     </Grid>
@@ -614,7 +615,7 @@
                                                 <TextBlock Text="Accounts &amp; Audit" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold" FontSize="14"/>
                                                 <TextBlock Text="{Binding TotalAuditRecords, StringFormat='{}{0} records'}" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
                                             </StackPanel>
-                                            <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Command="{Binding ViewAccountsAndAuditCommand}">
+                                            <Button Grid.Column="2" Cursor="Hand" Background="Transparent" BorderThickness="0" Command="{Binding ViewAccountsAndAuditCommand}">
                                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                                     <TextBlock Text="View" Foreground="{DynamicResource AccentBlue}" FontSize="12" VerticalAlignment="Center"/>
                                                     <i:Icon Value="fa-solid fa-arrow-up-right-from-square" FontSize="10" Foreground="{DynamicResource AccentBlue}"/>
@@ -633,7 +634,7 @@
                                                 <TextBlock Text="Secretarial &amp; Advisory" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold" FontSize="14"/>
                                                 <TextBlock Text="{Binding TotalSecretarialRecords, StringFormat='{}{0} records'}" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
                                             </StackPanel>
-                                            <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Command="{Binding ViewSecretarialAndAdvisoryCommand}">
+                                            <Button Grid.Column="2" Cursor="Hand" Background="Transparent" BorderThickness="0" Command="{Binding ViewSecretarialAndAdvisoryCommand}">
                                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                                     <TextBlock Text="View" Foreground="{DynamicResource AccentBlue}" FontSize="12" VerticalAlignment="Center"/>
                                                     <i:Icon Value="fa-solid fa-arrow-up-right-from-square" FontSize="10" Foreground="{DynamicResource AccentBlue}"/>
@@ -652,7 +653,7 @@
                                                 <TextBlock Text="Tax Filing" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold" FontSize="14"/>
                                                 <TextBlock Text="CIT, IIT, VAT, SSCL, WHT" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
                                             </StackPanel>
-                                            <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Command="{Binding ViewTaxFilingCommand}">
+                                            <Button Grid.Column="2" Cursor="Hand" Background="Transparent" BorderThickness="0" Command="{Binding ViewTaxFilingCommand}">
                                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                                     <TextBlock Text="View" Foreground="{DynamicResource AccentBlue}" FontSize="12" VerticalAlignment="Center"/>
                                                     <i:Icon Value="fa-solid fa-arrow-up-right-from-square" FontSize="10" Foreground="{DynamicResource AccentBlue}"/>
@@ -671,7 +672,7 @@
                                                 <TextBlock Text="Team Management" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold" FontSize="14"/>
                                                 <TextBlock Text="{Binding TotalTeamMembers, StringFormat='{}{0} members across 4 branches'}" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
                                             </StackPanel>
-                                            <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Command="{Binding ViewTeamManagementCommand}">
+                                            <Button Grid.Column="2" Cursor="Hand" Background="Transparent" BorderThickness="0" Command="{Binding ViewTeamManagementCommand}">
                                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                                     <TextBlock Text="View" Foreground="{DynamicResource AccentBlue}" FontSize="12" VerticalAlignment="Center"/>
                                                     <i:Icon Value="fa-solid fa-arrow-up-right-from-square" FontSize="10" Foreground="{DynamicResource AccentBlue}"/>
@@ -701,7 +702,7 @@
                                                     <TextBlock Text="{Binding Action}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" FontSize="13"/>
                                                     <StackPanel Orientation="Horizontal" Spacing="5">
                                                         <TextBlock Text="{Binding Module}" Foreground="{DynamicResource TextDimmed}" FontSize="11"/>
-                                                        <TextBlock Text="Ãƒâ€šÃ‚Â·" Foreground="{DynamicResource TextFaint}" FontSize="11" VerticalAlignment="Center"/>
+                                                        <TextBlock Text="ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â·" Foreground="{DynamicResource TextFaint}" FontSize="11" VerticalAlignment="Center"/>
                                                         <TextBlock Text="{Binding Details}" Foreground="{DynamicResource TextSecondary}" FontSize="11"/>
                                                     </StackPanel>
                                                 </StackPanel>
@@ -716,8 +717,48 @@
                     </Grid>
                 </Border>
 
-                <!-- Reserved: Future Candlestick Live Chart -->
-                <Border Grid.Column="1"/>
+                <!-- Live Cryptocurrency Candlestick Chart -->
+                <Border Grid.Column="1" Classes="dashboard-card">
+                    <Grid RowDefinitions="Auto, *, Auto">
+                        <!-- Header -->
+                        <Grid ColumnDefinitions="*, Auto" Grid.Row="0" Margin="0,0,0,15">
+                            <StackPanel Spacing="4">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Ellipse Fill="#F59E0B" Height="8" Width="8" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Cryptocurrency Market" Foreground="{DynamicResource TextPrimary}" FontSize="16" FontWeight="Bold"/>
+                                </StackPanel>
+                                <TextBlock Text="Live real-time 1m candlestick data via Binance" Foreground="{DynamicResource TextDimmed}" FontSize="12"/>
+                            </StackPanel>
+                            <Border Grid.Column="1" Background="#1AF59E0B" BorderBrush="#33F59E0B" BorderThickness="1" CornerRadius="6" Padding="8,4" VerticalAlignment="Top">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <Ellipse Fill="#F59E0B" Height="6" Width="6" VerticalAlignment="Center"/>
+                                    <TextBlock Text="LIVE STREAM" FontSize="11" FontWeight="Bold" Foreground="#F59E0B" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                        
+                        <!-- Chart Control -->
+                        <lvc:CartesianChart Grid.Row="1"
+                                            Series="{Binding CryptoSeries}"
+                                            XAxes="{Binding CryptoXAxes}"
+                                            YAxes="{Binding CryptoYAxes}"
+                                            TooltipPosition="Hidden"
+                                            Height="180"/>
+                                            
+                        <!-- Navigator -->
+                        <Border Grid.Row="2" Background="{DynamicResource DashModuleBg}" CornerRadius="20" Padding="15,8" HorizontalAlignment="Center" Margin="0,15,0,0">
+                            <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
+                                <Button Classes="tab-button" Command="{Binding PreviousCryptoCommand}" Cursor="Hand" Background="Transparent" BorderThickness="0" Padding="5">
+                                    <i:Icon Value="fa-solid fa-chevron-left" FontSize="14" Foreground="{DynamicResource TextSecondary}"/>
+                                </Button>
+                                <TextBlock Text="{Binding SelectedCryptoDisplay}" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" Width="100" TextAlignment="Center" VerticalAlignment="Center"/>
+                                <Button Classes="tab-button" Command="{Binding NextCryptoCommand}" Cursor="Hand" Background="Transparent" BorderThickness="0" Padding="5">
+                                    <i:Icon Value="fa-solid fa-chevron-right" FontSize="14" Foreground="{DynamicResource TextSecondary}"/>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
             </Grid>
         </StackPanel>
     </ScrollViewer>

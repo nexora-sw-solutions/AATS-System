@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using AATS.Desktop.Models.Binance;
+using AATS.Desktop.Services;
 using System.Threading.Tasks;
 using AATS.Desktop.Models;
 using AATS.Desktop.Services;
@@ -55,7 +57,34 @@ public partial class DashboardViewModel : ViewModelBase
     // Live Telemetry Chart (Sliding window of 30 points)
     private readonly ITelemetryDataService _telemetryService;
     private const int MaxVisiblePoints = 30;
-    public ObservableCollection<ISeries> TelemetrySeries { get; set; } = new();
+        public ObservableCollection<ISeries> TelemetrySeries { get; set; } = new();
+
+    // Live Crypto Chart
+    private readonly IBinanceDataService _binanceService;
+    private string[] _cryptoSymbols = { "BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT", "XRPUSDT" };
+    private string[] _cryptoDisplayNames = { "BTC / USD", "ETH / USD", "SOL / USD", "BNB / USD", "XRP / USD" };
+    [ObservableProperty] private int _selectedCryptoIndex = 0;
+    
+    public string SelectedCryptoDisplay => _cryptoDisplayNames[SelectedCryptoIndex];
+    public ObservableCollection<FinancialPoint> CryptoPoints { get; set; } = new();
+    public ObservableCollection<ISeries> CryptoSeries { get; set; } = new();
+    
+    public Axis[] CryptoXAxes { get; set; } = [
+        new Axis {
+            IsVisible = true,
+            Labeler = value => new DateTime((long)value).ToString("HH:mm"),
+            LabelsPaint = new SolidColorPaint(SKColor.Parse("#94A3B8")),
+            TextSize = 11
+        }
+    ];
+    public Axis[] CryptoYAxes { get; set; } = [
+        new Axis {
+            IsVisible = true,
+            Labeler = value => $"${value:N0}",
+            LabelsPaint = new SolidColorPaint(SKColor.Parse("#94A3B8")),
+            TextSize = 11
+        }
+    ];
     public ObservableCollection<ObservablePoint> RealtimePoints { get; set; } = new();
     private double _currentSeconds = 0;
     public Axis[] XAxes { get; set; } =
@@ -145,6 +174,60 @@ public partial class DashboardViewModel : ViewModelBase
         ? $"{PeriodStartDate:dd/MM/yyyy} - {PeriodEndDate:dd/MM/yyyy}" 
         : "Pick a range";
 
+        [RelayCommand]
+    private void NextCrypto()
+    {
+        SelectedCryptoIndex = (SelectedCryptoIndex + 1) % _cryptoSymbols.Length;
+        OnPropertyChanged(nameof(SelectedCryptoDisplay));
+        LoadCryptoData();
+    }
+
+    [RelayCommand]
+    private void PreviousCrypto()
+    {
+        SelectedCryptoIndex = SelectedCryptoIndex - 1 < 0 ? _cryptoSymbols.Length - 1 : SelectedCryptoIndex - 1;
+        OnPropertyChanged(nameof(SelectedCryptoDisplay));
+        LoadCryptoData();
+    }
+
+    private async void LoadCryptoData()
+    {
+        _binanceService.StopLiveStream();
+        
+        var symbol = _cryptoSymbols[SelectedCryptoIndex];
+        var klines = await _binanceService.GetHistoricalKlinesAsync(symbol, "1m", 100);
+        
+        var points = new System.Collections.Generic.List<FinancialPoint>();
+        foreach (var k in klines)
+        {
+            points.Add(new FinancialPoint(k.OpenTime, k.High, k.Open, k.Close, k.Low));
+        }
+        
+        Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+        {
+            CryptoPoints.Clear();
+            foreach (var p in points) CryptoPoints.Add(p);
+        });
+
+        _binanceService.StartLiveStream(symbol, "1m", tick =>
+        {
+            Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+            {
+                var pt = new FinancialPoint(tick.OpenTime, tick.High, tick.Open, tick.Close, tick.Low);
+                var last = CryptoPoints.LastOrDefault();
+                if (last != null && last.Date == tick.OpenTime)
+                {
+                    CryptoPoints[CryptoPoints.Count - 1] = pt;
+                }
+                else
+                {
+                    CryptoPoints.Add(pt);
+                    if (CryptoPoints.Count > 100) CryptoPoints.RemoveAt(0);
+                }
+            });
+        });
+    }
+
     public bool HasActiveFilters => !string.IsNullOrEmpty(SearchText) || 
                                    SelectedDateFilter != "All Dates" || 
                                    SelectedStatusFilter != "All Status" || 
@@ -185,7 +268,25 @@ public partial class DashboardViewModel : ViewModelBase
     public DashboardViewModel()
     {
         _dataService = DataService.Instance;
-        _telemetryService = SignalRTelemetryDataService.Instance;
+                _telemetryService = SignalRTelemetryDataService.Instance;
+        _binanceService = BinanceDataService.Instance;
+
+        var upColor = SKColor.Parse("#10B981");
+        var downColor = SKColor.Parse("#EF4444");
+
+        CryptoSeries = new ObservableCollection<ISeries>
+        {
+            new CandlesticksSeries<FinancialPoint>
+            {
+                Values = CryptoPoints,
+                UpFill = new SolidColorPaint(upColor),
+                UpStroke = new SolidColorPaint(upColor, 2f),
+                DownFill = new SolidColorPaint(downColor),
+                DownStroke = new SolidColorPaint(downColor, 2f)
+            }
+        };
+
+        LoadCryptoData();
         
         // Default filter selections
         _selectedDateFilter = DateFilters[0];
