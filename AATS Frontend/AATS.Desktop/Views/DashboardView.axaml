@@ -265,7 +265,7 @@
                                 <i:Icon Value="fa-solid fa-circle" Foreground="{DynamicResource StatusSuccess}" FontSize="6" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding ActiveClients, StringFormat='{}{0} active'}" Foreground="{DynamicResource StatusSuccess}" FontSize="12"/>
                             </StackPanel>
-                            <TextBlock Text="ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
+                            <TextBlock Text=" &#x2022; " Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding InactiveClients, StringFormat='{}{0} inactive'}" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
                         </StackPanel>
                     </Grid>
@@ -314,9 +314,9 @@
                         <TextBlock Grid.Row="1" Text="{Binding TotalAuditRecords}" FontSize="36" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" Margin="0,15,0,5"/>
                         <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8">
                             <TextBlock Text="{Binding PaidAudits, StringFormat='{}{0} paid'}" Foreground="{DynamicResource StatusSuccess}" FontSize="12"/>
-                            <TextBlock Text="ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
+                            <TextBlock Text=" &#x2022; " Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding PartialAudits, StringFormat='{}{0} partial'}" Foreground="{DynamicResource StatusWarning}" FontSize="12"/>
-                            <TextBlock Text="ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
+                            <TextBlock Text=" &#x2022; " Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding UnpaidAudits, StringFormat='{}{0} unpaid'}" Foreground="{DynamicResource StatusDanger}" FontSize="12"/>
                         </StackPanel>
                     </Grid>
@@ -702,7 +702,7 @@
                                                     <TextBlock Text="{Binding Action}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" FontSize="13"/>
                                                     <StackPanel Orientation="Horizontal" Spacing="5">
                                                         <TextBlock Text="{Binding Module}" Foreground="{DynamicResource TextDimmed}" FontSize="11"/>
-                                                        <TextBlock Text="ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â·" Foreground="{DynamicResource TextFaint}" FontSize="11" VerticalAlignment="Center"/>
+                                                        <TextBlock Text=" &#x2022; " Foreground="{DynamicResource TextFaint}" FontSize="11" VerticalAlignment="Center"/>
                                                         <TextBlock Text="{Binding Details}" Foreground="{DynamicResource TextSecondary}" FontSize="11"/>
                                                     </StackPanel>
                                                 </StackPanel>
