@@ -1,0 +1,219 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             xmlns:vm="using:AATS.Desktop.ViewModels"
+             x:Class="AATS.Desktop.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+    <UserControl.Styles>
+        <Style Selector="Button.visibility-toggle">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="#64748B"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style Selector="Button.visibility-toggle:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid>
+        <!-- Standard Dark Background -->
+        <!-- Center Card -->
+        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Width="440" Classes="premium-modal-content" Background="{DynamicResource InputBg}" Padding="40,50">
+            <StackPanel Spacing="30">
+                <!-- Logo & Headers -->
+                <StackPanel Spacing="15" HorizontalAlignment="Center">
+                    <Image Source="avares://AATS.Desktop/Assets/New%20Logo.png" Width="80" Height="80"/>
+                    <TextBlock Text="Welcome Back" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Enter your credentials to access the AATS Management System" Foreground="{DynamicResource TextSecondary}" FontSize="13" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Input Fields -->
+                <StackPanel Spacing="20">
+                    <!-- Username / Email -->
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="USERNAME OR EMAIL" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextSecondary}" LetterSpacing="0.5"/>
+                        <TextBox Name="UsernameTextBox" Text="{Binding Username}" Classes="form-input" Watermark="name@company.com">
+                            <TextBox.InnerLeftContent>
+                                <i:Icon Value="fa-regular fa-user" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
+                            </TextBox.InnerLeftContent>
+                        </TextBox>
+                    </StackPanel>
+
+                    <!-- Password -->
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="PASSWORD" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextSecondary}" LetterSpacing="0.5"/>
+                        <TextBox Name="PasswordTextBox" Text="{Binding Password}" Classes="form-input" PasswordChar="{Binding PasswordChar}" Watermark="Password">
+                            <TextBox.InnerLeftContent>
+                                <i:Icon Value="fa-solid fa-lock" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
+                            </TextBox.InnerLeftContent>
+                            <TextBox.InnerRightContent>
+                                <Button Classes="visibility-toggle" Command="{Binding TogglePasswordVisibilityCommand}" Margin="0,0,8,0">
+                                    <Panel>
+                                        <i:Icon Value="fa-regular fa-eye" FontSize="14" IsVisible="{Binding !IsPasswordVisible}" />
+                                        <i:Icon Value="fa-regular fa-eye-slash" FontSize="14" IsVisible="{Binding IsPasswordVisible}" />
+                                    </Panel>
+                                </Button>
+                            </TextBox.InnerRightContent>
+                        </TextBox>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Error Message -->
+                <TextBlock Text="{Binding ErrorMessage}" 
+                           Foreground="{DynamicResource StatusDanger}" 
+                           FontSize="13" 
+                           TextWrapping="Wrap" 
+                           HorizontalAlignment="Center" 
+                           IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+                <!-- Success Message -->
+                <TextBlock Text="{Binding SuccessMessage}" 
+                           Foreground="{DynamicResource StatusSuccess}" 
+                           FontSize="13" 
+                           TextWrapping="Wrap" 
+                           HorizontalAlignment="Center" 
+                           IsVisible="{Binding SuccessMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+                <!-- Action Button -->
+                <Button Name="LoginButton" Classes="btn-primary" IsDefault="True" Content="Log In" Command="{Binding LoginCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0,10,0,0"/>
+
+                <!-- Footer Text -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+                    <TextBlock Text="Trouble signing in?" Foreground="{DynamicResource TextMuted}" FontSize="13" VerticalAlignment="Center"/>
+                    <Button Classes="footer-link" Content="Forgot Password" Command="{Binding ShowResetModalCommand}" Foreground="{DynamicResource AccentPrimary}" FontSize="13" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Forgot Password Modal Overlay -->
+        <Border IsVisible="{Binding IsResetModalVisible, FallbackValue=False}" Classes="premium-modal-overlay">
+            <Grid>
+                <Border Width="500" Classes="premium-modal-content" VerticalAlignment="Center">
+                    <StackPanel Spacing="25">
+                        <!-- Header -->
+                        <Grid ColumnDefinitions="*, Auto">
+                            <StackPanel Grid.Column="0" Spacing="5">
+                                <TextBlock Text="Request Password Reset" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" />
+                                <TextBlock Text="Submit a request to the admin to reset your password. Please provide as much detail as possible." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap" />
+                            </StackPanel>
+                            <Button Grid.Column="1" Classes="circle-nav-button" Command="{Binding CancelResetCommand}" Background="Transparent" VerticalAlignment="Top" IsEnabled="{Binding !IsResetSubmitting}">
+                                <i:Icon Value="fa-solid fa-xmark" FontSize="14" />
+                            </Button>
+                        </Grid>
+
+                        <!-- Local Reset Error Message -->
+                        <TextBlock Text="{Binding ResetErrorMessage}" 
+                                   Foreground="{DynamicResource StatusDanger}" 
+                                   FontSize="13" 
+                                   TextWrapping="Wrap" 
+                                   HorizontalAlignment="Center" 
+                                   IsVisible="{Binding ResetErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+                        <StackPanel Spacing="15" IsEnabled="{Binding !IsResetSubmitting}">
+                            <Grid ColumnDefinitions="*, *" HorizontalAlignment="Stretch">
+                                <!-- Username -->
+                                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                    <TextBlock Text="Username" Classes="input-label"/>
+                                    <TextBox Text="{Binding ResetUsername}" Classes="form-input" Watermark="johndoe">
+                                    </TextBox>
+                                </StackPanel>
+                                
+                                <!-- Role -->
+                                <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                    <TextBlock Text="Role" Classes="input-label"/>
+                                    <ComboBox ItemsSource="{Binding Roles}" SelectedItem="{Binding SelectedRole}" PlaceholderText="Select Role" HorizontalAlignment="Stretch" Classes="form-input"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Email -->
+                            <StackPanel>
+                                <TextBlock Text="Email Address" Classes="input-label"/>
+                                <TextBox Text="{Binding ResetEmail}" Classes="form-input" Watermark="name@company.com">
+                                </TextBox>
+                            </StackPanel>
+                            
+                            <Grid ColumnDefinitions="*, *" HorizontalAlignment="Stretch">
+                                <!-- Phone -->
+                                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                    <TextBlock Text="Phone Number" Classes="input-label"/>
+                                    <TextBox Text="{Binding ResetPhone}" Classes="form-input" Watermark="+94 77 123 4567">
+                                    </TextBox>
+                                </StackPanel>
+                                
+                                <!-- Branch -->
+                                <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                    <TextBlock Text="Branch" Classes="input-label"/>
+                                    <ComboBox ItemsSource="{Binding Branches}" SelectedItem="{Binding SelectedBranch}" PlaceholderText="Select Branch" HorizontalAlignment="Stretch" Classes="form-input"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Last Remembered Password -->
+                            <StackPanel>
+                                <TextBlock Text="Last Remembered Password" Classes="input-label"/>
+                                <TextBox Text="{Binding ResetLastPassword}" PasswordChar="{Binding PasswordChar}" Classes="form-input" Watermark="Enter any password you recall">
+                                </TextBox>
+                                <TextBlock Text="It does not have to be correct. This helps admin verify your identity." Foreground="{DynamicResource TextMuted}" FontSize="10" Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Footer Actions -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="15" IsEnabled="{Binding !IsResetSubmitting}">
+                            <Button Classes="btn-secondary" Content="Cancel" Command="{Binding CancelResetCommand}"/>
+                            <Button Classes="btn-primary" IsDefault="True" Content="Request Reset" Command="{Binding RequestResetCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Submit Confirmation Overlay -->
+        <Border IsVisible="{Binding IsResetSubmitConfirmVisible, FallbackValue=False}" Classes="premium-modal-overlay" ZIndex="100">
+            <Grid>
+                <Border Width="400" Classes="premium-modal-content" VerticalAlignment="Center">
+                    <StackPanel Spacing="25">
+                        <StackPanel Spacing="15" HorizontalAlignment="Center">
+                            <Border Width="60" Height="60" CornerRadius="30" Background="{DynamicResource ConfirmIconBg}" HorizontalAlignment="Center">
+                                <i:Icon Value="fa-solid fa-paper-plane" Foreground="{DynamicResource AccentPrimary}" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Submit Request" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Are you sure you want to submit this password reset request? This will notify administrators." 
+                                       Foreground="{DynamicResource TextSecondary}" FontSize="14" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </StackPanel>
+                        
+                        <Grid ColumnDefinitions="*, *">
+                            <Button Grid.Column="0" Margin="0,0,7,0" Classes="btn-secondary" Content="No, Back" Command="{Binding CancelResetSubmitCommand}"/>
+                            <Button Grid.Column="1" Margin="7,0,0,0" Classes="btn-primary" IsDefault="True" Content="Yes, Send" Command="{Binding ConfirmResetSubmitCommand}"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Cancel Confirmation Overlay -->
+        <Border IsVisible="{Binding IsResetCancelConfirmVisible, FallbackValue=False}" Classes="premium-modal-overlay" ZIndex="100">
+            <Grid>
+                <Border Width="400" Classes="premium-modal-content" VerticalAlignment="Center">
+                    <StackPanel Spacing="25">
+                        <StackPanel Spacing="15" HorizontalAlignment="Center">
+                            <Border Width="60" Height="60" CornerRadius="30" Background="{DynamicResource ConfirmIconBg}" HorizontalAlignment="Center">
+                                <i:Icon Value="fa-solid fa-triangle-exclamation" Foreground="{DynamicResource StatusDanger}" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Cancel Request" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Are you sure you want to cancel? Any details you have entered will be lost." 
+                                       Foreground="{DynamicResource TextSecondary}" FontSize="14" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </StackPanel>
+                        
+                        <Grid ColumnDefinitions="*, *">
+                            <Button Grid.Column="0" Margin="0,0,7,0" Classes="btn-secondary" Content="No, Back" Command="{Binding BackToResetCommand}"/>
+                            <Button Grid.Column="1" Margin="7,0,0,0" Classes="btn-delete" IsDefault="True" Content="Yes, Cancel" Command="{Binding ConfirmResetCancelCommand}"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
+

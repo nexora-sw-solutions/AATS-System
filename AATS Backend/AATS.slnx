@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="AATS.API/AATS.API.csproj" />
+  <Project Path="AATS.Application/AATS.Application.csproj" />
+  <Project Path="AATS.Domain/AATS.Domain.csproj" />
+  <Project Path="AATS.Infrastructure/AATS.Infrastructure.csproj" />
+  <Project Path="AATS.Server/AATS.Server.csproj" />
+</Solution>

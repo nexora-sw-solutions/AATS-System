@@ -1,0 +1,79 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:AATS.Desktop.ViewModels"
+             xmlns:models="using:AATS.Desktop.Models"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             x:Class="AATS.Desktop.Views.Notifications.NotificationsView"
+             x:DataType="vm:NotificationsViewModel">
+    
+    <Grid RowDefinitions="Auto, *">
+        <!-- Header -->
+        <Border Grid.Row="0" Padding="30,25" Background="{DynamicResource ContentBg}">
+            <Grid ColumnDefinitions="*, Auto">
+                <StackPanel Grid.Column="0" Spacing="5">
+                    <TextBlock Text="Notifications" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}"/>
+                    <TextBlock Text="System activities and user logs" Foreground="{DynamicResource TextSecondary}" FontSize="14"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
+                    <ComboBox ItemsSource="{Binding Filters}" 
+                              SelectedItem="{Binding SelectedFilter}"
+                              Width="150" 
+                              Classes="filter-combo"/>
+                    
+                    <Button Classes="btn-secondary" Command="{Binding MarkAllAsReadCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <i:Icon Value="fa-solid fa-check-double" FontSize="14"/>
+                            <TextBlock Text="Mark all as read"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- List -->
+        <ScrollViewer Grid.Row="1" Padding="30,0,30,30">
+            <ItemsControl ItemsSource="{Binding FilteredNotifications}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:AppNotification">
+                        <Border Margin="0,0,0,12" 
+                                Background="{DynamicResource CardBg}" 
+                                CornerRadius="12" 
+                                BorderBrush="{DynamicResource BorderDefault}" 
+                                BorderThickness="1"
+                                Padding="20">
+                            <Grid ColumnDefinitions="Auto, *, Auto">
+                                <!-- Icon -->
+                                <Border Grid.Column="0" Width="48" Height="48" CornerRadius="24" Background="{Binding IconColor}" Opacity="0.1"/>
+                                <i:Icon Grid.Column="0" Value="{Binding Icon}" Foreground="{Binding IconColor}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                
+                                <!-- Content -->
+                                <StackPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center" Spacing="4">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="{Binding UserName}" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TextPrimary}"/>
+                                        <TextBlock Text="{Binding Action}" Foreground="{DynamicResource TextSecondary}" FontSize="15"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding DisplayTime}" FontSize="13" Foreground="{DynamicResource TextMuted}"/>
+                                </StackPanel>
+
+                                <!-- Status & Actions -->
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="20" VerticalAlignment="Center">
+                                    <Ellipse Width="8" Height="8" Fill="{DynamicResource AccentBlue}" IsVisible="{Binding !IsRead}"/>
+                                    
+                                    <Button Classes="circle-nav-button" 
+                                            Background="Transparent" 
+                                            IsVisible="{Binding !IsRead}"
+                                            Command="{Binding $parent[UserControl].((vm:NotificationsViewModel)DataContext).MarkAsReadCommand}"
+                                            CommandParameter="{Binding}"
+                                            ToolTip.Tip="Mark as read">
+                                        <i:Icon Value="fa-solid fa-check" FontSize="14"/>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
