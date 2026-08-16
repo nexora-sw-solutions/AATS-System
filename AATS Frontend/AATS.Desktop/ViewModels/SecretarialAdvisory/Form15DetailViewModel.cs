@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -23,7 +23,17 @@ namespace AATS.Desktop.ViewModels.SecretarialAdvisory
         // Read-only Client Information Properties
         [ObservableProperty] private string _clientId = string.Empty;
         [ObservableProperty] private string _clientName = string.Empty;
+
+        partial void OnClientNameChanged(string value)
+        {
+            FilterClientNames(value);
+        }
         [ObservableProperty] private string _companyName = string.Empty;
+
+        partial void OnCompanyNameChanged(string value)
+        {
+            FilterClientNames(value);
+        }
         [ObservableProperty] private string _loginId = string.Empty;
         [ObservableProperty] private string _password = string.Empty;
         [ObservableProperty] private string _phoneNo = string.Empty;
@@ -34,7 +44,7 @@ namespace AATS.Desktop.ViewModels.SecretarialAdvisory
         [NotifyPropertyChangedFor(nameof(PasswordIcon))]
         private bool _isPasswordVisible = false;
 
-        public string DisplayPassword => IsPasswordVisible ? Password : new string('•', Math.Max(10, Password.Length));
+        public string DisplayPassword => IsPasswordVisible ? Password : new string('*', Math.Max(10, Password.Length));
         public string PasswordIcon => IsPasswordVisible ? "fa-solid fa-eye-slash" : "fa-solid fa-eye";
 
         [RelayCommand]

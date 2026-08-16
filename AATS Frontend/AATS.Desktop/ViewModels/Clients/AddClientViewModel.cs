@@ -410,5 +410,10 @@ namespace AATS.Desktop.ViewModels.Clients
                 }
             }
         }
+    
+        partial void OnClientNameChanged(string value)
+        {
+            FilterClientNames(value);
+        }
     }
 }

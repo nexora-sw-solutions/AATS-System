@@ -25,6 +25,11 @@ namespace AATS.Desktop.ViewModels.AuditAndAccounts
         [Required(ErrorMessage = "Client name is required")]
         [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
         private string _clientName = string.Empty;
+
+        partial void OnClientNameChanged(string value)
+        {
+            FilterClientNames(value);
+        }
         [ObservableProperty] private string _assignment = string.Empty;
         [ObservableProperty] private string _periodNumber = string.Empty;
         [ObservableProperty] private string _selectedPeriodType = "Month";
@@ -168,7 +173,7 @@ namespace AATS.Desktop.ViewModels.AuditAndAccounts
             ChequeAmount = record.ChequeAmount ?? 0.00m;
             ChequeStatus = record.ChequeStatus ?? "Pending";
 
-            // Parse period (e.g. "2024 Year" â†’ periodNumber="2024", periodType="Year")
+            // Parse period (e.g. "2024 Year" ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ periodNumber="2024", periodType="Year")
             if (!string.IsNullOrEmpty(record.Period))
             {
                 var parts = record.Period.Split(' ');

@@ -24,6 +24,11 @@ namespace AATS.Desktop.ViewModels.TaxFiling
         [Required(ErrorMessage = "Client name is required")]
         [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
         private string _clientName = string.Empty;
+
+        partial void OnClientNameChanged(string value)
+        {
+            FilterClientNames(value);
+        }
         [ObservableProperty] private string? _duration = "1";
         [ObservableProperty] private string _durationUnit = "Months";
         [ObservableProperty] private string _directorId = string.Empty;

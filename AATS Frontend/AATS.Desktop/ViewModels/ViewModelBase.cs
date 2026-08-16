@@ -37,13 +37,27 @@ namespace AATS.Desktop.ViewModels
 
         protected bool _isSelectingClient = false;
 
-        // Bank autocomplete support
+                // Bank autocomplete support
         [ObservableProperty] private ObservableCollection<string> _bankSuggestions = new();
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsAnyDropdownOpen))]
         private bool _isBankDropdownOpen = false;
 
-        public bool IsAnyDropdownOpen => IsClientCodeDropdownOpen || IsBankDropdownOpen;
+        // Client Name autocomplete support
+        [ObservableProperty] private ObservableCollection<ClientRecord> _clientNameSuggestions = new();
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsAnyDropdownOpen))]
+        private bool _isClientNameDropdownOpen = false;
+
+        partial void OnIsClientNameDropdownOpenChanged(bool value)
+        {
+            if (!value)
+            {
+                HighlightedSuggestionIndex = -1;
+            }
+        }
+
+        public bool IsAnyDropdownOpen => IsClientCodeDropdownOpen || IsBankDropdownOpen || IsClientNameDropdownOpen;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(SelectedClientCategoryColor))]
@@ -148,7 +162,37 @@ namespace AATS.Desktop.ViewModels
             if (!_isSelectingClient)
             {
                 bool isExactMatch = SelectedClient != null && string.Equals(SelectedClient.ClientCode, text, StringComparison.OrdinalIgnoreCase);
-                IsClientCodeDropdownOpen = ClientCodeSuggestions.Count > 0 && !isExactMatch;
+                                IsClientCodeDropdownOpen = ClientCodeSuggestions.Count > 0 && !isExactMatch;
+            }
+        }
+
+        protected void FilterClientNames(string? text)
+        {
+            ClientNameSuggestions.Clear();
+            HighlightedSuggestionIndex = -1;
+
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                IsClientNameDropdownOpen = false;
+                return;
+            }
+            else
+            {
+                var filtered = _allClients
+                    .Where(c => (c.Name != null && c.Name.Contains(text, StringComparison.OrdinalIgnoreCase)) || 
+                               (c.ClientCode != null && c.ClientCode.Contains(text, StringComparison.OrdinalIgnoreCase)))
+                    .Take(5)
+                    .ToList();
+                foreach (var client in filtered)
+                    ClientNameSuggestions.Add(client);
+
+                SelectedClient = _allClients.FirstOrDefault(c => string.Equals(c.Name, text, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!_isSelectingClient)
+            {
+                bool isExactMatch = SelectedClient != null && string.Equals(SelectedClient.Name, text, StringComparison.OrdinalIgnoreCase);
+                IsClientNameDropdownOpen = ClientNameSuggestions.Count > 0 && !isExactMatch;
             }
         }
 
@@ -182,6 +226,19 @@ namespace AATS.Desktop.ViewModels
             SelectedClient = client;
             SelectedClientId = client.ClientCode ?? string.Empty;
             IsClientCodeDropdownOpen = false;
+                        _isSelectingClient = false;
+
+            _ = LoadClientDocumentsAndNotifyAsync(client);
+        }
+
+        [CommunityToolkit.Mvvm.Input.RelayCommand]
+        public virtual void SelectClientName(ClientRecord client)
+        {
+            if (client == null) return;
+            _isSelectingClient = true;
+            SelectedClient = client;
+            SelectedClientId = client.ClientCode ?? string.Empty;
+            IsClientNameDropdownOpen = false;
             _isSelectingClient = false;
 
             _ = LoadClientDocumentsAndNotifyAsync(client);

@@ -28,6 +28,11 @@ namespace AATS.Desktop.ViewModels.AuditAndAccounts
         [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
         private string _clientName = string.Empty;
 
+        partial void OnClientNameChanged(string value)
+        {
+            FilterClientNames(value);
+        }
+
         [ObservableProperty]
         private string _assignment = string.Empty;
 

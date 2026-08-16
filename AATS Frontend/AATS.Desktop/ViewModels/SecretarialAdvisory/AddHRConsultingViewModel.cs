@@ -19,11 +19,21 @@ public partial class AddHRConsultingViewModel : ViewModelBase
     private string _clientId = string.Empty;
     [ObservableProperty] private DateTime? _date = DateTime.Now;
     [ObservableProperty] private string _clientName = string.Empty;
+
+        partial void OnClientNameChanged(string value)
+        {
+            FilterClientNames(value);
+        }
     [ObservableProperty]
     [NotifyDataErrorInfo]
     [Required(ErrorMessage = "Company name is required")]
     [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
     private string _companyName = string.Empty;
+
+        partial void OnCompanyNameChanged(string value)
+        {
+            FilterClientNames(value);
+        }
     [ObservableProperty] private string _code = string.Empty;
     [ObservableProperty] private string _assignment = string.Empty;
 

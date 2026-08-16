@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:helpers="using:AATS.Desktop.Helpers"
              xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.AuditAndAccounts"
              xmlns:vm_shared="clr-namespace:AATS.Desktop.ViewModels.Shared"
              xmlns:i="https://github.com/projektanker/icons.avalonia"
@@ -510,7 +511,7 @@
                             </Grid></ScrollViewer>
         
         <!-- Instruction Guide Popup -->
-        <Border ZIndex="10" IsVisible="{Binding IsGuideVisible}" Background="{DynamicResource OverlayBg}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-20">
+        <Border ZIndex="10" IsVisible="{Binding IsGuideVisible}" helpers:GuideHelper.EnableOutsideClickClose="True" Background="{DynamicResource OverlayBg}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-20">
             <Border Background="{DynamicResource ModalBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="12" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="30">
                 <StackPanel Spacing="20">
                     <!-- Header -->

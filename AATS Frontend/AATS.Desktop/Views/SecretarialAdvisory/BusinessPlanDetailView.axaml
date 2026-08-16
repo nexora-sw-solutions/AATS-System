@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:helpers="using:AATS.Desktop.Helpers"
              xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.SecretarialAdvisory"
              xmlns:vmb="clr-namespace:AATS.Desktop.ViewModels"
              xmlns:i="https://github.com/projektanker/icons.avalonia"
@@ -396,7 +397,7 @@
         </Border>
 
         <!-- Guide Popup -->
-        <Border ZIndex="4000" IsVisible="{Binding IsGuideVisible}" Background="{DynamicResource OverlayBg}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-40">
+        <Border ZIndex="4000" IsVisible="{Binding IsGuideVisible}" helpers:GuideHelper.EnableOutsideClickClose="True" Background="{DynamicResource OverlayBg}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-40">
              <Border Background="{DynamicResource InputBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="12" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="30" BoxShadow="0 8 32 0 #66000000">
                 <StackPanel Spacing="25">
                     <Grid ColumnDefinitions="*, Auto">

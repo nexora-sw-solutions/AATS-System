@@ -25,6 +25,11 @@ namespace AATS.Desktop.ViewModels.Nexora
         [ObservableProperty] private string _clientFirstName = string.Empty;
         [ObservableProperty] private string _clientLastName = string.Empty;
         [ObservableProperty] private string _companyName = string.Empty;
+
+        partial void OnCompanyNameChanged(string value)
+        {
+            FilterClientNames(value);
+        }
         [ObservableProperty] private string _selectedService = string.Empty;
         [ObservableProperty] private string _phone = string.Empty;
         [ObservableProperty] private string _notes = string.Empty;

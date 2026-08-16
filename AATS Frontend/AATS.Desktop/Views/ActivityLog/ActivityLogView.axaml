@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:helpers="using:AATS.Desktop.Helpers"
              xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.ActivityLog"
              xmlns:Models="clr-namespace:AATS.Desktop.Models"
              xmlns:i="https://github.com/projektanker/icons.avalonia"
@@ -455,7 +456,7 @@
 
         <!-- Instruction Guide Overlay (ZIndex 10) -->
         <Border ZIndex="10" 
-                IsVisible="{Binding IsGuideVisible}" 
+                IsVisible="{Binding IsGuideVisible}" helpers:GuideHelper.EnableOutsideClickClose="True" 
                 Background="{DynamicResource OverlayBg}" 
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch">

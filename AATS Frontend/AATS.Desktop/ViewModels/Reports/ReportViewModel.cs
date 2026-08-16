@@ -15,7 +15,8 @@ public partial class ReportViewModel : ObservableObject
 {
     [ObservableProperty] private string _title = "INVOICE";
     [ObservableProperty] private string _clientName = string.Empty;
-    [ObservableProperty] private string _clientStatus = string.Empty;
+
+[ObservableProperty] private string _clientStatus = string.Empty;
     [ObservableProperty] private string _phoneNumber = string.Empty;
     [ObservableProperty] private string _address = string.Empty;
     [ObservableProperty] private string _email = "N/A";
