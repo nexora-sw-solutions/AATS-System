@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -158,6 +158,7 @@ public partial class MainViewModel : ViewModelBase
             {
                 Console.WriteLine($"[DEBUG] Profile loaded. Role: {response.Data.Role}");
                 CurrentUser = response.Data;
+                ApplyRoleTheme(CurrentUser.Role);
             }
             else
             {
@@ -1594,6 +1595,35 @@ public partial class MainViewModel : ViewModelBase
         });
         NavigateTo(vm, "Secretarial & Advisory", "Form 15", "Client Details", "Form15");
     }
+      private void ApplyRoleTheme(string? role)
+      {
+          if (Avalonia.Application.Current == null) return;
+
+          if (string.IsNullOrWhiteSpace(role) || role.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+          {
+              Avalonia.Application.Current.RequestedThemeVariant = Avalonia.Styling.ThemeVariant.Default;
+              return;
+          }
+
+          if (role.Contains("Audit", StringComparison.OrdinalIgnoreCase))
+          {
+              Avalonia.Application.Current.RequestedThemeVariant = AATS.Desktop.Styles.RoleThemeVariants.AuditAssurance;
+          }
+          else if (role.Contains("Secretarial", StringComparison.OrdinalIgnoreCase))
+          {
+              Avalonia.Application.Current.RequestedThemeVariant = AATS.Desktop.Styles.RoleThemeVariants.Secretarial;
+          }
+          else if (role.Contains("Tax", StringComparison.OrdinalIgnoreCase))
+          {
+              Avalonia.Application.Current.RequestedThemeVariant = AATS.Desktop.Styles.RoleThemeVariants.TaxFiling;
+          }
+          else
+          {
+              Avalonia.Application.Current.RequestedThemeVariant = AATS.Desktop.Styles.RoleThemeVariants.GeneralRoles;
+          }
+      }
 }
+
+
 
 
