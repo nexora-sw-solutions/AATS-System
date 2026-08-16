@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -434,7 +434,7 @@
         </Border>
 
         <!-- Loading Busy Overlay -->
-        <Border Background="#80000000" IsVisible="{Binding IsBusy}" ZIndex="2000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Border Background="{DynamicResource OverlayBg}" IsVisible="{Binding IsBusy}" ZIndex="2000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
                 <ProgressBar IsIndeterminate="True" Width="200" Height="4" Foreground="{DynamicResource AccentPrimary}"/>
                 <TextBlock Text="Processing document..." Foreground="White" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
@@ -442,6 +442,7 @@
         </Border>
     </Panel>
 </UserControl>
+
 
 
 
