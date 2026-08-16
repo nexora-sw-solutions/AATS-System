@@ -1,0 +1,385 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:helpers="using:AATS.Desktop.Helpers"
+             xmlns:vm="using:AATS.Desktop.ViewModels.TaxFiling"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+             x:Class="AATS.Desktop.Views.TaxFiling.WHTAddRecordView"
+             x:DataType="vm:WHTAddRecordViewModel"
+             x:CompileBindings="False">
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock.section-title">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextHeading}"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+        <Style Selector="TextBlock.input-label">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextHeading}"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        <Style Selector="TextBox.form-input">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style Selector="TextBox.form-input:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}"/>
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+        </Style>
+        <Style Selector="ComboBox.form-combo">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style Selector="Border.card-panel">
+            <Setter Property="Background" Value="{DynamicResource CardBg}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="25"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+        <Style Selector="Button.btn-save">
+            <Setter Property="Background" Value="{DynamicResource AccentPrimary}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.btn-save:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource AccentHover}"/>
+        </Style>
+        <Style Selector="Button.btn-cancel">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.btn-cancel:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource FilterBarBg}"/>
+        </Style>
+        
+        <Style Selector="RadioButton.custom-radio">
+            <Setter Property="Margin" Value="0,0,15,0"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Panel>
+        <Grid RowDefinitions="*, Auto">
+            <ScrollViewer Grid.Row="0">
+            <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" Margin="25,20,15,20">
+                <!-- Header -->
+                <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,25">
+                    <TextBlock Text="Add Record (WHT)" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="15">
+                        <Button Classes="btn-cancel" Content="Cancel" Command="{Binding CancelCommand}"/>
+                        <Button Classes="btn-save" Command="{Binding SubmitCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <i:Icon Value="fa-regular fa-floppy-disk" FontSize="14"/>
+                                <TextBlock Text="Save Record"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Error Message Banner -->
+                <Border Grid.Row="1" Background="{DynamicResource NexoraErrorBg}" BorderBrush="{DynamicResource NexoraErrorBorder}" BorderThickness="1" CornerRadius="6" Padding="15,10" Margin="0,0,0,15" IsVisible="{Binding HasFormError}" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <i:Icon Value="fa-solid fa-circle-exclamation" Foreground="{DynamicResource NexoraErrorIcon}" FontSize="14" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding FormErrorMessage}" Foreground="{DynamicResource NexoraErrorText}" FontSize="13" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Main Form Area -->
+                <Grid Grid.Row="2" ColumnDefinitions="6*, 4*" Margin="0,0,0,20">
+                    <!-- Left Column: General Section -->
+                    <Border Grid.Column="0" Classes="card-panel" Margin="0,0,20,0" VerticalAlignment="Top" x:Name="GeneralDetailsCard">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,20">
+                                    <i:Icon Value="fa-solid fa-address-card" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                    <TextBlock Text="GENERAL DETAILS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                
+                                <Grid ColumnDefinitions="*, *">
+                                    <!-- Client ID -->
+                                    <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                                        <TextBlock Text="Client ID" Classes="input-label"/>
+                                        <Grid ColumnDefinitions="Auto, *">
+                                            <Rectangle Grid.Column="0" Width="4" Height="24" Fill="{Binding SelectedClientCategoryColor}" Margin="0,0,8,0" RadiusX="2" RadiusY="2" IsVisible="{Binding HasSelectedClientCategory}" VerticalAlignment="Center"/>
+                                            <TextBox Grid.Column="1" Classes="form-input" Watermark="Enter Client ID (e.g. CL-00001)" Text="{Binding ClientId}" Name="ClientIdTextBox"/>
+                                        </Grid>
+                                        <Popup IsOpen="{Binding IsClientCodeDropdownOpen}" PlacementTarget="{Binding #ClientIdTextBox}" Placement="Bottom" IsLightDismissEnabled="True" MaxHeight="220" Width="{Binding #ClientIdTextBox.Bounds.Width}">
+                                            <Border Background="{DynamicResource CardBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="0,0,6,6" BoxShadow="0 4 16 0 #40000000" ClipToBounds="True">
+                                                <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto">
+                                                    <ItemsControl ItemsSource="{Binding ClientCodeSuggestions}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Button Background="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Cursor="Hand" Command="{Binding $parent[UserControl].DataContext.SelectClientCodeCommand}" CommandParameter="{Binding}">
+                                                                    <Grid ColumnDefinitions="Auto, *" Height="36" Background="Transparent">
+                                                                        <Rectangle Grid.Column="0" Width="4" Height="20" Fill="{Binding CategoryColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0" RadiusX="2" RadiusY="2"/>
+                                                                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="10,0" VerticalAlignment="Center">
+                                                                            <TextBlock Text="{Binding ClientCode}" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" FontSize="13"/>
+                                                                            <TextBlock Text="-" Foreground="{DynamicResource TextSecondary}" Opacity="0.7" FontSize="13"/>
+                                                                            <TextBlock Text="{Binding Name}" Foreground="{DynamicResource TextSecondary}" Opacity="0.8" FontSize="12" VerticalAlignment="Center"/>
+                                                                        </StackPanel>
+                                                                    </Grid>
+                                                                </Button>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </ScrollViewer>
+                                            </Border>
+                                        </Popup>
+                                    </StackPanel>
+                                    
+                                    <!-- Client Name -->
+                                    <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                        <TextBlock Text="Client Name" Classes="input-label"/>
+                                        <TextBox Name="ClientNameTextBox" Classes="form-input" Watermark="e.g. John Doe" Text="{Binding ClientName}"/>
+<Popup IsOpen="{Binding IsClientNameDropdownOpen}" PlacementTarget="{Binding #ClientNameTextBox}" Placement="Bottom" IsLightDismissEnabled="True" MaxHeight="220" Width="{Binding #ClientNameTextBox.Bounds.Width}">
+    <Border Background="{DynamicResource CardBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="0,0,6,6" BoxShadow="0 4 16 0 #40000000" ClipToBounds="True">
+        <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding ClientNameSuggestions}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Background="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Cursor="Hand" Command="{Binding $parent[UserControl].DataContext.SelectClientNameCommand}" CommandParameter="{Binding}">
+                            <Grid ColumnDefinitions="Auto, *" Height="36" Background="Transparent">
+                                <Rectangle Grid.Column="0" Width="4" Height="20" Fill="{Binding CategoryColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0" RadiusX="2" RadiusY="2"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="10,0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" FontSize="13"/>
+                                    <TextBlock Text="-" Foreground="{DynamicResource TextSecondary}" Opacity="0.7" FontSize="13"/>
+                                    <TextBlock Text="{Binding ClientCode}" Foreground="{DynamicResource TextSecondary}" Opacity="0.8" FontSize="12" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Border>
+</Popup>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid ColumnDefinitions="*, *" Margin="0,20,0,0">
+                                    <!-- Tax Period -->
+                                    <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                                        <TextBlock Text="Tax Period" Classes="input-label"/>
+                                        <Grid ColumnDefinitions="*, 10, *">
+                                            <TextBox Grid.Column="0" Text="{Binding Duration}" Classes="form-input" TextAlignment="Center" Height="38"/>
+                                            <ComboBox Grid.Column="2" ItemsSource="{Binding DurationUnitOptions}" SelectedItem="{Binding DurationUnit}" Classes="form-combo" HorizontalAlignment="Stretch" Height="38"/>
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <!-- WHT No. -->
+                                    <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                        <TextBlock Text="WHT No." Classes="input-label"/>
+                                        <TextBox Text="{Binding WhtNo}" Watermark="e.g. WHT-123456" Classes="form-input"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <StackPanel Margin="0,20,0,0">
+                                    <TextBlock Text="Assessment Year" Classes="input-label"/>
+                                    <TextBox Text="{Binding AdditionalInfo}" Classes="form-input" Watermark="e.g. 2024/2025"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                    <!-- Right Column: Status Section -->
+                    <Border Grid.Column="1" Classes="card-panel" VerticalAlignment="Top" Height="{Binding #GeneralDetailsCard.Bounds.Height}" Margin="0">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,20">
+                                    <i:Icon Value="fa-solid fa-list-check" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                    <TextBlock Text="PAYMENT SUMMARY" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                
+                                <StackPanel Margin="0,10,0,0">
+                                    <TextBlock Text="Payment Status" Classes="input-label" Margin="0,0,0,15"/>
+                                    <Grid ColumnDefinitions="*, *, *">
+                                        <RadioButton Grid.Column="0" GroupName="Status" Content="Paid" IsChecked="{Binding IsPaidStatus}" Classes="custom-radio"/>
+                                        <RadioButton Grid.Column="1" GroupName="Status" Content="Pending" IsChecked="{Binding IsPendingStatus}" Classes="custom-radio"/>
+                                        <RadioButton Grid.Column="2" GroupName="Status" Content="IRD Paid" IsChecked="{Binding IsIRDPaidStatus}" Classes="custom-radio"/>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                </Grid>
+
+
+                <!-- Tax Auditor Notes Card -->
+                <Border Grid.Row="3" Classes="card-panel">
+                    <StackPanel Spacing="15">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <i:Icon Value="fa-solid fa-pen-to-square" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                            <TextBlock Text="TAX AUDITOR NOTES" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBox Text="{Binding AuditorNotes}" Classes="form-input" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="100" Watermark="Enter auditor notes here..."/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Document Upload Area -->
+                <Border Grid.Row="4" Classes="card-panel">
+                    <StackPanel Spacing="20">
+                        <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,20">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                                <i:Icon Value="fa-solid fa-folder-open" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                <TextBlock Text="PAYMENT SLIP" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Classes="btn-primary" Background="{DynamicResource AccentPrimary}" Padding="12,6" Command="{Binding UploadDocumentCommand}" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <i:Icon Value="fa-solid fa-plus" FontSize="12" Foreground="{DynamicResource TextPrimary}"/>
+                                    <TextBlock Text="Add Document" FontSize="12" FontWeight="SemiBold"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+                        <ScrollViewer MaxHeight="250" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding UploadedFiles}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{DynamicResource DrawerHeaderBg}" Margin="0,5,0,0" Padding="12,10" CornerRadius="8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                            <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+                                                <i:Icon Value="fa-solid fa-file-invoice" Foreground="{DynamicResource AccentPrimary}" FontSize="18" Margin="0,0,12,0"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding}" Foreground="{DynamicResource TextInput}" FontSize="13" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                                
+                                                <!-- Action Buttons -->
+                                                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="5" Margin="10,0">
+                                                    <Button Command="{Binding $parent[UserControl].DataContext.PreviewDocumentCommand}" CommandParameter="{Binding}" Background="Transparent" Padding="5" ToolTip.Tip="Preview">
+                                                        <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource TextSecondary}" FontSize="14"/>
+                                                    </Button>
+                                                    <Button Command="{Binding $parent[UserControl].DataContext.ShowRenameFileCommand}" CommandParameter="{Binding}" Background="Transparent" Padding="5" ToolTip.Tip="Rename">
+                                                        <i:Icon Value="fa-solid fa-pen" Foreground="{DynamicResource TextSecondary}" FontSize="14"/>
+                                                    </Button>
+                                                </StackPanel>
+
+                                                <Button Grid.Column="3" Command="{Binding $parent[UserControl].DataContext.ShowRemoveFileConfirmCommand}" CommandParameter="{Binding}" Background="Transparent" Padding="5" ToolTip.Tip="Remove">
+                                                    <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            </ScrollViewer>
+
+            <!-- Fixed Footer -->
+            <Border Grid.Row="1" Background="Transparent" Padding="25,15">
+                <Grid ColumnDefinitions="Auto, *">
+                    <Button Grid.Column="0" Classes="footer-link" Command="{Binding OpenGuideCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <i:Icon Value="fa-solid fa-circle-question" Foreground="{DynamicResource TextSecondary}" FontSize="16"/>
+                            <TextBlock Text="Learn more about adding records" Foreground="{DynamicResource TextSecondary}" FontSize="13" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Discard Confirmation Popup Overlay -->
+        <Border ZIndex="101" IsVisible="{Binding IsDiscardConfirmVisible}" Classes="premium-modal-overlay">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="440">
+                <StackPanel Spacing="25">
+                    <i:Icon Value="fa-solid fa-triangle-exclamation" Foreground="{DynamicResource StatusWarning}" FontSize="40" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Discard changes?" Foreground="{DynamicResource TextPrimary}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock Text="You have unsaved information. Are you sure you want to discard it? This action cannot be undone." 
+                               Foreground="{DynamicResource TextSecondary}" FontSize="13" TextAlignment="Center" TextWrapping="Wrap"/>
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Keep Editing" Command="{Binding CancelDiscardCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        <Button Grid.Column="2" Content="Discard" Command="{Binding ConfirmDiscardCommand}" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <!-- Rename File Popup Overlay -->
+        <Border ZIndex="101" IsVisible="{Binding IsFileRenameVisible}" Classes="premium-modal-overlay">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="440">
+                <StackPanel Spacing="25">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <i:Icon Value="fa-solid fa-pen" Foreground="{DynamicResource AccentPrimary}" FontSize="20"/>
+                        <TextBlock Text="Rename Document" Foreground="{DynamicResource TextPrimary}" FontSize="18" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="NEW FILE NAME" Classes="input-label"/>
+                        <TextBox Text="{Binding NewFileName}" Classes="form-input" Watermark="Enter new document name"/>
+                    </StackPanel>
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelRenameFileCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        <Button Grid.Column="2" Content="Rename" Command="{Binding ConfirmRenameFileCommand}" Classes="btn-primary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+        <!-- Guide Overlay -->
+        <Border ZIndex="100" IsVisible="{Binding IsGuideVisible}" helpers:GuideHelper.EnableOutsideClickClose="True" Classes="premium-modal-overlay">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="700">
+                <StackPanel Spacing="25">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
+                            <Border Width="45" Height="45" CornerRadius="8" Background="{DynamicResource GuideBadgeBg}">
+                                <i:Icon Value="fa-solid fa-book-open" Foreground="{DynamicResource GuideCardBg}" FontSize="20"/>
+                            </Border>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Add WHT Record Guide" Foreground="{DynamicResource TextHeading}" FontSize="18" FontWeight="Bold"/>
+                                <TextBlock Text="Understand how to add Corporate Income Tax records." Foreground="{DynamicResource TextSecondary}" FontSize="13" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <Button Grid.Column="1" Classes="footer-link" Command="{Binding CloseGuideCommand}" VerticalAlignment="Top" Margin="0,-5,-5,0">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="18"/>
+                        </Button>
+                    </Grid>
+
+                    <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *" Margin="0,15,0,25">
+                        <Border Grid.Row="0" Grid.Column="0" Background="{DynamicResource GuideCardBg}" CornerRadius="8" Padding="15" Margin="0,0,12,12">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="1" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="General Details" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="Enter the core details and auditor notes for the corporate client." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="1" Background="{DynamicResource GuideCardBg}" CornerRadius="8" Padding="15" Margin="12,0,0,12">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="2" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Documents" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="Upload payment slips before saving the record." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <Button Content="Got it, thanks!" Classes="btn-primary" Background="{DynamicResource GuideBadgeBg}" Foreground="{DynamicResource GuideCardBg}" HorizontalAlignment="Right" Command="{Binding CloseGuideCommand}"/>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Panel>
+</UserControl>
+

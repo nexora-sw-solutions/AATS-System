@@ -1,0 +1,456 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:helpers="using:AATS.Desktop.Helpers"
+             xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.SecretarialAdvisory"
+             xmlns:vmb="clr-namespace:AATS.Desktop.ViewModels"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+             x:Class="AATS.Desktop.Views.SecretarialAdvisory.BusinessPlanDetailView"
+             x:DataType="vm:BusinessPlanDetailViewModel"
+             x:CompileBindings="False">
+
+    <UserControl.Styles>
+        <Style Selector="Border.detail-card">
+            <Setter Property="Background" Value="{DynamicResource TableBg}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="32"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style Selector="TextBlock.card-label">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+        <Style Selector="TextBlock.card-value">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Panel>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" Margin="40,20,40,40" Name="RootLayout">
+                
+                <!-- 1. Header Section -->
+                <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" Margin="0,0,0,32">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="20">
+                        <Border Width="50" Height="50" Background="{DynamicResource HoverBg}" CornerRadius="8">
+                            <i:Icon Value="fa-solid fa-chart-line" Foreground="{DynamicResource AccentPrimary}" FontSize="24"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="16">
+                            <TextBlock Text="{Binding CompanyName}" FontSize="28" FontWeight="ExtraBold" Foreground="{DynamicResource TextPrimary}" LetterSpacing="1"/>
+                            <Border Background="{Binding ClientCategoryColor}" CornerRadius="12" Padding="8,2" VerticalAlignment="Center" IsVisible="{Binding HasClientCategory}">
+                                <TextBlock Text="{Binding ClientCategory}" Foreground="Black" FontSize="10" FontWeight="Bold"/>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Header Actions -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                        <Button Classes="btn-secondary" Command="{Binding DownloadRecordCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <i:Icon Value="fa-solid fa-download" FontSize="14" Foreground="{DynamicResource TextPrimary}"/>
+                                <TextBlock Text="Download Report" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Classes="btn-print" Command="{Binding PrintRecordCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <i:Icon Value="fa-solid fa-print" FontSize="14" Foreground="{DynamicResource AddRecordFg}"/>
+                                <TextBlock Text="Print" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                </Grid>
+
+                <!-- 2. Metric Row -->
+                <Grid Grid.Row="1" ColumnDefinitions="*, 20, *, 20, *, 20, *" Margin="0,0,0,32">
+                    <Border Grid.Column="0" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="ID" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding IDDisplay}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="2" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="DATE" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding DateDisplay}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="4" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="ASSIGNMENT" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding Record.Assignment}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="6" Classes="detail-summary-card">
+                        <StackPanel>
+                            <TextBlock Text="BRANCH" Classes="detail-card-label"/>
+                            <TextBlock Text="{Binding Record.Branch}" Classes="detail-card-value"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- 3. Consulting Process -->
+                <StackPanel Grid.Row="2" Margin="0,0,0,32" Spacing="32">
+                    <Border Classes="detail-card">
+                        <StackPanel Spacing="20">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <i:Icon Value="fa-solid fa-list-check" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                <TextBlock Text="CONSULTING PROCESS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                    <Grid HorizontalAlignment="Center" Margin="0,10">
+                        <ItemsControl ItemsSource="{Binding Steps}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vmb:ProcessStep">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                                        <Button Classes="process-step-btn"
+                                                Command="{Binding $parent[UserControl].DataContext.StepClickCommand}"
+                                                CommandParameter="{Binding}"
+                                                IsEnabled="{Binding IsClickable}">
+                                            <StackPanel Spacing="12">
+                                                <Border Classes="step-indicator-circle" 
+                                                        Classes.active="{Binding IsActive}"
+                                                        Classes.clickable="{Binding IsClickable}"
+                                                        Width="40" Height="40">
+                                                    <Panel>
+                                                        <TextBlock Text="{Binding Number}" 
+                                                                  Classes="step-indicator-num" 
+                                                                  Classes.active="{Binding IsActive}"
+                                                                  FontSize="16"
+                                                                  IsVisible="{Binding !IsIconStep}"/>
+                                                        <i:Icon Value="{Binding IconValue}" 
+                                                               Foreground="{DynamicResource TextPrimary}" 
+                                                               FontSize="18"
+                                                               IsVisible="{Binding IsIconStep}"/>
+                                                    </Panel>
+                                                </Border>
+                                                <TextBlock Text="{Binding Name}" 
+                                                          Classes="step-indicator-label" 
+                                                          Classes.active="{Binding IsActive}"
+                                                          Width="110" TextAlignment="Center" FontSize="11"/>
+                                            </StackPanel>
+                                        </Button>
+                                        
+                                        <Rectangle Width="150" Height="2" Fill="{DynamicResource BorderSubtle}" Margin="5,20,5,0" VerticalAlignment="Top" IsVisible="{Binding IsNotLast}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Finalization Document Upload Card -->
+                <StackPanel Grid.Row="3" Margin="0,0,0,32" IsVisible="{Binding Record.Process, Converter={StaticResource StringEqualityConverter}, ConverterParameter='FINALIZATION'}">
+                    <Border Classes="detail-card">
+                        <StackPanel Spacing="20">
+                            <!-- Header -->
+                            <Grid ColumnDefinitions="*, Auto">
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                                    <i:Icon Value="fa-solid fa-folder-open" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                    <TextBlock Text="FINALIZATION DOCUMENTS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Button Grid.Column="1" Classes="btn-primary" Background="{DynamicResource AccentPrimary}" Padding="12,6" Command="{Binding AddDocumentCommand}" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <i:Icon Value="fa-solid fa-plus" FontSize="12" Foreground="{DynamicResource TextPrimary}"/>
+                                        <TextBlock Text="Add Document" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+
+                            <!-- Document List -->
+                            <StackPanel Spacing="16">
+                                <TextBlock Text="No documents uploaded." Foreground="{DynamicResource TextFaint}" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,20" IsVisible="{Binding !SourceDocuments.Count}"/>
+                                <ScrollViewer MaxHeight="350" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{Binding SourceDocuments}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Classes="document-item" Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                    <Grid ColumnDefinitions="Auto, *, Auto">
+                                                        <i:Icon Value="fa-solid fa-file-pdf" Foreground="{DynamicResource AccentPrimary}" FontSize="20" Margin="0,0,16,0"/>
+                                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding FileName}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold"/>
+                                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                                <TextBlock Text="{Binding FileType}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                                <TextBlock Text="&#x2022;" Foreground="{DynamicResource TextFaint}" FontSize="11"/>
+                                                                <TextBlock Text="{Binding UploadDateDisplay}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                            </StackPanel>
+                                                        </StackPanel>
+
+                                                        <!-- Actions -->
+                                                        <StackPanel Grid.Column="2" Classes="action-icons" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                                            <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].DataContext.DownloadSourceDocumentCommand}" CommandParameter="{Binding}" ToolTip.Tip="Download">
+                                                                <i:Icon Value="fa-solid fa-download" Foreground="{DynamicResource TextSecondary}"/>
+                                                            </Button>
+                                                            <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].DataContext.DeleteSourceDocumentCommand}" CommandParameter="{Binding}" ToolTip.Tip="Delete">
+                                                                <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- 4. Detailed Info Grid -->
+                <Grid Grid.Row="4" ColumnDefinitions="*" Margin="0,0,0,32">
+                    <!-- General Details -->
+                    <Border Classes="detail-card">
+                        <StackPanel Spacing="20">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <i:Icon Value="fa-solid fa-address-card" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                <TextBlock Text="GENERAL DETAILS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            
+                            <Grid RowDefinitions="Auto, 32, Auto, 32, Auto" ColumnDefinitions="*, *">
+                                <!-- Row 1 -->
+                                <StackPanel Grid.Row="0" Grid.Column="0">
+                                    <TextBlock Text="CLIENT NAME" Classes="card-label"/>
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="{Binding Record.ClientName}" Classes="card-value"/>
+                                        <Border Background="{Binding ClientCategoryColor}" CornerRadius="12" Padding="8,2" VerticalAlignment="Center" IsVisible="{Binding HasClientCategory}">
+                                            <TextBlock Text="{Binding ClientCategory}" Foreground="Black" FontSize="10" FontWeight="Bold"/>
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1">
+                                    <TextBlock Text="COMPANY NAME" Classes="card-label"/>
+                                    <TextBlock Text="{Binding CompanyName}" Classes="card-value"/>
+                                </StackPanel>
+
+                                <!-- Row 2 -->
+                                <StackPanel Grid.Row="2" Grid.Column="0">
+                                    <TextBlock Text="CODE" Classes="card-label"/>
+                                    <TextBlock Text="{Binding Record.Code}" Classes="card-value"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="1">
+                                    <TextBlock Text="ASSIGNMENT" Classes="card-label"/>
+                                    <TextBlock Text="{Binding Record.Assignment}" Classes="card-value"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- 5. Documents Preview Card -->
+                <Grid Grid.Row="5" ColumnDefinitions="*" Margin="0,0,0,32">
+                    <Border Classes="detail-card">
+                        <StackPanel Spacing="20">
+                            <!-- Header -->
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <i:Icon Value="fa-solid fa-file-invoice" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                <TextBlock Text="DOCUMENTS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <!-- Document List -->
+                            <StackPanel Spacing="16">
+                                <TextBlock Text="No documents uploaded." Foreground="{DynamicResource TextFaint}" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,20" IsVisible="{Binding !SourceDocuments.Count}"/>
+                                <ScrollViewer MaxHeight="350" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{Binding SourceDocuments}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Classes="document-item" Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                    <Grid ColumnDefinitions="Auto, *, Auto">
+                                                        <i:Icon Value="fa-solid fa-file-pdf" Foreground="{DynamicResource AccentPrimary}" FontSize="20" Margin="0,0,16,0"/>
+                                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding FileName}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold"/>
+                                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                                <TextBlock Text="{Binding FileType}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                                <TextBlock Text="&#x2022;" Foreground="{DynamicResource TextFaint}" FontSize="11"/>
+                                                                <TextBlock Text="{Binding UploadDateDisplay}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                            </StackPanel>
+                                                        </StackPanel>
+
+                                                        <!-- Actions (Preview/Download Only) -->
+                                                        <StackPanel Grid.Column="2" Classes="action-icons" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                                            <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].DataContext.DownloadSourceDocumentCommand}" CommandParameter="{Binding}" ToolTip.Tip="Download">
+                                                                <i:Icon Value="fa-solid fa-download" Foreground="{DynamicResource TextSecondary}"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- 6. Finalization Documents Management Card -->
+                <Grid Grid.Row="6" ColumnDefinitions="*" Margin="0,0,0,32">
+                    <Border Classes="detail-card">
+                        <StackPanel Spacing="20">
+                            <!-- Header -->
+                            <Grid ColumnDefinitions="*, Auto">
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                                    <i:Icon Value="fa-solid fa-file-signature" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                    <TextBlock Text="FINALIZATION DOCUMENTS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Button Grid.Column="1" Classes="btn-primary" Background="{DynamicResource AccentPrimary}" Padding="12,6" Command="{Binding AddDocumentCommand}" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <i:Icon Value="fa-solid fa-plus" FontSize="12" Foreground="{DynamicResource TextPrimary}"/>
+                                        <TextBlock Text="Add Document" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+
+                            <!-- Document List -->
+                            <StackPanel Spacing="16">
+                                <TextBlock Text="No documents uploaded." Foreground="{DynamicResource TextFaint}" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,20" IsVisible="{Binding !FinalizationDocuments.Count}"/>
+                                <ScrollViewer MaxHeight="350" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{Binding FinalizationDocuments}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Classes="document-item" Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                    <Grid ColumnDefinitions="Auto, *, Auto">
+                                                        <i:Icon Value="fa-solid fa-file-pdf" Foreground="{DynamicResource AccentPrimary}" FontSize="20" Margin="0,0,16,0"/>
+                                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding FileName}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold"/>
+                                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                                <TextBlock Text="{Binding FileType}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                                <TextBlock Text="&#x2022;" Foreground="{DynamicResource TextFaint}" FontSize="11"/>
+                                                                <TextBlock Text="{Binding UploadDateDisplay}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                            </StackPanel>
+                                                        </StackPanel>
+
+                                                        <!-- Actions -->
+                                                        <StackPanel Grid.Column="2" Classes="action-icons" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                                            <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].DataContext.DownloadSourceDocumentCommand}" CommandParameter="{Binding}" ToolTip.Tip="Download">
+                                                                <i:Icon Value="fa-solid fa-download" Foreground="{DynamicResource TextSecondary}"/>
+                                                            </Button>
+                                                            <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].DataContext.EditFinalizationDocumentCommand}" CommandParameter="{Binding}" ToolTip.Tip="Edit">
+                                                                <i:Icon Value="fa-solid fa-pen" Foreground="{DynamicResource TextSecondary}"/>
+                                                            </Button>
+                                                            <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].DataContext.DeleteFinalizationDocumentCommand}" CommandParameter="{Binding}" ToolTip.Tip="Delete">
+                                                                <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- 7. Footer Actions -->
+                <Grid Grid.Row="7" ColumnDefinitions="Auto, *, Auto" VerticalAlignment="Bottom" Margin="0,40,0,0">
+                    <Button Grid.Column="0" Classes="footer-link" Command="{Binding OpenGuideCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <i:Icon Value="fa-solid fa-circle-question" Foreground="{DynamicResource TextSecondary}" FontSize="16"/>
+                            <TextBlock Text="Consulting Guide" Foreground="{DynamicResource TextSecondary}" FontSize="13" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16">
+                        <Button Content="Edit" Classes="btn-edit" Width="140" Command="{Binding EditRecordCommand}"/>
+                        <Button Content="Delete" Classes="btn-delete" Width="140" Command="{Binding DeleteRecordCommand}"/>
+                    </StackPanel>
+                </Grid>
+            
+                            </Grid></ScrollViewer>
+
+        <!-- Global Confirmation Dialog Overlay -->
+        <Border Classes="premium-modal-overlay" IsVisible="{Binding IsConfirmDialogVisible}" ZIndex="1000">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
+                <StackPanel Spacing="28">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                             <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                <i:Icon Value="fa-solid fa-circle-exclamation" Foreground="{DynamicResource StatusDanger}" FontSize="22"/>
+                            </Border>
+                            <TextBlock Text="{Binding ConfirmDialogTitle}" Foreground="{DynamicResource TextHeading}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Classes="footer-link" Command="{Binding CancelActionCommand}" VerticalAlignment="Top" Margin="0,-10,-10,0">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                        </Button>
+                    </Grid>
+                    <TextBlock Text="{Binding ConfirmDialogMessage}" Foreground="{DynamicResource TextSecondary}" FontSize="16" LineHeight="26" TextWrapping="Wrap"/>
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Cancel" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Command="{Binding CancelActionCommand}"/>
+                        <Button Grid.Column="2" Content="Confirm" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Command="{Binding ConfirmActionCommand}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <!-- Guide Popup -->
+        <Border ZIndex="4000" IsVisible="{Binding IsGuideVisible}" helpers:GuideHelper.EnableOutsideClickClose="True" Background="{DynamicResource OverlayBg}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-40">
+             <Border Background="{DynamicResource InputBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="12" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="30" BoxShadow="0 8 32 0 #66000000">
+                <StackPanel Spacing="25">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                            <i:Icon Value="fa-regular fa-circle-question" FontSize="20" Foreground="{DynamicResource TextHeading}"/>
+                            <TextBlock Text="{Binding GuideTitle}" Foreground="{DynamicResource TextHeading}" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Background="Transparent" BorderThickness="0" Padding="5" Command="{Binding CloseGuideCommand}">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="18"/>
+                        </Button>
+                    </Grid>
+                    <TextBlock Text="{Binding GuideDescription}" Foreground="{DynamicResource TextSecondary}" FontSize="14" TextWrapping="Wrap"/>
+                    <Border Background="{DynamicResource DrawerHeaderBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="8" Padding="15">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="PRO TIP" Foreground="{DynamicResource TextSecondary}" FontWeight="Bold" FontSize="11"/>
+                            <TextBlock Text="{Binding GuideProTip}" Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                    <Button Content="Got it" Command="{Binding CloseGuideCommand}" Background="{DynamicResource GuideGotItBg}" Foreground="{DynamicResource DrawerHeaderBg}" FontWeight="Bold" CornerRadius="6" Padding="20,10" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <!-- Loading Busy Overlay -->
+        <Border Background="#80000000" IsVisible="{Binding IsBusy}" ZIndex="2000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
+                <ProgressBar IsIndeterminate="True" Width="200" Height="4" Foreground="{DynamicResource AccentPrimary}"/>
+                <TextBlock Text="Processing document..." Foreground="White" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+            </StackPanel>
+        </Border>
+        <!-- Edit Document Popup Overlay -->
+        <Border ZIndex="105" IsVisible="{Binding IsGlobalEditVisible}" Classes="premium-modal-overlay">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
+                <StackPanel Spacing="20">
+                    <TextBlock Text="EDIT DOCUMENT" Foreground="{DynamicResource TextPrimary}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <StackPanel Spacing="16">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="File Name" Classes="input-label"/>
+                            <TextBox Text="{Binding EditingDocument.FileName}" HorizontalAlignment="Stretch" Classes="form-input" Watermark="Enter file name"/>
+                        </StackPanel>
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Type" Classes="input-label"/>
+                            <TextBox Text="{Binding EditingDocument.FileType}" HorizontalAlignment="Stretch" Classes="form-input" Watermark="Enter type (e.g., FILE)"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelGlobalEditCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        <Button Grid.Column="2" Content="Save" Command="{Binding SaveGlobalEditCommand}" Classes="btn-save" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+
+    </Panel>
+</UserControl>
+
