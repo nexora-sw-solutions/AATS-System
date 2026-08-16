@@ -1,5 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:styles="using:AATS.Desktop.Styles">
 
     <ResourceDictionary.ThemeDictionaries>
 
@@ -225,7 +224,7 @@
 
         </ResourceDictionary>
 
-<ResourceDictionary x:Key="AuditAssurance">
+<ResourceDictionary x:Key="{x:Static styles:RoleThemeVariants.AuditAssurance}">
 
             <!-- â”€â”€ Surfaces â”€â”€ -->
             <SolidColorBrush x:Key="AppBackground" Color="#0C0A20"/>
@@ -444,7 +443,7 @@
 
         </ResourceDictionary>
 
-<ResourceDictionary x:Key="Secretarial">
+<ResourceDictionary x:Key="{x:Static styles:RoleThemeVariants.Secretarial}">
 
             <!-- â”€â”€ Surfaces â”€â”€ -->
             <SolidColorBrush x:Key="AppBackground" Color="#061814"/>
@@ -663,7 +662,7 @@
 
         </ResourceDictionary>
 
-<ResourceDictionary x:Key="TaxFiling">
+<ResourceDictionary x:Key="{x:Static styles:RoleThemeVariants.TaxFiling}">
 
             <!-- â”€â”€ Surfaces â”€â”€ -->
             <SolidColorBrush x:Key="AppBackground" Color="#1A140A"/>
@@ -882,7 +881,7 @@
 
         </ResourceDictionary>
 
-<ResourceDictionary x:Key="GeneralRoles">
+<ResourceDictionary x:Key="{x:Static styles:RoleThemeVariants.GeneralRoles}">
 
             <!-- â”€â”€ Surfaces â”€â”€ -->
             <SolidColorBrush x:Key="AppBackground" Color="#0B132B"/>
@@ -1326,4 +1325,5 @@
     </ResourceDictionary.ThemeDictionaries>
 
 </ResourceDictionary>
+
 
