@@ -558,7 +558,10 @@
                     <Button.Styles>
                         <!-- Remove pointerover background changes so the shadow stays still -->
                         <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-                            <Setter Property="Background" Value="#B3000000" />
+                            <Setter Property="Background" Value="{DynamicResource OverlayBg}" />
+                        </Style>
+                        <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+                            <Setter Property="Background" Value="{DynamicResource OverlayBg}" />
                         </Style>
                     </Button.Styles>
                 </Button>
