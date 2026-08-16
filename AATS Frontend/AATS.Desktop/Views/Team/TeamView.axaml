@@ -648,15 +648,6 @@
                                 </Panel>
                             </StackPanel>
 
-                            <!-- Current Password (Only visible in Edit Mode) -->
-                            <StackPanel Spacing="8" IsVisible="{Binding IsEditMode}">
-                                <TextBlock Text="Current Password (Verification Required)" Foreground="{DynamicResource TextSecondary}" FontSize="12" FontWeight="SemiBold"/>
-                                <Panel>
-                                    <TextBox Classes="filter-search" PasswordChar="*" Watermark="Verify Current Password" Text="{Binding EditCurrentPassword}" Padding="40,10,10,10"/>
-                                    <i:Icon Value="fa-solid fa-shield-halved" Foreground="{DynamicResource TextMuted}" FontSize="14" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center"/>
-                                </Panel>
-                            </StackPanel>
-
                             <!-- Password and Confirm Password -->
                             <Grid ColumnDefinitions="*, 20, *">
                                 <StackPanel Grid.Column="0" Spacing="8">

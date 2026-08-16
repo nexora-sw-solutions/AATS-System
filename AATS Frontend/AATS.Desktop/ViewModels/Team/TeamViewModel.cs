@@ -118,7 +118,6 @@ public partial class TeamViewModel : ViewModelBase
     
     [ObservableProperty] private string _newMemberPassword = string.Empty;
     [ObservableProperty] private string _newMemberConfirmPassword = string.Empty;
-    [ObservableProperty] private string _editCurrentPassword = string.Empty;
 
     // Validation errors are inherited from ViewModelBase
 
@@ -288,7 +287,6 @@ public partial class TeamViewModel : ViewModelBase
 
         NewMemberPassword = string.Empty;
         NewMemberConfirmPassword = string.Empty;
-        EditCurrentPassword = string.Empty;
         
         HasFormError = false;
         FormErrorMessage = string.Empty;
@@ -332,7 +330,6 @@ public partial class TeamViewModel : ViewModelBase
         SelectedNewMemberBranch = null;
         NewMemberPassword = string.Empty;
         NewMemberConfirmPassword = string.Empty;
-        EditCurrentPassword = string.Empty;
         
         SelectedMember = null;
         IsAddMemberModalOpen = true;
@@ -391,14 +388,7 @@ public partial class TeamViewModel : ViewModelBase
         if (IsEditMode)
         {
             if (!string.IsNullOrWhiteSpace(NewMemberPassword))
-            {
-                if (string.IsNullOrWhiteSpace(EditCurrentPassword))
-                {
-                    FormErrorMessage = "Please enter Current Password to update the password.";
-                    HasFormError = true;
-                    return;
-                }
-                if (NewMemberPassword != NewMemberConfirmPassword)
+            {if (NewMemberPassword != NewMemberConfirmPassword)
                 {
                     FormErrorMessage = "Passwords do not match.";
                     HasFormError = true;
@@ -418,7 +408,6 @@ public partial class TeamViewModel : ViewModelBase
                 
                 // Only send password if a new one was entered
                 SelectedMember.Password = !string.IsNullOrWhiteSpace(NewMemberPassword) ? NewMemberPassword : null;
-                SelectedMember.CurrentPassword = !string.IsNullOrWhiteSpace(EditCurrentPassword) ? EditCurrentPassword : null;
                 
                 try 
                 {
