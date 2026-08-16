@@ -118,7 +118,10 @@ public partial class TeamViewModel : ViewModelBase
     
     [ObservableProperty] private string _newMemberPassword = string.Empty;
     [ObservableProperty] private string _newMemberConfirmPassword = string.Empty;
-
+    [ObservableProperty] private char _passwordChar = '•';
+    [ObservableProperty] private bool _isPasswordVisible;
+    [ObservableProperty] private char _confirmPasswordChar = '•';
+    [ObservableProperty] private bool _isConfirmPasswordVisible;
     // Validation errors are inherited from ViewModelBase
 
     // Confirmation Flags
@@ -547,4 +550,17 @@ public partial class TeamViewModel : ViewModelBase
         IsDeleteConfirmVisible = false;
         _memberToDelete = null;
     }
-}
+
+    [RelayCommand]
+    private void TogglePasswordVisibility()
+    {
+        IsPasswordVisible = !IsPasswordVisible;
+        PasswordChar = IsPasswordVisible ? (char)0 : '•';
+    }
+
+    [RelayCommand]
+    private void ToggleConfirmPasswordVisibility()
+    {
+        IsConfirmPasswordVisible = !IsConfirmPasswordVisible;
+        ConfirmPasswordChar = IsConfirmPasswordVisible ? (char)0 : '•';
+    }}
