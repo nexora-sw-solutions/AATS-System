@@ -28,6 +28,10 @@ public partial class DashboardViewModel : ViewModelBase
     private readonly IDataService _dataService;
 
     public bool IsAdmin => MainViewModel.Instance?.IsAdmin ?? false;
+    public bool CanAccessAudit => MainViewModel.Instance?.CanAccessAudit ?? false;
+    public bool CanAccessTax => MainViewModel.Instance?.CanAccessTax ?? false;
+    public bool CanAccessSecretarial => MainViewModel.Instance?.CanAccessSecretarial ?? false;
+    public bool CanAccessTeam => MainViewModel.Instance?.CanAccessTeam ?? false;
 
     [ObservableProperty] private int _totalClients;
     [ObservableProperty] private int _activeClients;

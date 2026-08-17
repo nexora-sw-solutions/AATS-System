@@ -38,6 +38,16 @@ public partial class AddForm15ViewModel : ViewModelBase
         }
     [ObservableProperty] private string _loginId = string.Empty;
     [ObservableProperty] private string _password = string.Empty;
+    [ObservableProperty] private bool _isPasswordVisible;
+    public string PasswordChar => IsPasswordVisible ? "\0" : "*";
+
+    [RelayCommand]
+    private void TogglePasswordVisibility()
+    {
+        IsPasswordVisible = !IsPasswordVisible;
+        OnPropertyChanged(nameof(PasswordChar));
+    }
+
     [ObservableProperty] private string _phone = string.Empty;
 
     // UI state

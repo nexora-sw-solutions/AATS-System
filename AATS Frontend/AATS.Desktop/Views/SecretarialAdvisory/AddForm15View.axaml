@@ -172,7 +172,16 @@
 
                                 <StackPanel Grid.Column="2" Grid.Row="2">
                                     <TextBlock Text="Password" Classes="input-label"/>
-                                    <TextBox Classes="form-input" Watermark="Enter Password" Text="{Binding Password}" PasswordChar="*"/>
+                                    <TextBox Classes="form-input" Watermark="Enter Password" Text="{Binding Password}" PasswordChar="{Binding PasswordChar}">
+                                        <TextBox.InnerRightContent>
+                                            <Button Classes="visibility-toggle" Command="{Binding TogglePasswordVisibilityCommand}" Margin="0,0,8,0">
+                                                <Panel>
+                                                    <i:Icon Value="fa-regular fa-eye" FontSize="14" IsVisible="{Binding !IsPasswordVisible}" />
+                                                    <i:Icon Value="fa-regular fa-eye-slash" FontSize="14" IsVisible="{Binding IsPasswordVisible}" />
+                                                </Panel>
+                                            </Button>
+                                        </TextBox.InnerRightContent>
+                                    </TextBox>
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="4" Grid.Row="2">

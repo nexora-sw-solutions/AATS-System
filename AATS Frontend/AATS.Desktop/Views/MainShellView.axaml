@@ -113,8 +113,8 @@
                             </StackPanel>
                         </Button>
 
-                        <!-- Audit & Accounts -->
-                        <Expander Classes="sidebar-expander" IsExpanded="{Binding IsAccountsExpanded, Mode=TwoWay}">
+                        <!-- Accounts & Audit -->
+                        <Expander Name="AccountsExpander" Classes="sidebar-expander" IsExpanded="{Binding IsAccountsExpanded, Mode=TwoWay}" IsVisible="{Binding CanAccessAudit}">
                             <Expander.Header>
                                 <StackPanel Orientation="Horizontal" Spacing="10">
                                     <i:Icon Value="fa-solid fa-file-invoice-dollar" Foreground="{DynamicResource AccentBlue}"/>
@@ -147,7 +147,7 @@
                         </Expander>
 
                         <!-- Tax Filing -->
-                        <Expander Name="TaxFilingExpander" Classes="sidebar-expander" IsExpanded="{Binding IsTaxFilingExpanded, Mode=TwoWay}">
+                        <Expander Name="TaxFilingExpander" Classes="sidebar-expander" IsExpanded="{Binding IsTaxFilingExpanded, Mode=TwoWay}" IsVisible="{Binding CanAccessTax}">
                             <Expander.Header>
                                 <StackPanel Orientation="Horizontal" Spacing="10">
                                     <i:Icon Value="fa-solid fa-receipt" Foreground="{DynamicResource AccentBlue}"/>
@@ -177,7 +177,7 @@
                         </Expander>
 
                         <!-- Secretarial & Advisory -->
-                        <Expander Name="SecretarialExpander" Classes="sidebar-expander" IsExpanded="{Binding IsSecretarialExpanded, Mode=TwoWay}">
+                        <Expander Name="SecretarialExpander" Classes="sidebar-expander" IsExpanded="{Binding IsSecretarialExpanded, Mode=TwoWay}" IsVisible="{Binding CanAccessSecretarial}">
                             <Expander.Header>
                                 <StackPanel Orientation="Horizontal" Spacing="10">
                                     <i:Icon Value="fa-solid fa-briefcase" Foreground="{DynamicResource AccentBlue}"/>
@@ -585,28 +585,52 @@
                         <StackPanel Spacing="15">
                              <StackPanel>
                                 <TextBlock Text="Current Password" Classes="input-label"/>
-                                <TextBox Text="{Binding CurrentPassword}" PasswordChar="*" Classes="form-input" Watermark="Enter current password">
+                                <TextBox Text="{Binding CurrentPassword}" PasswordChar="{Binding CurrentPasswordChar}" Classes="form-input" Watermark="Enter current password">
                                     <TextBox.InnerLeftContent>
                                         <i:Icon Value="fa-solid fa-lock" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
                                     </TextBox.InnerLeftContent>
+                                    <TextBox.InnerRightContent>
+                                        <Button Classes="visibility-toggle" Command="{Binding ToggleCurrentPasswordVisibilityCommand}" Margin="0,0,8,0">
+                                            <Panel>
+                                                <i:Icon Value="fa-regular fa-eye" FontSize="14" IsVisible="{Binding !IsCurrentPasswordVisible}" />
+                                                <i:Icon Value="fa-regular fa-eye-slash" FontSize="14" IsVisible="{Binding IsCurrentPasswordVisible}" />
+                                            </Panel>
+                                        </Button>
+                                    </TextBox.InnerRightContent>
                                 </TextBox>
                             </StackPanel>
 
                             <Grid ColumnDefinitions="*, *">
                                 <StackPanel Grid.Column="0" Margin="0,0,10,0">
                                     <TextBlock Text="New Password" Classes="input-label"/>
-                                    <TextBox Text="{Binding NewPassword}" PasswordChar="*" Classes="form-input" Watermark="New Password">
+                                    <TextBox Text="{Binding NewPassword}" PasswordChar="{Binding NewPasswordChar}" Classes="form-input" Watermark="New Password">
                                         <TextBox.InnerLeftContent>
                                             <i:Icon Value="fa-solid fa-shield-halved" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
                                         </TextBox.InnerLeftContent>
+                                        <TextBox.InnerRightContent>
+                                            <Button Classes="visibility-toggle" Command="{Binding ToggleNewPasswordVisibilityCommand}" Margin="0,0,8,0">
+                                                <Panel>
+                                                    <i:Icon Value="fa-regular fa-eye" FontSize="14" IsVisible="{Binding !IsNewPasswordVisible}" />
+                                                    <i:Icon Value="fa-regular fa-eye-slash" FontSize="14" IsVisible="{Binding IsNewPasswordVisible}" />
+                                                </Panel>
+                                            </Button>
+                                        </TextBox.InnerRightContent>
                                     </TextBox>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
                                     <TextBlock Text="Confirm" Classes="input-label"/>
-                                    <TextBox Text="{Binding ConfirmPassword}" PasswordChar="*" Classes="form-input" Watermark="Confirm New">
+                                    <TextBox Text="{Binding ConfirmPassword}" PasswordChar="{Binding ConfirmPasswordChar}" Classes="form-input" Watermark="Confirm New">
                                         <TextBox.InnerLeftContent>
                                             <i:Icon Value="fa-solid fa-check-double" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
                                         </TextBox.InnerLeftContent>
+                                        <TextBox.InnerRightContent>
+                                            <Button Classes="visibility-toggle" Command="{Binding ToggleConfirmPasswordVisibilityCommand}" Margin="0,0,8,0">
+                                                <Panel>
+                                                    <i:Icon Value="fa-regular fa-eye" FontSize="14" IsVisible="{Binding !IsConfirmPasswordVisible}" />
+                                                    <i:Icon Value="fa-regular fa-eye-slash" FontSize="14" IsVisible="{Binding IsConfirmPasswordVisible}" />
+                                                </Panel>
+                                            </Button>
+                                        </TextBox.InnerRightContent>
                                     </TextBox>
                                 </StackPanel>
                             </Grid>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -77,7 +77,7 @@ public partial class MainViewModel : ViewModelBase
     private string _activePage = "Dashboard";
 
     [ObservableProperty] 
-    [NotifyPropertyChangedFor(nameof(IsAdmin))]
+    [NotifyPropertyChangedFor(nameof(IsAdmin), nameof(IsAllOrStaff), nameof(CanAccessAudit), nameof(CanAccessTax), nameof(CanAccessSecretarial), nameof(CanAccessTeam), nameof(CanAccessActivityLog), nameof(CanAccessNexora))]
     private TeamMember _currentUser = null!;
     [ObservableProperty] private bool _isSignOutConfirmVisible;
     [ObservableProperty] private bool _isEditProfileVisible;
@@ -92,9 +92,61 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty] private bool _hasEditProfileError;
     [ObservableProperty] private string _editProfileErrorMessage = "";
     
+    // Edit Profile Password Visibility Toggles
+    [ObservableProperty] private bool _isCurrentPasswordVisible;
+    [ObservableProperty] private bool _isNewPasswordVisible;
+    [ObservableProperty] private bool _isConfirmPasswordVisible;
+
+    public string CurrentPasswordChar => IsCurrentPasswordVisible ? "\0" : "*";
+    public string NewPasswordChar => IsNewPasswordVisible ? "\0" : "*";
+    public string ConfirmPasswordChar => IsConfirmPasswordVisible ? "\0" : "*";
+
+    [RelayCommand]
+    private void ToggleCurrentPasswordVisibility()
+    {
+        IsCurrentPasswordVisible = !IsCurrentPasswordVisible;
+        OnPropertyChanged(nameof(CurrentPasswordChar));
+    }
+
+    [RelayCommand]
+    private void ToggleNewPasswordVisibility()
+    {
+        IsNewPasswordVisible = !IsNewPasswordVisible;
+        OnPropertyChanged(nameof(NewPasswordChar));
+    }
+
+    [RelayCommand]
+    private void ToggleConfirmPasswordVisibility()
+    {
+        IsConfirmPasswordVisible = !IsConfirmPasswordVisible;
+        OnPropertyChanged(nameof(ConfirmPasswordChar));
+    }
+
     // Notifications
     [ObservableProperty] private int _notificationUnreadCount;
+    
+    // RBAC Role & Access Getters
     public bool IsAdmin => CurrentUser?.Role?.Trim().Equals("Admin", StringComparison.OrdinalIgnoreCase) ?? false;
+
+    public bool IsAllOrStaff
+    {
+        get
+        {
+            if (CurrentUser == null) return false;
+            var role = CurrentUser.Role?.Trim() ?? string.Empty;
+            return IsAdmin || 
+                   role.Equals("All", StringComparison.OrdinalIgnoreCase) || 
+                   role.Equals("Staff", StringComparison.OrdinalIgnoreCase) || 
+                   role.Equals("Manager", StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
+    public bool CanAccessAudit => IsAdmin || IsAllOrStaff || (CurrentUser?.Role?.Trim().StartsWith("Audit", StringComparison.OrdinalIgnoreCase) ?? false);
+    public bool CanAccessTax => IsAdmin || IsAllOrStaff || (CurrentUser?.Role?.Trim().StartsWith("Tax", StringComparison.OrdinalIgnoreCase) ?? false);
+    public bool CanAccessSecretarial => IsAdmin || IsAllOrStaff || (CurrentUser?.Role?.Trim().StartsWith("Secretarial", StringComparison.OrdinalIgnoreCase) ?? false);
+    public bool CanAccessTeam => IsAdmin;
+    public bool CanAccessActivityLog => IsAdmin;
+    public bool CanAccessNexora => IsAdmin;
     public ObservableCollection<AppNotification> RecentNotifications => NotificationService.Instance.Notifications;
     
     // Global App Search

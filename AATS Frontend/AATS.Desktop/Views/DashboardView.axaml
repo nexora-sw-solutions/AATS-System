@@ -329,25 +329,25 @@
                 <TextBlock Text="Frequently used shortcuts" Foreground="{DynamicResource TextSecondary}" FontSize="13" Margin="0,-10,0,0"/>
                 
                 <StackPanel Orientation="Horizontal" Spacing="15">
-                    <Button Classes="action-button" Command="{Binding NewAuditRecordCommand}">
+                    <Button Classes="action-button" Command="{Binding NewAuditRecordCommand}" IsVisible="{Binding CanAccessAudit}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <i:Icon Value="fa-solid fa-plus" FontSize="12" Foreground="{DynamicResource AccentBlue}"/>
                             <TextBlock Text="New Audit Record" Foreground="{DynamicResource TextPrimary}"/>
                         </StackPanel>
                     </Button>
-                    <Button Classes="action-button" Command="{Binding RegisterCompanyCommand}">
+                    <Button Classes="action-button" Command="{Binding RegisterCompanyCommand}" IsVisible="{Binding CanAccessSecretarial}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <i:Icon Value="fa-solid fa-building-circle-check" FontSize="12" Foreground="{DynamicResource AccentBlue}"/>
                             <TextBlock Text="Register Company" Foreground="{DynamicResource TextPrimary}"/>
                         </StackPanel>
                     </Button>
-                    <Button Classes="action-button" Command="{Binding AddTeamMemberCommand}" IsVisible="{Binding IsAdmin}">
+                    <Button Classes="action-button" Command="{Binding AddTeamMemberCommand}" IsVisible="{Binding CanAccessTeam}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <i:Icon Value="fa-solid fa-user-plus" FontSize="12" Foreground="{DynamicResource AccentBlue}"/>
                             <TextBlock Text="Add Team Member" Foreground="{DynamicResource TextPrimary}"/>
                         </StackPanel>
                     </Button>
-                    <Button Classes="action-button" Command="{Binding FileCITCommand}">
+                    <Button Classes="action-button" Command="{Binding FileCITCommand}" IsVisible="{Binding CanAccessTax}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <i:Icon Value="fa-solid fa-file-contract" FontSize="12" Foreground="{DynamicResource AccentBlue}"/>
                             <TextBlock Text="File CIT" Foreground="{DynamicResource TextPrimary}"/>
