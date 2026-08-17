@@ -16,6 +16,7 @@ using AATS.Desktop.ViewModels.Nexora;
 using AATS.Desktop.Models;
 using AATS.Desktop.Services;
 using AATS.Desktop.Data;
+using AATS.Desktop.ViewModels.Shared;
 
 namespace AATS.Desktop.ViewModels;
 
@@ -124,6 +125,44 @@ public partial class MainViewModel : ViewModelBase
 
     // Notifications
     [ObservableProperty] private int _notificationUnreadCount;
+
+    // Draft Confirmation Overlay Properties & Commands
+    [ObservableProperty] private bool _isSaveDraftConfirmVisible;
+    [ObservableProperty] private string _draftConfirmMessage = "You have unsaved information in your current application form. Would you like to save it as a draft before changing section tabs?";
+    private Action? _pendingNavigationAction;
+
+    [RelayCommand]
+    private async Task ConfirmSaveAsDraft()
+    {
+        IsSaveDraftConfirmVisible = false;
+        if (CurrentView is IDraftFormViewModel draftVm)
+        {
+            await draftVm.SaveAsDraftAsync();
+        }
+        var navAction = _pendingNavigationAction;
+        _pendingNavigationAction = null;
+        navAction?.Invoke();
+    }
+
+    [RelayCommand]
+    private async Task ConfirmDiscardDraft()
+    {
+        IsSaveDraftConfirmVisible = false;
+        if (CurrentView is IDraftFormViewModel draftVm)
+        {
+            await draftVm.DiscardChangesAsync();
+        }
+        var navAction = _pendingNavigationAction;
+        _pendingNavigationAction = null;
+        navAction?.Invoke();
+    }
+
+    [RelayCommand]
+    private void CancelDraftModal()
+    {
+        IsSaveDraftConfirmVisible = false;
+        _pendingNavigationAction = null;
+    }
     
     // RBAC Role & Access Getters
     public bool IsAdmin => CurrentUser?.Role?.Trim().Equals("Admin", StringComparison.OrdinalIgnoreCase) ?? false;
@@ -373,6 +412,18 @@ public partial class MainViewModel : ViewModelBase
 
     // Navigation Commands
     private void NavigateTo(ViewModelBase viewModel, string main, string sub = "", string leaf = "", string activePage = "")
+    {
+        if (CurrentView is IDraftFormViewModel draftVm && draftVm.HasUnsavedChanges && !_isNavigatingHistory)
+        {
+            _pendingNavigationAction = () => PerformNavigateTo(viewModel, main, sub, leaf, activePage);
+            IsSaveDraftConfirmVisible = true;
+            return;
+        }
+
+        PerformNavigateTo(viewModel, main, sub, leaf, activePage);
+    }
+
+    private void PerformNavigateTo(ViewModelBase viewModel, string main, string sub = "", string leaf = "", string activePage = "")
     {
         string finalActivePage = string.IsNullOrEmpty(activePage) ? (string.IsNullOrEmpty(leaf) ? (string.IsNullOrEmpty(sub) ? main : sub) : leaf) : activePage;
 

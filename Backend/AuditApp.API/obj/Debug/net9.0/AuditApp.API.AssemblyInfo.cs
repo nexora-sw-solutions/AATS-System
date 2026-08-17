@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AuditApp.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9121c4d76c68485acc4eb0ee9d4c6d54abe65e3d")]
 [assembly: System.Reflection.AssemblyProductAttribute("AuditApp.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AuditApp.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

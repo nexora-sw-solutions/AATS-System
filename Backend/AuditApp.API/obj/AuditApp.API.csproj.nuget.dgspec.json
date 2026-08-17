@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.API\\AuditApp.API.csproj": {}
+    "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.API\\AuditApp.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.API\\AuditApp.API.csproj": {
+    "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.API\\AuditApp.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.API\\AuditApp.API.csproj",
+        "projectUniqueName": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.API\\AuditApp.API.csproj",
         "projectName": "AuditApp.API",
-        "projectPath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.API\\AuditApp.API.csproj",
-        "packagesPath": "C:\\Users\\sagar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.API\\obj\\",
+        "projectPath": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.API\\AuditApp.API.csproj",
+        "packagesPath": "C:\\Users\\Shanaka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\sagar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Shanaka\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -30,13 +30,14 @@
         },
         "frameworks": {
           "net9.0": {
+            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj": {
-                "projectPath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj"
+              "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj": {
+                "projectPath": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj"
               },
-              "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Infrastructure\\AuditApp.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Infrastructure\\AuditApp.Infrastructure.csproj"
+              "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Infrastructure\\AuditApp.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Infrastructure\\AuditApp.Infrastructure.csproj"
               }
             }
           }
@@ -51,10 +52,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
@@ -90,19 +92,19 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             }
           ],
           "frameworkReferences": {
@@ -113,24 +115,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.106/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj": {
+    "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj",
+        "projectUniqueName": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj",
         "projectName": "AuditApp.Application",
-        "projectPath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj",
-        "packagesPath": "C:\\Users\\sagar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Application\\obj\\",
+        "projectPath": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj",
+        "packagesPath": "C:\\Users\\Shanaka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\sagar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Shanaka\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -143,10 +145,11 @@
         },
         "frameworks": {
           "net9.0": {
+            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Domain\\AuditApp.Domain.csproj": {
-                "projectPath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Domain\\AuditApp.Domain.csproj"
+              "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Domain\\AuditApp.Domain.csproj": {
+                "projectPath": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Domain\\AuditApp.Domain.csproj"
               }
             }
           }
@@ -161,10 +164,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "BCrypt.Net-Next": {
@@ -202,15 +206,15 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             }
           ],
           "frameworkReferences": {
@@ -218,24 +222,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.106/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Domain\\AuditApp.Domain.csproj": {
+    "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Domain\\AuditApp.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Domain\\AuditApp.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Domain\\AuditApp.Domain.csproj",
         "projectName": "AuditApp.Domain",
-        "projectPath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Domain\\AuditApp.Domain.csproj",
-        "packagesPath": "C:\\Users\\sagar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Domain\\obj\\",
+        "projectPath": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Domain\\AuditApp.Domain.csproj",
+        "packagesPath": "C:\\Users\\Shanaka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\sagar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Shanaka\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -248,6 +252,7 @@
         },
         "frameworks": {
           "net9.0": {
+            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {}
           }
@@ -262,10 +267,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "imports": [
             "net461",
@@ -281,15 +287,15 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             }
           ],
           "frameworkReferences": {
@@ -297,24 +303,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.106/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Infrastructure\\AuditApp.Infrastructure.csproj": {
+    "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Infrastructure\\AuditApp.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Infrastructure\\AuditApp.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Infrastructure\\AuditApp.Infrastructure.csproj",
         "projectName": "AuditApp.Infrastructure",
-        "projectPath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Infrastructure\\AuditApp.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\sagar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Infrastructure\\AuditApp.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Shanaka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\sagar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Shanaka\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -327,10 +333,11 @@
         },
         "frameworks": {
           "net9.0": {
+            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj": {
-                "projectPath": "C:\\Users\\sagar\\Desktop\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj"
+              "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj": {
+                "projectPath": "C:\\Users\\Shanaka\\Desktop\\Files\\AATS\\Backend\\AuditApp.Application\\AuditApp.Application.csproj"
               }
             }
           }
@@ -345,10 +352,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "AWSSDK.S3": {
@@ -380,15 +388,15 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[9.0.15, 9.0.15]"
+              "version": "[9.0.18, 9.0.18]"
             }
           ],
           "frameworkReferences": {
@@ -396,7 +404,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.106/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

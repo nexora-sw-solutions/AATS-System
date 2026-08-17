@@ -5,11 +5,49 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using AATS.Desktop.Models;
 using AATS.Desktop.Services;
+using AATS.Desktop.ViewModels.Shared;
+using System.Threading.Tasks;
 
 namespace AATS.Desktop.ViewModels.AuditAndAccounts
 {
-    public partial class AuditAssuranceAddRecordViewModel : ViewModelBase
+    public partial class AuditAssuranceAddRecordViewModel : ViewModelBase, IDraftFormViewModel
     {
+        public bool HasUnsavedChanges => (!string.IsNullOrWhiteSpace(ClientId) || !string.IsNullOrWhiteSpace(ClientName) || SubTotal > 0);
+
+        public async Task SaveAsDraftAsync()
+        {
+            try
+            {
+                var draftRecord = new AuditRecord
+                {
+                    ClientCode = string.IsNullOrWhiteSpace(ClientId) ? "DRAFT" : ClientId,
+                    ClientId = _clientGuid,
+                    BranchId = _branchGuid,
+                    Date = Date ?? DateTime.UtcNow,
+                    ClientName = string.IsNullOrWhiteSpace(ClientName) ? "Draft Record" : ClientName,
+                    Assignment = Assignment,
+                    PaymentOption = PaymentOption,
+                    PaymentStatus = PaymentStatus,
+                    Notes = Notes,
+                    SubTotal = SubTotal,
+                    Discount = Discount,
+                    TotalPayment = TotalPayment,
+                    Process = "DRAFT",
+                    CurrentStep = 1
+                };
+                await DataService.Instance.AddAuditRecordAsync("Assurance", draftRecord);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving draft: {ex.Message}");
+            }
+        }
+
+        public async Task DiscardChangesAsync()
+        {
+            await Task.CompletedTask;
+        }
+
         private readonly AuditRecord? _originalRecord;
 
         [ObservableProperty]
