@@ -812,5 +812,154 @@ namespace AATS.Desktop.Services
                 return 0;
             }
         }
+
+        // Trash / Soft Delete Operations Implementation
+        public async Task<List<ClientRecord>> GetDeletedClientsAsync()
+        {
+            try
+            {
+                var response = await ApiService.Instance.GetAsync<ApiResponse<PaginatedResult<ClientRecord>>>("/api/v1/clients/deleted");
+                var items = response?.Data?.Items ?? new List<ClientRecord>();
+                foreach (var item in items)
+                {
+                    item.Branch = NormalizeBranchName(item.Branch);
+                }
+                return items;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching deleted clients: {ex.Message}");
+                return new List<ClientRecord>();
+            }
+        }
+
+        public async Task<bool> RestoreClientAsync(string id)
+        {
+            try
+            {
+                await ApiService.Instance.PostAsync($"/api/v1/clients/{id}/restore", new { });
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error restoring client {id}: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> PermanentlyDeleteClientAsync(string id)
+        {
+            try
+            {
+                await ApiService.Instance.DeleteAsync($"/api/v1/clients/{id}/permanent");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error permanently deleting client {id}: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<List<TeamMember>> GetDeletedTeamMembersAsync()
+        {
+            try
+            {
+                var response = await ApiService.Instance.GetAsync<ApiResponse<PaginatedResult<TeamMember>>>("/api/v1/users/deleted");
+                return response?.Data?.Items ?? new List<TeamMember>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching deleted team members: {ex.Message}");
+                return new List<TeamMember>();
+            }
+        }
+
+        public async Task<bool> RestoreTeamMemberAsync(string id)
+        {
+            try
+            {
+                await ApiService.Instance.PostAsync($"/api/v1/users/{id}/restore", new { });
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error restoring team member {id}: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> PermanentlyDeleteTeamMemberAsync(string id)
+        {
+            try
+            {
+                await ApiService.Instance.DeleteAsync($"/api/v1/users/{id}/permanent");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error permanently deleting team member {id}: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<List<AuditRecord>> GetDeletedAuditRecordsAsync(string category)
+        {
+            try
+            {
+                string baseUrl = IsSecretarialCategory(category) ? "/api/v1/Secretarial/" : "/api/v1/Audit/";
+                string endpoint = IsSecretarialCategory(category) ? MapSecretarialCategoryToEndpoint(category) : MapAuditCategoryToEndpoint(category);
+                string url = (endpoint.StartsWith("/") ? endpoint : baseUrl + endpoint) + "/deleted";
+
+                var response = await ApiService.Instance.GetAsync<ApiResponse<PaginatedResult<AuditRecord>>>(url);
+                var items = response?.Data?.Items ?? new List<AuditRecord>();
+                foreach (var item in items)
+                {
+                    item.Branch = NormalizeBranchName(item.Branch);
+                }
+                return items;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching deleted records ({category}): {ex.Message}");
+                return new List<AuditRecord>();
+            }
+        }
+
+        public async Task<bool> RestoreAuditRecordAsync(string category, string id)
+        {
+            try
+            {
+                string baseUrl = IsSecretarialCategory(category) ? "/api/v1/Secretarial/" : "/api/v1/Audit/";
+                string endpoint = IsSecretarialCategory(category) ? MapSecretarialCategoryToEndpoint(category) : MapAuditCategoryToEndpoint(category);
+                string url = (endpoint.StartsWith("/") ? endpoint : baseUrl + endpoint) + $"/{id}/restore";
+
+                await ApiService.Instance.PostAsync(url, new { });
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error restoring record ({category}) {id}: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> PermanentlyDeleteAuditRecordAsync(string category, string id)
+        {
+            try
+            {
+                string baseUrl = IsSecretarialCategory(category) ? "/api/v1/Secretarial/" : "/api/v1/Audit/";
+                string endpoint = IsSecretarialCategory(category) ? MapSecretarialCategoryToEndpoint(category) : MapAuditCategoryToEndpoint(category);
+                string url = (endpoint.StartsWith("/") ? endpoint : baseUrl + endpoint) + $"/{id}/permanent";
+
+                await ApiService.Instance.DeleteAsync(url);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error permanently deleting record ({category}) {id}: {ex.Message}");
+                return false;
+            }
+        }
     }
 }

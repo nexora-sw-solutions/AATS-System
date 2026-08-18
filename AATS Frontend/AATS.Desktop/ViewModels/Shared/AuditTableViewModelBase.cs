@@ -402,6 +402,9 @@ public abstract partial class AuditTableViewModelBase : ViewModelBase
 
 
 
+    [ObservableProperty] private ObservableCollection<AuditRecord> _deletedRecords = new();
+    [ObservableProperty] private bool _isTrashExpanded;
+
     public AuditTableViewModelBase()
     {
         _ = LoadDataAsync();
@@ -412,6 +415,8 @@ public abstract partial class AuditTableViewModelBase : ViewModelBase
     {
         var records = await DataService.Instance.GetAuditRecordsAsync(PageTitle);
         var clients = await DataService.Instance.GetClientsAsync();
+        var deletedRecords = await DataService.Instance.GetDeletedAuditRecordsAsync(PageTitle);
+
         foreach (var r in records)
         {
             var client = clients.FirstOrDefault(c => c.ClientCode == r.ClientCode);
@@ -419,7 +424,38 @@ public abstract partial class AuditTableViewModelBase : ViewModelBase
         }
         _allRecords.Clear();
         _allRecords.AddRange(records);
+
+        DeletedRecords.Clear();
+        foreach (var d in deletedRecords)
+        {
+            DeletedRecords.Add(d);
+        }
+
         ApplyFilters();
+    }
+
+    [RelayCommand]
+    public async Task RestoreAuditRecord(AuditRecord? record)
+    {
+        if (record == null || string.IsNullOrEmpty(record.ID)) return;
+        bool success = await DataService.Instance.RestoreAuditRecordAsync(PageTitle, record.ID);
+        if (success)
+        {
+            LogService.Instance.AddLog("Restore", PageTitle, record.Branch ?? "Central", $"Restored soft-deleted audit record: {record.Code}");
+            await LoadDataAsync();
+        }
+    }
+
+    [RelayCommand]
+    public async Task PermanentlyDeleteAuditRecord(AuditRecord? record)
+    {
+        if (record == null || string.IsNullOrEmpty(record.ID)) return;
+        bool success = await DataService.Instance.PermanentlyDeleteAuditRecordAsync(PageTitle, record.ID);
+        if (success)
+        {
+            LogService.Instance.AddLog("Purge", PageTitle, record.Branch ?? "Central", $"Permanently purged audit record: {record.Code}");
+            await LoadDataAsync();
+        }
     }
 
     public ObservableCollection<AuditRecord> Records { get; } = new();

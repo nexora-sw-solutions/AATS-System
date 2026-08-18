@@ -23,7 +23,7 @@ public partial class ClientsViewModel : ViewModelBase
     // Filter Collections (Standardized design sync)
     public ObservableCollection<string> CategoryFilters { get; } = new() { "All Categories", "Active", "Black Listed", "Suspended" };
     public List<string> Categories { get; } = new() { "Active", "Black Listed", "Suspended" };
-    public ObservableCollection<string> StatusFilters { get; } = new() { "All Statuses", "Active", "Inactive" };
+    public ObservableCollection<string> StatusFilters { get; } = new() { "All Statuses", "Active Only", "Deleted / Trash", "Active", "Inactive" };
     public List<string> Statuses { get; } = new() { "Active", "Inactive" };
     
     [ObservableProperty] private string _selectedCategoryFilter = "All Categories";
@@ -167,6 +167,9 @@ public partial class ClientsViewModel : ViewModelBase
     private bool _isBulkDelete;
     private ClientRecord? _clientToDelete;
 
+    [ObservableProperty] private ObservableCollection<ClientRecord> _deletedClients = new();
+    [ObservableProperty] private bool _isTrashExpanded;
+
     public Action? NavigateToAddClient { get; set; }
     public Action<ClientRecord>? NavigateToDetail { get; set; }
 
@@ -181,8 +184,9 @@ public partial class ClientsViewModel : ViewModelBase
         {
             var branchesTask = DataService.Instance.GetBranchesAsync();
             var clientsTask = DataService.Instance.GetClientsAsync();
+            var deletedClientsTask = DataService.Instance.GetDeletedClientsAsync();
 
-            await Task.WhenAll(branchesTask, clientsTask);
+            await Task.WhenAll(branchesTask, clientsTask, deletedClientsTask);
 
             var branches = await branchesTask;
             AvailableBranches.Clear();
@@ -202,6 +206,14 @@ public partial class ClientsViewModel : ViewModelBase
                 client.PropertyChanged += OnRecordPropertyChanged;
                 _allClients.Add(client);
             }
+
+            var deleted = await deletedClientsTask;
+            DeletedClients.Clear();
+            foreach (var d in deleted)
+            {
+                DeletedClients.Add(d);
+            }
+
             ApplyFilter();
         }
         catch (Exception ex)
@@ -281,7 +293,11 @@ public partial class ClientsViewModel : ViewModelBase
         if (SelectedBranchFilter != "All Branches")
             results = results.Where(c => c.Branch == SelectedBranchFilter);
 
-        if (SelectedStatusFilter != "All Statuses")
+        if (SelectedStatusFilter == "Active Only")
+            results = results.Where(c => !c.IsDeleted);
+        else if (SelectedStatusFilter == "Deleted / Trash")
+            results = results.Where(c => c.IsDeleted);
+        else if (SelectedStatusFilter != "All Statuses")
             results = results.Where(c => c.Status == SelectedStatusFilter);
 
         _filteredSource = results.OrderBy(c => c.ClientCode).ToList();
@@ -520,6 +536,7 @@ public partial class ClientsViewModel : ViewModelBase
         HasSelectedRecords = false;
 
         ApplyFilter();
+        _ = LoadDataAsync();
     }
 
     [RelayCommand]
@@ -527,5 +544,29 @@ public partial class ClientsViewModel : ViewModelBase
     {
         IsDeleteConfirmVisible = false;
         _clientToDelete = null;
+    }
+
+    [RelayCommand]
+    private async Task RestoreClient(ClientRecord? client)
+    {
+        if (client == null || string.IsNullOrEmpty(client.Id)) return;
+        bool success = await DataService.Instance.RestoreClientAsync(client.Id);
+        if (success)
+        {
+            LogService.Instance.AddLog("Restore", "Clients", client.Branch ?? "Central", $"Restored soft-deleted client: {client.Name}");
+            await LoadDataAsync();
+        }
+    }
+
+    [RelayCommand]
+    private async Task PermanentlyDeleteClient(ClientRecord? client)
+    {
+        if (client == null || string.IsNullOrEmpty(client.Id)) return;
+        bool success = await DataService.Instance.PermanentlyDeleteClientAsync(client.Id);
+        if (success)
+        {
+            LogService.Instance.AddLog("Purge", "Clients", client.Branch ?? "Central", $"Permanently purged client: {client.Name}");
+            await LoadDataAsync();
+        }
     }
 }

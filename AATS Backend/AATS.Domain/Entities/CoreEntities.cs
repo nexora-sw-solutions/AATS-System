@@ -43,6 +43,7 @@ namespace AATS.Domain.Entities
 
         public string? Phone { get; set; }
         public UserRole Role { get; set; } = UserRole.Staff;
+        public string Status { get; set; } = "Active"; // Active, Inactive
         public Guid? BranchId { get; set; }
         public Branch? Branch { get; set; }
 
@@ -50,7 +51,11 @@ namespace AATS.Domain.Entities
         public string? BranchName => Branch?.Name;
 
         [NotMapped]
-        public bool IsActive { get; set; } = true;
+        public bool IsActive
+        {
+            get => Status != "Inactive";
+            set => Status = value ? "Active" : "Inactive";
+        }
     }
 
     public class Client : BaseEntity

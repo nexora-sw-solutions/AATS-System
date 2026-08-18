@@ -22,11 +22,13 @@ public partial class TeamViewModel : ViewModelBase
 
     // Filter Collections
     public ObservableCollection<string> RoleFilters { get; } = new() { "All Roles", "Admin", "Audit and Assurance", "Secretarial and Advisory", "Tax Filing", "All" };
+    public ObservableCollection<string> StatusFilters { get; } = new() { "All Statuses", "Active Only", "Deleted / Trash", "Active", "Inactive" };
     [ObservableProperty] private ObservableCollection<string> _branchFilters = new() { "All Branches" };
     [ObservableProperty] private ObservableCollection<Branch> _branches = new();
     
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasActiveFilters))] private string _selectedRoleFilter = "All Roles";
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasActiveFilters))] private string _selectedBranchFilter = "All Branches";
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasActiveFilters))] private string _selectedStatusFilter = "All Statuses";
 
     // Date Filtering Properties
     public ObservableCollection<string> DateFilters { get; } = new() { "All Dates", "Today", "This Week", "This Month", "This Year", "Specific Date", "Specific Period" };
@@ -132,6 +134,9 @@ public partial class TeamViewModel : ViewModelBase
 
     public ObservableCollection<string> AvailableRoles => new(RoleFilters.Where(r => r != "All Roles"));
     public ObservableCollection<Branch> AvailableBranches => Branches;
+    [ObservableProperty] private ObservableCollection<TeamMember> _deletedTeamMembers = new();
+    [ObservableProperty] private bool _isTrashExpanded;
+
     public TeamViewModel()
     {
         _ = LoadDataAsync();
@@ -143,8 +148,9 @@ public partial class TeamViewModel : ViewModelBase
         {
             var branchesTask = DataService.Instance.GetBranchesAsync();
             var membersTask = DataService.Instance.GetTeamMembersAsync();
+            var deletedMembersTask = DataService.Instance.GetDeletedTeamMembersAsync();
 
-            await Task.WhenAll(branchesTask, membersTask);
+            await Task.WhenAll(branchesTask, membersTask, deletedMembersTask);
 
             var branches = await branchesTask;
             Branches.Clear();
@@ -161,6 +167,14 @@ public partial class TeamViewModel : ViewModelBase
             var members = await membersTask;
             _allMembers.Clear();
             _allMembers.AddRange(members);
+
+            var deleted = await deletedMembersTask;
+            DeletedTeamMembers.Clear();
+            foreach (var d in deleted)
+            {
+                DeletedTeamMembers.Add(d);
+            }
+
             ApplyFilter();
         }
         catch (Exception ex)
@@ -200,6 +214,13 @@ public partial class TeamViewModel : ViewModelBase
 
         if (SelectedBranchFilter != "All Branches")
             results = results.Where(m => m.Branch == SelectedBranchFilter);
+
+        if (SelectedStatusFilter == "Active Only")
+            results = results.Where(m => !m.IsDeleted);
+        else if (SelectedStatusFilter == "Deleted / Trash")
+            results = results.Where(m => m.IsDeleted);
+        else if (SelectedStatusFilter != "All Statuses")
+            results = results.Where(m => m.Status == SelectedStatusFilter);
 
         DateTime now = DateTime.Now;
         if (SelectedDateFilter == "Today")
@@ -541,6 +562,31 @@ public partial class TeamViewModel : ViewModelBase
             HasSelectedRecords = false;
 
             ApplyFilter();
+            _ = LoadDataAsync();
+        }
+    }
+
+    [RelayCommand]
+    private async Task RestoreTeamMember(TeamMember? member)
+    {
+        if (member == null || string.IsNullOrEmpty(member.Id)) return;
+        bool success = await DataService.Instance.RestoreTeamMemberAsync(member.Id);
+        if (success)
+        {
+            LogService.Instance.AddLog("Restore", "Team", member.Branch ?? "Central", $"Restored soft-deleted member: {member.Username}");
+            await LoadDataAsync();
+        }
+    }
+
+    [RelayCommand]
+    private async Task PermanentlyDeleteTeamMember(TeamMember? member)
+    {
+        if (member == null || string.IsNullOrEmpty(member.Id)) return;
+        bool success = await DataService.Instance.PermanentlyDeleteTeamMemberAsync(member.Id);
+        if (success)
+        {
+            LogService.Instance.AddLog("Purge", "Team", member.Branch ?? "Central", $"Permanently purged member: {member.Username}");
+            await LoadDataAsync();
         }
     }
 

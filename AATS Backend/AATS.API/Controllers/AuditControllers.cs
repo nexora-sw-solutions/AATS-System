@@ -17,14 +17,25 @@ namespace AATS.API.Controllers
             _recordService = recordService;
         }
 
-        protected async Task<List<AuditRecord>> GetRecordsByCategoryAsync(string category, bool enrich = true)
+        protected async Task<List<AuditRecord>> GetRecordsByCategoryAsync(string category, bool enrich = true, bool includeDeleted = true)
         {
+            var now = DateTime.UtcNow;
             var query = _context.AuditRecords
                 .Include(r => r.Branch)
                 .Include(r => r.Client)
                 .ThenInclude(c => c.Branch)
                 .Where(r => r.Category.ToLower() == category.ToLower());
-            var list = await query.OrderByDescending(r => r.CreatedAt).ToListAsync();
+            var all = await query.OrderByDescending(r => r.CreatedAt).ToListAsync();
+
+            var toPurge = all.Where(r => r.IsDeleted && r.DeletedAt.HasValue && (now - r.DeletedAt.Value).TotalDays >= 30).ToList();
+            if (toPurge.Any())
+            {
+                _context.AuditRecords.RemoveRange(toPurge);
+                await _context.SaveChangesAsync();
+                all = all.Except(toPurge).ToList();
+            }
+
+            var list = includeDeleted ? all : all.Where(r => !r.IsDeleted).ToList();
 
             var branches = await _context.Branches.ToListAsync();
             var defaultBranchName = branches.FirstOrDefault()?.Name ?? "Central";
@@ -66,6 +77,63 @@ namespace AATS.API.Controllers
             }
 
             return list;
+        }
+
+        protected async Task<List<AuditRecord>> GetDeletedRecordsByCategoryAsync(string category)
+        {
+            var query = _context.AuditRecords
+                .Include(r => r.Branch)
+                .Include(r => r.Client)
+                .ThenInclude(c => c.Branch)
+                .Where(r => r.Category.ToLower() == category.ToLower() && r.IsDeleted);
+            var list = await query.OrderByDescending(r => r.DeletedAt).ToListAsync();
+
+            var now = DateTime.UtcNow;
+            var toPurge = list.Where(r => r.DeletedAt.HasValue && (now - r.DeletedAt.Value).TotalDays >= 30).ToList();
+            if (toPurge.Any())
+            {
+                _context.AuditRecords.RemoveRange(toPurge);
+                await _context.SaveChangesAsync();
+                list = list.Except(toPurge).ToList();
+            }
+
+            var branches = await _context.Branches.ToListAsync();
+            var defaultBranchName = branches.FirstOrDefault()?.Name ?? "Central";
+
+            foreach (var r in list)
+            {
+                if (string.IsNullOrWhiteSpace(r.BranchName) || r.BranchName.Equals("Unknown", StringComparison.OrdinalIgnoreCase))
+                {
+                    r.BranchName = r.Branch?.Name ?? r.Client?.Branch?.Name ?? defaultBranchName;
+                }
+            }
+
+            return list;
+        }
+
+        protected async Task<bool> RestoreRecordAsync(Guid id)
+        {
+            var existing = await _context.AuditRecords.FindAsync(id);
+            if (existing != null)
+            {
+                existing.IsDeleted = false;
+                existing.DeletedAt = null;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        protected async Task<bool> PermanentlyDeleteRecordAsync(Guid id)
+        {
+            var existing = await _context.AuditRecords.FindAsync(id);
+            if (existing != null)
+            {
+                _context.AuditRecords.Remove(existing);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
         protected async Task<AuditRecord?> CreateRecordAsync(string category, string prefix, AuditRecord record)
@@ -129,6 +197,27 @@ namespace AATS.API.Controllers
             return Ok(new { success = true, data = new { items, totalCount = items.Count }, error = (object?)null });
         }
 
+        [HttpGet("deleted")]
+        public async Task<IActionResult> GetDeleted()
+        {
+            var items = await GetDeletedRecordsByCategoryAsync("Assurance");
+            return Ok(new { success = true, data = new { items, totalCount = items.Count }, error = (object?)null });
+        }
+
+        [HttpPost("{id}/restore")]
+        public async Task<IActionResult> Restore(Guid id)
+        {
+            var res = await RestoreRecordAsync(id);
+            return Ok(new { success = res });
+        }
+
+        [HttpDelete("{id}/permanent")]
+        public async Task<IActionResult> PermanentDelete(Guid id)
+        {
+            var res = await PermanentlyDeleteRecordAsync(id);
+            return Ok(new { success = res });
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
@@ -161,7 +250,8 @@ namespace AATS.API.Controllers
             var existing = await _context.AuditRecords.FindAsync(id);
             if (existing != null)
             {
-                _context.AuditRecords.Remove(existing);
+                existing.IsDeleted = true;
+                existing.DeletedAt = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
             }
             return Ok(new { success = true });

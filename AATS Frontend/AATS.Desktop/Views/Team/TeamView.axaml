@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:helpers="using:AATS.Desktop.Helpers"
              xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.Team"
+             xmlns:Models="clr-namespace:AATS.Desktop.Models"
              xmlns:i="https://github.com/projektanker/icons.avalonia"
              xmlns:inter="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
@@ -134,6 +135,32 @@
             </Style>
         </Style>
 
+        <!-- Standardized Status Badge Design (Design parity with Clients module) -->
+        <Style Selector="Border.status-badge">
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Border.status-active">
+            <Setter Property="Background" Value="#DCFCE7"/>
+            <Setter Property="BorderBrush" Value="#BBF7D0"/>
+            <Setter Property="BoxShadow" Value="0 0 8 0 #33BBF7D0"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Foreground" Value="#166534"/>
+            </Style>
+        </Style>
+
+        <Style Selector="Border.status-inactive">
+            <Setter Property="Background" Value="#F3F4F6"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Foreground" Value="#374151"/>
+            </Style>
+        </Style>
+
 
 
         <Style Selector="Border.dashboard-card">
@@ -179,7 +206,7 @@
 
     <Panel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <!-- Main Content (Full Width) -->
-        <Grid Grid.Column="0" RowDefinitions="Auto, Auto, *, Auto" Margin="25,20,25,10" VerticalAlignment="Top">
+        <Grid Grid.Column="0" RowDefinitions="Auto, Auto, *, Auto, Auto" Margin="25,20,25,10" VerticalAlignment="Top">
             <!-- Header -->
             <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,25" ZIndex="10">
                 <TextBlock Text="Team Management" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
@@ -343,12 +370,15 @@
                             <!-- Username (Avatar + Name) -->
                             <DataGridTemplateColumn Header="Username" Width="240">
                                 <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center" Margin="10,0">
+                                    <DataTemplate DataType="Models:TeamMember">
+                                        <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center" Margin="10,0" Opacity="{Binding RowOpacity}">
                                             <Border Width="30" Height="30" CornerRadius="15" Background="{DynamicResource HoverBg}" BorderBrush="{DynamicResource IconActionBorder}" BorderThickness="1">
                                                 <TextBlock Text="{Binding Initial}" Foreground="{DynamicResource TextSecondary}" FontWeight="Bold" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
                                             <TextBlock Text="{Binding Username}" Foreground="{DynamicResource TextInput}" FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center"/>
+                                            <Border IsVisible="{Binding IsDeleted}" Background="#FEE2E2" BorderBrush="#FCA5A5" BorderThickness="1" CornerRadius="4" Padding="6,2" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding DeletedBadgeText}" Foreground="#DC2626" FontSize="10" FontWeight="Bold"/>
+                                            </Border>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -412,6 +442,19 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
+                            <!-- Status -->
+                            <DataGridTemplateColumn Header="Status" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="Models:TeamMember">
+                                        <Border Classes="status-badge" Margin="10,0" VerticalAlignment="Center" Opacity="{Binding RowOpacity}"
+                                                Classes.status-active="{Binding Status, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Active}"
+                                                Classes.status-inactive="{Binding Status, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Inactive}">
+                                            <TextBlock Text="{Binding Status}" FontSize="11" FontWeight="Bold"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
                             <!-- Actions -->
                             <DataGridTemplateColumn Header="Actions" Width="100">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -470,6 +513,112 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
+
+            <!-- Recently Deleted Team Members Section (30-Day Retention Trash - Styled to match Main Table) -->
+            <Border Grid.Row="4" IsVisible="{Binding DeletedTeamMembers.Count}" Background="{DynamicResource CardBg}" CornerRadius="12" Padding="5" Margin="0,20,0,0" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1">
+                <Expander IsExpanded="{Binding IsTrashExpanded, Mode=TwoWay}" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0">
+                    <Expander.Header>
+                        <Grid ColumnDefinitions="Auto, *, Auto" Margin="5,0">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                                <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                <TextBlock Text="Recently Deleted Team Members (30-Day Trash)" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource TextPrimary}"/>
+                                <Border Background="#FEE2E2" CornerRadius="10" Padding="8,2">
+                                    <TextBlock Text="{Binding DeletedTeamMembers.Count, StringFormat='{}{0} deleted'}" Foreground="{DynamicResource StatusDanger}" FontSize="11" FontWeight="Bold"/>
+                                </Border>
+                            </StackPanel>
+                            <TextBlock Grid.Column="2" Text="Items are permanently purged after 30 days" FontSize="11" Foreground="{DynamicResource TextMuted}" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Expander.Header>
+
+                    <Border Margin="0,10,0,0" Background="Transparent" CornerRadius="8">
+                        <DataGrid ItemsSource="{Binding DeletedTeamMembers}" 
+                                  AutoGenerateColumns="False" 
+                                  IsReadOnly="True" 
+                                  CanUserSortColumns="True"
+                                  Background="Transparent" BorderThickness="0"
+                                  GridLinesVisibility="None" RowBackground="Transparent">
+                            <DataGrid.Columns>
+                                <!-- Username -->
+                                <DataGridTemplateColumn Header="Username" Width="220">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="Models:TeamMember">
+                                            <StackPanel Orientation="Horizontal" Spacing="12" Margin="10,0" Opacity="0.85">
+                                                <Border Width="30" Height="30" CornerRadius="15" Background="{DynamicResource HoverBg}" BorderBrush="{DynamicResource IconActionBorder}" BorderThickness="1">
+                                                    <TextBlock Text="{Binding Initial}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimary}" FontSize="11" FontWeight="Bold"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding Username}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" FontSize="12"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Email -->
+                                <DataGridTemplateColumn Header="Email" Width="220">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="Models:TeamMember">
+                                            <TextBlock Text="{Binding Email}" Foreground="{DynamicResource TextSecondary}" FontSize="11" VerticalAlignment="Center" Margin="10,0" Opacity="0.8"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Role -->
+                                <DataGridTemplateColumn Header="Role" Width="180">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="Models:TeamMember">
+                                            <TextBlock Text="{Binding Role}" Foreground="{DynamicResource TextSecondary}" FontSize="11" VerticalAlignment="Center" Margin="10,0" Opacity="0.8"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Branch -->
+                                <DataGridTemplateColumn Header="Branch" Width="130">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="Models:TeamMember">
+                                            <TextBlock Text="{Binding Branch}" Foreground="{DynamicResource TextSecondary}" FontSize="11" VerticalAlignment="Center" Margin="10,0" Opacity="0.8"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Retention Countdown -->
+                                <DataGridTemplateColumn Header="Retention" Width="160">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="Models:TeamMember">
+                                            <Border Background="#FEF3C7" BorderBrush="#FDE68A" BorderThickness="1" CornerRadius="6" Padding="8,3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0">
+                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                    <i:Icon Value="fa-solid fa-clock" Foreground="#92400E" FontSize="11"/>
+                                                    <TextBlock Text="{Binding RemainingDays, StringFormat='{}{0} days left'}" Foreground="#92400E" FontSize="11" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Action Column -->
+                                <DataGridTemplateColumn Header="Action" Width="180">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="Models:TeamMember">
+                                            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" Margin="10,0">
+                                                <Button Classes="action-btn" Command="{Binding $parent[UserControl].DataContext.RestoreTeamMemberCommand}" CommandParameter="{Binding}" ToolTip.Tip="Restore Member">
+                                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <i:Icon Value="fa-solid fa-rotate-left" Foreground="{DynamicResource AccentPrimary}" FontSize="12"/>
+                                                        <TextBlock Text="Restore" Foreground="{DynamicResource AccentPrimary}" FontSize="11" FontWeight="SemiBold"/>
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button Classes="action-btn" Command="{Binding $parent[UserControl].DataContext.PermanentlyDeleteTeamMemberCommand}" CommandParameter="{Binding}" ToolTip.Tip="Delete Permanently">
+                                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="12"/>
+                                                        <TextBlock Text="Purge" Foreground="{DynamicResource StatusDanger}" FontSize="11" FontWeight="SemiBold"/>
+                                                    </StackPanel>
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                </Expander>
+            </Border>
         </Grid>
 
         <!-- Member Detail Slide Drawer Removed -->

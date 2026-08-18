@@ -33,6 +33,26 @@ public partial class TeamMember : ObservableObject
     [NotifyPropertyChangedFor(nameof(CreatedAtFormatted))]
     private DateTime _createdAt;
 
+    [ObservableProperty]
+    [property: JsonPropertyName("status")]
+    private string _status = "Active"; // Active, Inactive
+
+    [ObservableProperty]
+    [property: JsonPropertyName("isDeleted")]
+    private bool _isDeleted;
+
+    [ObservableProperty]
+    [property: JsonPropertyName("deletedAt")]
+    private DateTime? _deletedAt;
+
+    public int RemainingDays => DeletedAt.HasValue 
+        ? Math.Max(0, 30 - (DateTime.UtcNow - DeletedAt.Value).Days) 
+        : 30;
+
+    public double RowOpacity => IsDeleted ? 0.55 : 1.0;
+    public bool IsActiveRecord => !IsDeleted;
+    public string DeletedBadgeText => IsDeleted ? $"DELETED ({RemainingDays}d left)" : string.Empty;
+
     [ObservableProperty] private string? _password;
     
     public string Initial => !string.IsNullOrEmpty(Username) ? Username[0].ToString().ToUpper() : "?";

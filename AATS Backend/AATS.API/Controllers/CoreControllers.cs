@@ -15,10 +15,20 @@ namespace AATS.API.Controllers
     {
         public UsersController(IRepository<User> repository) : base(repository) { }
 
-        public override async Task<ActionResult<ApiResponse<PaginatedResult<User>>>> GetAll([FromQuery] bool enrich = true)
+        public override async Task<ActionResult<ApiResponse<PaginatedResult<User>>>> GetAll([FromQuery] bool enrich = true, [FromQuery] bool includeDeleted = true)
         {
             var list = await _repository.GetWithInclude(u => u.Branch);
-            var filteredList = await FilterListForCurrentUserAsync(list);
+            var now = DateTime.UtcNow;
+            var toPurge = list.Where(u => u.IsDeleted && u.DeletedAt.HasValue && (now - u.DeletedAt.Value).TotalDays >= 30).ToList();
+            if (toPurge.Any())
+            {
+                foreach (var p in toPurge) await _repository.DeleteAsync(p);
+                await _repository.SaveChangesAsync();
+                list = list.Except(toPurge).ToList();
+            }
+
+            var items = includeDeleted ? list : list.Where(u => !u.IsDeleted).ToList();
+            var filteredList = await FilterListForCurrentUserAsync(items);
 
             var result = new PaginatedResult<User>
             {
@@ -72,17 +82,18 @@ namespace AATS.API.Controllers
     {
         public BranchesController(IRepository<Branch> repository) : base(repository) { }
 
-        public override async Task<ActionResult<ApiResponse<PaginatedResult<Branch>>>> GetAll([FromQuery] bool enrich = true)
+        public override async Task<ActionResult<ApiResponse<PaginatedResult<Branch>>>> GetAll([FromQuery] bool enrich = true, [FromQuery] bool includeDeleted = true)
         {
             var (isStaff, userBranchId) = await GetCurrentUserRoleAndBranchAsync();
             var list = await _repository.GetAllAsync();
+            var items = includeDeleted ? list : list.Where(b => !b.IsDeleted).ToList();
             
             if (isStaff && userBranchId.HasValue)
             {
-                list = list.Where(b => b.Id == userBranchId.Value).ToList();
+                items = items.Where(b => b.Id == userBranchId.Value).ToList();
             }
 
-            var branchList = list.ToList();
+            var branchList = items.ToList();
             var result = new PaginatedResult<Branch>
             {
                 Items = branchList,
@@ -151,10 +162,20 @@ namespace AATS.API.Controllers
             return response;
         }
 
-        public override async Task<ActionResult<ApiResponse<PaginatedResult<Client>>>> GetAll([FromQuery] bool enrich = true)
+        public override async Task<ActionResult<ApiResponse<PaginatedResult<Client>>>> GetAll([FromQuery] bool enrich = true, [FromQuery] bool includeDeleted = true)
         {
             var list = await _repository.GetWithInclude(c => c.Branch);
-            var filteredList = await FilterListForCurrentUserAsync(list);
+            var now = DateTime.UtcNow;
+            var toPurge = list.Where(c => c.IsDeleted && c.DeletedAt.HasValue && (now - c.DeletedAt.Value).TotalDays >= 30).ToList();
+            if (toPurge.Any())
+            {
+                foreach (var p in toPurge) await _repository.DeleteAsync(p);
+                await _repository.SaveChangesAsync();
+                list = list.Except(toPurge).ToList();
+            }
+
+            var items = includeDeleted ? list : list.Where(c => !c.IsDeleted).ToList();
+            var filteredList = await FilterListForCurrentUserAsync(items);
 
             var dbContext = HttpContext.RequestServices.GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
             if (dbContext != null)

@@ -100,6 +100,22 @@ namespace AATS.Desktop.Models
         [System.Text.Json.Serialization.JsonPropertyName("branchName")]
         public string? Branch { get; set; }
 
+        [ObservableProperty]
+        [property: JsonPropertyName("isDeleted")]
+        private bool _isDeleted;
+
+        [ObservableProperty]
+        [property: JsonPropertyName("deletedAt")]
+        private DateTime? _deletedAt;
+
+        public int RemainingDays => DeletedAt.HasValue 
+            ? Math.Max(0, 30 - (DateTime.UtcNow - DeletedAt.Value).Days) 
+            : 30;
+
+        public double RowOpacity => IsDeleted ? 0.55 : 1.0;
+        public bool IsActiveRecord => !IsDeleted;
+        public string DeletedBadgeText => IsDeleted ? $"DELETED ({RemainingDays}d left)" : string.Empty;
+
         [ObservableProperty] 
         [property: JsonPropertyName("noOfStaffs")]
         private int _noOfStaffs;

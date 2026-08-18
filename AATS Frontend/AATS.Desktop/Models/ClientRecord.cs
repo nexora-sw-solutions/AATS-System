@@ -43,6 +43,22 @@ public partial class ClientRecord : ObservableObject
     [ObservableProperty] 
     [property: JsonPropertyName("createdAt")] 
     private DateTime _date = DateTime.UtcNow;
+
+    [ObservableProperty]
+    [property: JsonPropertyName("isDeleted")]
+    private bool _isDeleted;
+
+    [ObservableProperty]
+    [property: JsonPropertyName("deletedAt")]
+    private DateTime? _deletedAt;
+
+    public int RemainingDays => DeletedAt.HasValue 
+        ? Math.Max(0, 30 - (DateTime.UtcNow - DeletedAt.Value).Days) 
+        : 30;
+
+    public double RowOpacity => IsDeleted ? 0.55 : 1.0;
+    public bool IsActiveRecord => !IsDeleted;
+    public string DeletedBadgeText => IsDeleted ? $"DELETED ({RemainingDays}d left)" : string.Empty;
     
     [ObservableProperty] 
     [NotifyPropertyChangedFor(nameof(CategoryIcon))] 

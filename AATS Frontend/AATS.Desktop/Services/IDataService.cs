@@ -27,5 +27,18 @@ namespace AATS.Desktop.Services
 
         // Branches
         Task<List<Branch>> GetBranchesAsync();
+
+        // Trash / Soft Delete Operations
+        Task<List<ClientRecord>> GetDeletedClientsAsync();
+        Task<bool> RestoreClientAsync(string id);
+        Task<bool> PermanentlyDeleteClientAsync(string id);
+
+        Task<List<TeamMember>> GetDeletedTeamMembersAsync();
+        Task<bool> RestoreTeamMemberAsync(string id);
+        Task<bool> PermanentlyDeleteTeamMemberAsync(string id);
+
+        Task<List<AuditRecord>> GetDeletedAuditRecordsAsync(string category);
+        Task<bool> RestoreAuditRecordAsync(string category, string id);
+        Task<bool> PermanentlyDeleteAuditRecordAsync(string category, string id);
     }
 }
