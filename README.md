@@ -61,7 +61,7 @@ The Avalonia desktop application window will open automatically.
 
 ---
 
-## 🔐 Default Test Login Credentials
+## 🔐 Default Roles
 
 | Role | Username | Access Scope |
 | :--- | :--- | :--- |
@@ -71,4 +71,12 @@ The Avalonia desktop application window will open automatically.
 | **Secretarial** | `sec_user` | Client, Dashboard, Secretarial & Advisory section |
 
 ---
-- [ ] Verify that branch names display actual branch names (e.g. `Central`, `South`) instead of `Unknown branch`.
+## 🔐 Default Test Login Credentials
+
+| Role | Username | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin` | Admin@123 |
+| **Audit** | `audit` | audit123 |
+| **Tax** | `tax` | tax123 |
+| **Secretarial** | `secretarial` | secretarial23 |
+| **All** | `all` | alll23 |
