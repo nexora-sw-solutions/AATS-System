@@ -24,5 +24,8 @@ namespace AATS.Desktop.Services
         // Outstanding Balances
         Task<List<OutstandingBalanceRecord>> GetOutstandingBalancesAsync();
         Task<int> GetTotalSecretarialRecordsAsync();
+
+        // Branches
+        Task<List<Branch>> GetBranchesAsync();
     }
 }

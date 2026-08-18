@@ -343,6 +343,7 @@ public partial class DashboardViewModel : ViewModelBase
             // Dispatch all API calls concurrently
             var clientsTask = _dataService.GetClientsAsync();
             var teamMembersTask = _dataService.GetTeamMembersAsync();
+            var branchesTask = _dataService.GetBranchesAsync();
 
             var auditCategories = new[] { "Audit & Assurance", "Internal Audit", "Others", "Forensic Audit & Investigation", "Internal Control Systems & Outsourcing", "Management Accountings", "Tax Accountings" };
 
@@ -352,18 +353,43 @@ public partial class DashboardViewModel : ViewModelBase
 
             // Await parallel execution of all requests
             await Task.WhenAll(
-                new Task[] { clientsTask, teamMembersTask, totalSecretarialTask }
+                new Task[] { clientsTask, teamMembersTask, totalSecretarialTask, branchesTask }
                 .Concat(auditTasks)
             );
 
             // Assign results
             _allClients = await clientsTask;
+            var branches = await branchesTask;
+            var branchDict = branches.Where(b => b.Id != Guid.Empty).ToDictionary(b => b.Id, b => b.Name);
+            var clientDict = _allClients.Where(c => !string.IsNullOrEmpty(c.Id)).ToDictionary(c => c.Id!, c => c.Branch);
+
             TotalTeamMembers = (await teamMembersTask).Count;
 
             _allAudits.Clear();
             foreach (var task in auditTasks)
             {
-                _allAudits.AddRange(await task);
+                var auditList = await task;
+                foreach (var a in auditList)
+                {
+                    if (string.IsNullOrWhiteSpace(a.Branch) || 
+                        a.Branch.Equals("Unknown", StringComparison.OrdinalIgnoreCase) || 
+                        a.Branch.Equals("Unknown branch", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (a.BranchId.HasValue && branchDict.TryGetValue(a.BranchId.Value, out var bName) && !string.IsNullOrWhiteSpace(bName))
+                        {
+                            a.Branch = bName;
+                        }
+                        else if (a.ClientId.HasValue && clientDict.TryGetValue(a.ClientId.Value.ToString(), out var cBranch) && !string.IsNullOrWhiteSpace(cBranch) && !cBranch.Equals("Unknown", StringComparison.OrdinalIgnoreCase))
+                        {
+                            a.Branch = cBranch;
+                        }
+                        else
+                        {
+                            a.Branch = "Central";
+                        }
+                    }
+                }
+                _allAudits.AddRange(auditList);
             }
 
             TotalSecretarialRecords = await totalSecretarialTask;
@@ -606,9 +632,30 @@ public partial class DashboardViewModel : ViewModelBase
 
     private string NormalizeString(string? value)
     {
-        if (string.IsNullOrWhiteSpace(value)) return "Unknown";
+        if (string.IsNullOrWhiteSpace(value) || 
+            value.Equals("Unknown", StringComparison.OrdinalIgnoreCase) || 
+            value.Equals("Unknown branch", StringComparison.OrdinalIgnoreCase)) 
+            return "Central";
         
         var normalized = value.Trim();
+
+        if (normalized.Equals("Central Branch", StringComparison.OrdinalIgnoreCase) || 
+            normalized.Equals("Central", StringComparison.OrdinalIgnoreCase)) 
+            return "Central";
+
+        if (normalized.Equals("Southern Branch", StringComparison.OrdinalIgnoreCase) || 
+            normalized.Equals("Southern", StringComparison.OrdinalIgnoreCase) ||
+            normalized.Equals("South", StringComparison.OrdinalIgnoreCase)) 
+            return "South";
+
+        if (normalized.Equals("Western Branch", StringComparison.OrdinalIgnoreCase) || 
+            normalized.Equals("Western", StringComparison.OrdinalIgnoreCase) ||
+            normalized.Equals("West", StringComparison.OrdinalIgnoreCase)) 
+            return "West";
+
+        if (normalized.Equals("Northeast Branch", StringComparison.OrdinalIgnoreCase) || 
+            normalized.Equals("Northeast", StringComparison.OrdinalIgnoreCase)) 
+            return "Northeast";
         
         if (normalized.Equals("Suspended", StringComparison.OrdinalIgnoreCase) || 
             normalized.Equals("Suspend", StringComparison.OrdinalIgnoreCase)) 

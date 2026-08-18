@@ -156,7 +156,10 @@ namespace AATS.Desktop.Services
 
         private static string NormalizeBranchName(string? name)
         {
-            if (string.IsNullOrEmpty(name)) return "Unknown";
+            if (string.IsNullOrWhiteSpace(name) || 
+                name.Equals("Unknown", StringComparison.OrdinalIgnoreCase) || 
+                name.Equals("Unknown branch", StringComparison.OrdinalIgnoreCase)) 
+                return "Central";
 
             var trimmed = name.Trim();
             if (trimmed.Equals("Central Branch", StringComparison.OrdinalIgnoreCase) || 

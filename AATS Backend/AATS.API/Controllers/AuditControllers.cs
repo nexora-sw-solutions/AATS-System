@@ -19,8 +19,38 @@ namespace AATS.API.Controllers
 
         protected async Task<List<AuditRecord>> GetRecordsByCategoryAsync(string category, bool enrich = true)
         {
-            var query = _context.AuditRecords.Where(r => r.Category.ToLower() == category.ToLower());
+            var query = _context.AuditRecords
+                .Include(r => r.Branch)
+                .Include(r => r.Client)
+                .ThenInclude(c => c.Branch)
+                .Where(r => r.Category.ToLower() == category.ToLower());
             var list = await query.OrderByDescending(r => r.CreatedAt).ToListAsync();
+
+            var branches = await _context.Branches.ToListAsync();
+            var defaultBranchName = branches.FirstOrDefault()?.Name ?? "Central";
+
+            foreach (var r in list)
+            {
+                if (string.IsNullOrWhiteSpace(r.BranchName) || r.BranchName.Equals("Unknown", StringComparison.OrdinalIgnoreCase) || r.BranchName.Equals("Unknown branch", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (r.Branch != null && !string.IsNullOrWhiteSpace(r.Branch.Name))
+                    {
+                        r.BranchName = r.Branch.Name;
+                    }
+                    else if (r.Client?.Branch != null && !string.IsNullOrWhiteSpace(r.Client.Branch.Name))
+                    {
+                        r.BranchName = r.Client.Branch.Name;
+                    }
+                    else if (r.BranchId.HasValue && branches.Any(b => b.Id == r.BranchId.Value))
+                    {
+                        r.BranchName = branches.First(b => b.Id == r.BranchId.Value).Name;
+                    }
+                    else
+                    {
+                        r.BranchName = defaultBranchName;
+                    }
+                }
+            }
 
             if (enrich)
             {
@@ -44,6 +74,34 @@ namespace AATS.API.Controllers
             if (string.IsNullOrEmpty(record.RecordCode))
             {
                 record.RecordCode = await _recordService.GenerateRecordCodeAsync(prefix);
+            }
+
+            if (string.IsNullOrWhiteSpace(record.BranchName) || record.BranchName.Equals("Unknown", StringComparison.OrdinalIgnoreCase))
+            {
+                if (record.BranchId.HasValue)
+                {
+                    var branch = await _context.Branches.FindAsync(record.BranchId.Value);
+                    if (branch != null) record.BranchName = branch.Name;
+                }
+                else if (record.ClientId.HasValue)
+                {
+                    var client = await _context.Clients.Include(c => c.Branch).FirstOrDefaultAsync(c => c.Id == record.ClientId.Value);
+                    if (client != null)
+                    {
+                        record.BranchId = client.BranchId;
+                        record.BranchName = client.Branch?.Name ?? "Central";
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(record.BranchName))
+                {
+                    var defaultBranch = await _context.Branches.FirstOrDefaultAsync();
+                    if (defaultBranch != null)
+                    {
+                        record.BranchId = defaultBranch.Id;
+                        record.BranchName = defaultBranch.Name;
+                    }
+                }
             }
 
             _context.AuditRecords.Add(record);
