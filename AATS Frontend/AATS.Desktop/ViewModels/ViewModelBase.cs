@@ -135,7 +135,7 @@ namespace AATS.Desktop.ViewModels
             }
         }
 
-        protected void FilterClientCodes(string? text)
+        protected virtual void FilterClientCodes(string? text)
         {
             ClientCodeSuggestions.Clear();
             HighlightedSuggestionIndex = -1;

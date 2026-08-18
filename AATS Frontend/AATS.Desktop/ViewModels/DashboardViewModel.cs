@@ -6,7 +6,6 @@ using AATS.Desktop.Models.Binance;
 using AATS.Desktop.Services;
 using System.Threading.Tasks;
 using AATS.Desktop.Models;
-using AATS.Desktop.Services;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;

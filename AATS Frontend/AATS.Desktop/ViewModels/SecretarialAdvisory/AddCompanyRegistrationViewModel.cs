@@ -156,8 +156,6 @@ public partial class AddCompanyRegistrationViewModel : ViewModelBase
     [ObservableProperty] private bool _isRemoveConfirmVisible = false;
     [ObservableProperty] private string _removeConfirmTitle = string.Empty;
     [ObservableProperty] private string _removeConfirmMessage = string.Empty;
-    private string? _pendingFileToRemove;
-    private CompanyCharacter? _pendingCharacterNicRemove;
     [ObservableProperty] private string _confirmSaveTitle = "Save Record?";
     [ObservableProperty] private string _confirmSaveMessage = "Are you sure you want to save these changes?";
 

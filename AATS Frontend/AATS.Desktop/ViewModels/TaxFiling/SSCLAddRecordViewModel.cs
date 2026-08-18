@@ -225,7 +225,7 @@ namespace AATS.Desktop.ViewModels.TaxFiling
             FilterClientCodes(value);
         }
 
-        private void FilterClientCodes(string? query)
+        protected override void FilterClientCodes(string? query)
         {
             if (string.IsNullOrWhiteSpace(query))
             {
