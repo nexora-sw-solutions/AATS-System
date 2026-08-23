@@ -435,28 +435,76 @@ public abstract partial class AuditTableViewModelBase : ViewModelBase
         ApplyFilters();
     }
 
+    [ObservableProperty] private bool _isRestoreConfirmVisible;
+    [ObservableProperty] private string _restoreConfirmMessage = string.Empty;
+    private AuditRecord? _recordToRestore;
+
+    [ObservableProperty] private bool _isPurgeConfirmVisible;
+    [ObservableProperty] private string _purgeConfirmMessage = string.Empty;
+    private AuditRecord? _recordToPurge;
+
     [RelayCommand]
-    public async Task RestoreAuditRecord(AuditRecord? record)
+    public void RestoreAuditRecord(AuditRecord? record)
     {
         if (record == null || string.IsNullOrEmpty(record.ID)) return;
-        bool success = await DataService.Instance.RestoreAuditRecordAsync(PageTitle, record.ID);
-        if (success)
-        {
-            LogService.Instance.AddLog("Restore", PageTitle, record.Branch ?? "Central", $"Restored soft-deleted audit record: {record.Code}");
-            await LoadDataAsync();
-        }
+        _recordToRestore = record;
+        RestoreConfirmMessage = $"Are you sure you want to restore record '{record.ClientName ?? record.Code}'? This record will be moved back to active records.";
+        IsRestoreConfirmVisible = true;
     }
 
     [RelayCommand]
-    public async Task PermanentlyDeleteAuditRecord(AuditRecord? record)
+    public async Task ConfirmRestoreAuditRecord()
+    {
+        IsRestoreConfirmVisible = false;
+        if (_recordToRestore != null && !string.IsNullOrEmpty(_recordToRestore.ID))
+        {
+            bool success = await DataService.Instance.RestoreAuditRecordAsync(PageTitle, _recordToRestore.ID);
+            if (success)
+            {
+                LogService.Instance.AddLog("Restore", PageTitle, _recordToRestore.Branch ?? "Central", $"Restored soft-deleted audit record: {_recordToRestore.Code}");
+                await LoadDataAsync();
+            }
+        }
+        _recordToRestore = null;
+    }
+
+    [RelayCommand]
+    public void CancelRestoreAuditRecord()
+    {
+        IsRestoreConfirmVisible = false;
+        _recordToRestore = null;
+    }
+
+    [RelayCommand]
+    public void PermanentlyDeleteAuditRecord(AuditRecord? record)
     {
         if (record == null || string.IsNullOrEmpty(record.ID)) return;
-        bool success = await DataService.Instance.PermanentlyDeleteAuditRecordAsync(PageTitle, record.ID);
-        if (success)
+        _recordToPurge = record;
+        PurgeConfirmMessage = $"Are you sure you want to permanently delete record '{record.ClientName ?? record.Code}'? This action cannot be undone and will erase all record data.";
+        IsPurgeConfirmVisible = true;
+    }
+
+    [RelayCommand]
+    public async Task ConfirmPurgeAuditRecord()
+    {
+        IsPurgeConfirmVisible = false;
+        if (_recordToPurge != null && !string.IsNullOrEmpty(_recordToPurge.ID))
         {
-            LogService.Instance.AddLog("Purge", PageTitle, record.Branch ?? "Central", $"Permanently purged audit record: {record.Code}");
-            await LoadDataAsync();
+            bool success = await DataService.Instance.PermanentlyDeleteAuditRecordAsync(PageTitle, _recordToPurge.ID);
+            if (success)
+            {
+                LogService.Instance.AddLog("Purge", PageTitle, _recordToPurge.Branch ?? "Central", $"Permanently purged audit record: {_recordToPurge.Code}");
+                await LoadDataAsync();
+            }
         }
+        _recordToPurge = null;
+    }
+
+    [RelayCommand]
+    public void CancelPurgeAuditRecord()
+    {
+        IsPurgeConfirmVisible = false;
+        _recordToPurge = null;
     }
 
     public ObservableCollection<AuditRecord> Records { get; } = new();

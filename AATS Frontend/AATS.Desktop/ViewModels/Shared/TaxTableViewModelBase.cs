@@ -756,27 +756,75 @@ public abstract partial class TaxTableViewModelBase : ViewModelBase
         PaymentStatus = "Pending";
     }
 
+    [ObservableProperty] private bool _isRestoreConfirmVisible;
+    [ObservableProperty] private string _restoreConfirmMessage = string.Empty;
+    private TaxRecord? _taxRecordToRestore;
+
+    [ObservableProperty] private bool _isPurgeConfirmVisible;
+    [ObservableProperty] private string _purgeConfirmMessage = string.Empty;
+    private TaxRecord? _taxRecordToPurge;
+
     [RelayCommand]
-    public async Task RestoreTaxRecord(TaxRecord? record)
+    public void RestoreTaxRecord(TaxRecord? record)
     {
         if (record == null || string.IsNullOrEmpty(record.ID)) return;
-        bool success = await DataService.Instance.RestoreTaxRecordAsync(PageTitle, record.ID);
-        if (success)
-        {
-            LogService.Instance.AddLog("Restore", PageTitle, record.Branch ?? "Central", $"Restored soft-deleted tax record: {record.Code}");
-            await LoadDataAsync();
-        }
+        _taxRecordToRestore = record;
+        RestoreConfirmMessage = $"Are you sure you want to restore tax record '{record.ClientName ?? record.Code}'? This record will be moved back to active tax records.";
+        IsRestoreConfirmVisible = true;
     }
 
     [RelayCommand]
-    public async Task PermanentlyDeleteTaxRecord(TaxRecord? record)
+    public async Task ConfirmRestoreTaxRecord()
+    {
+        IsRestoreConfirmVisible = false;
+        if (_taxRecordToRestore != null && !string.IsNullOrEmpty(_taxRecordToRestore.ID))
+        {
+            bool success = await DataService.Instance.RestoreTaxRecordAsync(PageTitle, _taxRecordToRestore.ID);
+            if (success)
+            {
+                LogService.Instance.AddLog("Restore", PageTitle, _taxRecordToRestore.Branch ?? "Central", $"Restored soft-deleted tax record: {_taxRecordToRestore.Code}");
+                await LoadDataAsync();
+            }
+        }
+        _taxRecordToRestore = null;
+    }
+
+    [RelayCommand]
+    public void CancelRestoreTaxRecord()
+    {
+        IsRestoreConfirmVisible = false;
+        _taxRecordToRestore = null;
+    }
+
+    [RelayCommand]
+    public void PermanentlyDeleteTaxRecord(TaxRecord? record)
     {
         if (record == null || string.IsNullOrEmpty(record.ID)) return;
-        bool success = await DataService.Instance.PermanentlyDeleteTaxRecordAsync(PageTitle, record.ID);
-        if (success)
+        _taxRecordToPurge = record;
+        PurgeConfirmMessage = $"Are you sure you want to permanently delete tax record '{record.ClientName ?? record.Code}'? This action cannot be undone and will erase all record data.";
+        IsPurgeConfirmVisible = true;
+    }
+
+    [RelayCommand]
+    public async Task ConfirmPurgeTaxRecord()
+    {
+        IsPurgeConfirmVisible = false;
+        if (_taxRecordToPurge != null && !string.IsNullOrEmpty(_taxRecordToPurge.ID))
         {
-            LogService.Instance.AddLog("Purge", PageTitle, record.Branch ?? "Central", $"Permanently purged tax record: {record.Code}");
-            await LoadDataAsync();
+            bool success = await DataService.Instance.PermanentlyDeleteTaxRecordAsync(PageTitle, _taxRecordToPurge.ID);
+            if (success)
+            {
+                LogService.Instance.AddLog("Purge", PageTitle, _taxRecordToPurge.Branch ?? "Central", $"Permanently purged tax record: {_taxRecordToPurge.Code}");
+                await LoadDataAsync();
+            }
         }
+        _taxRecordToPurge = null;
+    }
+
+    [RelayCommand]
+    public void CancelPurgeTaxRecord()
+    {
+        IsPurgeConfirmVisible = false;
+        _taxRecordToPurge = null;
     }
 }

@@ -973,6 +973,53 @@
                 </StackPanel>
             </Border>
         </Border>
+        <!-- Restore Record Confirmation Modal Overlay -->
+        <Border ZIndex="5000" IsVisible="{Binding IsRestoreConfirmVisible}" Classes="premium-modal-overlay" Margin="-25,-20,-25,-20">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
+                <StackPanel Spacing="28">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                             <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                <i:Icon Value="fa-solid fa-rotate-left" Foreground="{DynamicResource AccentPrimary}" FontSize="22"/>
+                            </Border>
+                            <TextBlock Text="Restore Tax Record?" Foreground="{DynamicResource TextHeading}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Classes="footer-link" Command="{Binding CancelRestoreTaxRecordCommand}" VerticalAlignment="Top" Margin="0,-10,-10,0">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                        </Button>
+                    </Grid>
+                    <TextBlock Text="{Binding RestoreConfirmMessage}" Foreground="{DynamicResource TextSecondary}" FontSize="16" LineHeight="26" TextWrapping="Wrap"/>
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelRestoreTaxRecordCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        <Button Grid.Column="2" Content="Restore" Command="{Binding ConfirmRestoreTaxRecordCommand}" Classes="btn-primary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <!-- Permanently Delete Record Confirmation Modal Overlay -->
+        <Border ZIndex="5000" IsVisible="{Binding IsPurgeConfirmVisible}" Classes="premium-modal-overlay" Margin="-25,-20,-25,-20">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
+                <StackPanel Spacing="28">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                             <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                <i:Icon Value="fa-solid fa-triangle-exclamation" Foreground="{DynamicResource StatusDanger}" FontSize="22"/>
+                            </Border>
+                            <TextBlock Text="Permanently Delete Tax Record?" Foreground="{DynamicResource TextHeading}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Classes="footer-link" Command="{Binding CancelPurgeTaxRecordCommand}" VerticalAlignment="Top" Margin="0,-10,-10,0">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                        </Button>
+                    </Grid>
+                    <TextBlock Text="{Binding PurgeConfirmMessage}" Foreground="{DynamicResource TextSecondary}" FontSize="16" LineHeight="26" TextWrapping="Wrap"/>
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelPurgeTaxRecordCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        <Button Grid.Column="2" Content="Purge Permanently" Command="{Binding ConfirmPurgeTaxRecordCommand}" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
 
         <!-- In-Drawer Overlays Container -->
         <Panel IsVisible="{Binding IsDrawerOpen}" ZIndex="3000">

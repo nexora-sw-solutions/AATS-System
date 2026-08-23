@@ -877,5 +877,52 @@
                 </Border>
             </Border>
 
+            <!-- Restore Member Confirmation Dialog -->
+            <Border ZIndex="5000" IsVisible="{Binding IsRestoreConfirmVisible}" Classes="premium-modal-overlay" Margin="-25,-20,-25,-10">
+                <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
+                    <StackPanel Spacing="28">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                                 <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                    <i:Icon Value="fa-solid fa-rotate-left" Foreground="{DynamicResource AccentPrimary}" FontSize="22"/>
+                                </Border>
+                                <TextBlock Text="Restore User?" Foreground="{DynamicResource TextHeading}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Classes="footer-link" Command="{Binding CancelRestoreTeamMemberCommand}" VerticalAlignment="Top" Margin="0,-10,-10,0">
+                                <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                            </Button>
+                        </Grid>
+                        <TextBlock Text="{Binding RestoreConfirmMessage}" Foreground="{DynamicResource TextSecondary}" FontSize="16" LineHeight="26" TextWrapping="Wrap"/>
+                        <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                            <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelRestoreTeamMemberCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                            <Button Grid.Column="2" Content="Restore" Command="{Binding ConfirmRestoreTeamMemberCommand}" Classes="btn-primary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Border>
+
+            <!-- Permanently Delete Member Confirmation Dialog -->
+            <Border ZIndex="5000" IsVisible="{Binding IsPurgeConfirmVisible}" Classes="premium-modal-overlay" Margin="-25,-20,-25,-10">
+                <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
+                    <StackPanel Spacing="28">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                                 <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                    <i:Icon Value="fa-solid fa-triangle-exclamation" Foreground="{DynamicResource StatusDanger}" FontSize="22"/>
+                                </Border>
+                                <TextBlock Text="Permanently Delete User?" Foreground="{DynamicResource TextHeading}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Classes="footer-link" Command="{Binding CancelPurgeTeamMemberCommand}" VerticalAlignment="Top" Margin="0,-10,-10,0">
+                                <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                            </Button>
+                        </Grid>
+                        <TextBlock Text="{Binding PurgeConfirmMessage}" Foreground="{DynamicResource TextSecondary}" FontSize="16" LineHeight="26" TextWrapping="Wrap"/>
+                        <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                            <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelPurgeTeamMemberCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                            <Button Grid.Column="2" Content="Purge Permanently" Command="{Binding ConfirmPurgeTeamMemberCommand}" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Border>
     </Panel>
 </UserControl>

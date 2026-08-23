@@ -566,28 +566,76 @@ public partial class TeamViewModel : ViewModelBase
         }
     }
 
+    [ObservableProperty] private bool _isRestoreConfirmVisible;
+    [ObservableProperty] private string _restoreConfirmMessage = string.Empty;
+    private TeamMember? _memberToRestore;
+
+    [ObservableProperty] private bool _isPurgeConfirmVisible;
+    [ObservableProperty] private string _purgeConfirmMessage = string.Empty;
+    private TeamMember? _memberToPurge;
+
     [RelayCommand]
-    private async Task RestoreTeamMember(TeamMember? member)
+    private void RestoreTeamMember(TeamMember? member)
     {
         if (member == null || string.IsNullOrEmpty(member.Id)) return;
-        bool success = await DataService.Instance.RestoreTeamMemberAsync(member.Id);
-        if (success)
-        {
-            LogService.Instance.AddLog("Restore", "Team", member.Branch ?? "Central", $"Restored soft-deleted member: {member.Username}");
-            await LoadDataAsync();
-        }
+        _memberToRestore = member;
+        RestoreConfirmMessage = $"Are you sure you want to restore user '{member.Username}'? This user will be moved back to active team members.";
+        IsRestoreConfirmVisible = true;
     }
 
     [RelayCommand]
-    private async Task PermanentlyDeleteTeamMember(TeamMember? member)
+    private async Task ConfirmRestoreTeamMember()
+    {
+        IsRestoreConfirmVisible = false;
+        if (_memberToRestore != null && !string.IsNullOrEmpty(_memberToRestore.Id))
+        {
+            bool success = await DataService.Instance.RestoreTeamMemberAsync(_memberToRestore.Id);
+            if (success)
+            {
+                LogService.Instance.AddLog("Restore", "Team", _memberToRestore.Branch ?? "Central", $"Restored soft-deleted member: {_memberToRestore.Username}");
+                await LoadDataAsync();
+            }
+        }
+        _memberToRestore = null;
+    }
+
+    [RelayCommand]
+    private void CancelRestoreTeamMember()
+    {
+        IsRestoreConfirmVisible = false;
+        _memberToRestore = null;
+    }
+
+    [RelayCommand]
+    private void PermanentlyDeleteTeamMember(TeamMember? member)
     {
         if (member == null || string.IsNullOrEmpty(member.Id)) return;
-        bool success = await DataService.Instance.PermanentlyDeleteTeamMemberAsync(member.Id);
-        if (success)
+        _memberToPurge = member;
+        PurgeConfirmMessage = $"Are you sure you want to permanently delete user '{member.Username}'? This action cannot be undone and will erase all user data.";
+        IsPurgeConfirmVisible = true;
+    }
+
+    [RelayCommand]
+    private async Task ConfirmPurgeTeamMember()
+    {
+        IsPurgeConfirmVisible = false;
+        if (_memberToPurge != null && !string.IsNullOrEmpty(_memberToPurge.Id))
         {
-            LogService.Instance.AddLog("Purge", "Team", member.Branch ?? "Central", $"Permanently purged member: {member.Username}");
-            await LoadDataAsync();
+            bool success = await DataService.Instance.PermanentlyDeleteTeamMemberAsync(_memberToPurge.Id);
+            if (success)
+            {
+                LogService.Instance.AddLog("Purge", "Team", _memberToPurge.Branch ?? "Central", $"Permanently purged member: {_memberToPurge.Username}");
+                await LoadDataAsync();
+            }
         }
+        _memberToPurge = null;
+    }
+
+    [RelayCommand]
+    private void CancelPurgeTeamMember()
+    {
+        IsPurgeConfirmVisible = false;
+        _memberToPurge = null;
     }
 
     [RelayCommand]

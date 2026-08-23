@@ -546,27 +546,75 @@ public partial class ClientsViewModel : ViewModelBase
         _clientToDelete = null;
     }
 
+    [ObservableProperty] private bool _isRestoreConfirmVisible;
+    [ObservableProperty] private string _restoreConfirmMessage = string.Empty;
+    private ClientRecord? _clientToRestore;
+
+    [ObservableProperty] private bool _isPurgeConfirmVisible;
+    [ObservableProperty] private string _purgeConfirmMessage = string.Empty;
+    private ClientRecord? _clientToPurge;
+
     [RelayCommand]
-    private async Task RestoreClient(ClientRecord? client)
+    private void RestoreClient(ClientRecord? client)
     {
         if (client == null || string.IsNullOrEmpty(client.Id)) return;
-        bool success = await DataService.Instance.RestoreClientAsync(client.Id);
-        if (success)
-        {
-            LogService.Instance.AddLog("Restore", "Clients", client.Branch ?? "Central", $"Restored soft-deleted client: {client.Name}");
-            await LoadDataAsync();
-        }
+        _clientToRestore = client;
+        RestoreConfirmMessage = $"Are you sure you want to restore client '{client.Name}'? This record will be moved back to active clients.";
+        IsRestoreConfirmVisible = true;
     }
 
     [RelayCommand]
-    private async Task PermanentlyDeleteClient(ClientRecord? client)
+    private async Task ConfirmRestoreClient()
+    {
+        IsRestoreConfirmVisible = false;
+        if (_clientToRestore != null && !string.IsNullOrEmpty(_clientToRestore.Id))
+        {
+            bool success = await DataService.Instance.RestoreClientAsync(_clientToRestore.Id);
+            if (success)
+            {
+                LogService.Instance.AddLog("Restore", "Clients", _clientToRestore.Branch ?? "Central", $"Restored soft-deleted client: {_clientToRestore.Name}");
+                await LoadDataAsync();
+            }
+        }
+        _clientToRestore = null;
+    }
+
+    [RelayCommand]
+    private void CancelRestoreClient()
+    {
+        IsRestoreConfirmVisible = false;
+        _clientToRestore = null;
+    }
+
+    [RelayCommand]
+    private void PermanentlyDeleteClient(ClientRecord? client)
     {
         if (client == null || string.IsNullOrEmpty(client.Id)) return;
-        bool success = await DataService.Instance.PermanentlyDeleteClientAsync(client.Id);
-        if (success)
+        _clientToPurge = client;
+        PurgeConfirmMessage = $"Are you sure you want to permanently delete client '{client.Name}'? This action cannot be undone and will erase all data.";
+        IsPurgeConfirmVisible = true;
+    }
+
+    [RelayCommand]
+    private async Task ConfirmPurgeClient()
+    {
+        IsPurgeConfirmVisible = false;
+        if (_clientToPurge != null && !string.IsNullOrEmpty(_clientToPurge.Id))
         {
-            LogService.Instance.AddLog("Purge", "Clients", client.Branch ?? "Central", $"Permanently purged client: {client.Name}");
-            await LoadDataAsync();
+            bool success = await DataService.Instance.PermanentlyDeleteClientAsync(_clientToPurge.Id);
+            if (success)
+            {
+                LogService.Instance.AddLog("Purge", "Clients", _clientToPurge.Branch ?? "Central", $"Permanently purged client: {_clientToPurge.Name}");
+                await LoadDataAsync();
+            }
         }
+        _clientToPurge = null;
+    }
+
+    [RelayCommand]
+    private void CancelPurgeClient()
+    {
+        IsPurgeConfirmVisible = false;
+        _clientToPurge = null;
     }
 }
