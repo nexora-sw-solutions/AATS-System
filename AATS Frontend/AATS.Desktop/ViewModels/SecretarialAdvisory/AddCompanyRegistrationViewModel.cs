@@ -578,7 +578,7 @@ public partial class AddCompanyRegistrationViewModel : ViewModelBase
                 _originalRecord.BoFormAttachments = BoFormAttachments.ToList();
                 _originalRecord.Form05Attachments = Form05Attachments.ToList();
 
-                await DataService.Instance.UpdateAuditRecordAsync("Secretarial & Advisory", _originalRecord);
+                await DataService.Instance.UpdateAuditRecordAsync("Company Registration", _originalRecord);
             }
             else
             {
@@ -618,7 +618,7 @@ public partial class AddCompanyRegistrationViewModel : ViewModelBase
                     Form05Attachments = Form05Attachments.ToList()
                 };
                 
-                await DataService.Instance.AddAuditRecordAsync("Secretarial & Advisory", newRecord);
+                await DataService.Instance.AddAuditRecordAsync("Company Registration", newRecord);
             }
         }
         catch (Exception ex)

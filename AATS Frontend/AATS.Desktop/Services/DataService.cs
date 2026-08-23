@@ -396,10 +396,11 @@ namespace AATS.Desktop.Services
             var normalizedInput = category.Replace(" ", "").Replace("&", "AND").ToUpper();
             var secretarialCategories = new[]
             {
-                "COMPANYREGISTRATION", "EPF/ETF", "TRADEMARK", "TRADEMARKS", "TRADELICENSE", "TRADELICENSES", "FORM-15", "FORM-15",
-                "IMPORT/EXPORT", "IMPORTANDEXPORTCLEARANCE", 
+                "COMPANYREGISTRATION", "COMPANYREGISTRATIONS", "EPF/ETF", "EPFETF", "TRADEMARK", "TRADEMARKS", "TRADELICENSE", "TRADELICENSES", "FORM-15", "FORM15", "FORM-15",
+                "IMPORT/EXPORT", "IMPORTEXPORT", "IMPORTANDEXPORTCLEARANCE", 
                 "HRANDMANAGEMENTCONSULTING", "HRCONSULTING", "BUSINESSPLANANDASSETVALUATION", 
-                "BUSINESSPLANANDASSETVALUATIONCONSULTING", "BUSINESSPLANS", "BOIREGISTRATION", "BOI", "BOIREGISTRATIONS", "SECRETARIALOTHERS", "PAYROLL"
+                "BUSINESSPLANANDASSETVALUATIONCONSULTING", "BUSINESSPLANS", "BUSINESSPLAN", "BOIREGISTRATION", "BOI", "BOIREGISTRATIONS", "SECRETARIALOTHERS", "OTHERS", "PAYROLL",
+                "SECRETARIALANDADVISORY", "SECRETARIALADVISORY", "SECRETARIAL"
             };
             return secretarialCategories.Contains(normalizedInput);
         }
@@ -411,18 +412,17 @@ namespace AATS.Desktop.Services
             var normalized = category.Replace(" ", "").Replace("&", "AND").ToUpper();
             return normalized switch
             {
-                "COMPANYREGISTRATION" => "company-registrations",
-                "EPF/ETF" => "epf-etf",
+                "COMPANYREGISTRATION" or "COMPANYREGISTRATIONS" => "company-registrations",
+                "EPF/ETF" or "EPFETF" => "epf-etf",
                 "TRADEMARK" or "TRADEMARKS" => "trade-marks",
                 "TRADELICENSE" or "TRADELICENSES" => "trade-licenses",
-                "FORM-15" or "FORM-15" => "form-15",
+                "FORM-15" or "FORM15" => "form-15",
                 "PAYROLL" => "payroll",
-                "IMPORT/EXPORT" => "import-export",
-                "IMPORTANDEXPORTCLEARANCE" => "import-export",
+                "IMPORT/EXPORT" or "IMPORTEXPORT" or "IMPORTANDEXPORTCLEARANCE" => "import-export",
                 "HRANDMANAGEMENTCONSULTING" or "HRCONSULTING" => "hr-consulting",
-                "BUSINESSPLANANDASSETVALUATION" or "BUSINESSPLANANDASSETVALUATIONCONSULTING" or "BUSINESSPLANS" => "business-plans",
+                "BUSINESSPLANANDASSETVALUATION" or "BUSINESSPLANANDASSETVALUATIONCONSULTING" or "BUSINESSPLANS" or "BUSINESSPLAN" => "business-plans",
                 "BOIREGISTRATION" or "BOI" or "BOIREGISTRATIONS" => "boi-registrations",
-                "SECRETARIALOTHERS" => "others",
+                "SECRETARIALOTHERS" or "OTHERS" => "others",
                 _ => category.ToLower().Replace(" ", "-").Replace("&", "and")
             };
         }
