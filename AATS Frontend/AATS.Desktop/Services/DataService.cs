@@ -961,5 +961,62 @@ namespace AATS.Desktop.Services
                 return false;
             }
         }
+
+        // Tax Trash / Soft Delete Operations
+        public async Task<List<TaxRecord>> GetDeletedTaxRecordsAsync(string category)
+        {
+            try
+            {
+                string endpoint = MapTaxCategoryToEndpoint(category);
+                string url = $"/api/v1/Tax/{endpoint}/deleted";
+
+                var response = await ApiService.Instance.GetAsync<ApiResponse<PaginatedResult<TaxRecord>>>(url);
+                var items = response?.Data?.Items ?? new List<TaxRecord>();
+                foreach (var item in items)
+                {
+                    item.Branch = NormalizeBranchName(item.Branch);
+                }
+                return items;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching deleted tax records ({category}): {ex.Message}");
+                return new List<TaxRecord>();
+            }
+        }
+
+        public async Task<bool> RestoreTaxRecordAsync(string category, string id)
+        {
+            try
+            {
+                string endpoint = MapTaxCategoryToEndpoint(category);
+                string url = $"/api/v1/Tax/{endpoint}/{id}/restore";
+
+                await ApiService.Instance.PostAsync(url, new { });
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error restoring tax record ({category}) {id}: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> PermanentlyDeleteTaxRecordAsync(string category, string id)
+        {
+            try
+            {
+                string endpoint = MapTaxCategoryToEndpoint(category);
+                string url = $"/api/v1/Tax/{endpoint}/{id}/permanent";
+
+                await ApiService.Instance.DeleteAsync(url);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error permanently deleting tax record ({category}) {id}: {ex.Message}");
+                return false;
+            }
+        }
     }
 }

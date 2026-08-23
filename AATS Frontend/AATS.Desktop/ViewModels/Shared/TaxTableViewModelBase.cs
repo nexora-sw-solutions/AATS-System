@@ -20,11 +20,16 @@ public abstract partial class TaxTableViewModelBase : ViewModelBase
         _ = LoadClientCodesAsync(() => ClientId);
     }
 
+    [ObservableProperty] private ObservableCollection<TaxRecord> _deletedRecords = new();
+    [ObservableProperty] private bool _isTrashExpanded;
+
     [RelayCommand]
     public async Task LoadDataAsync()
     {
         var records = await DataService.Instance.GetTaxRecordsAsync(PageTitle);
         var clients = await DataService.Instance.GetClientsAsync();
+        var deleted = await DataService.Instance.GetDeletedTaxRecordsAsync(PageTitle);
+
         foreach (var r in records)
         {
             var client = clients.FirstOrDefault(c => c.ClientCode == r.ClientCode);
@@ -33,6 +38,13 @@ public abstract partial class TaxTableViewModelBase : ViewModelBase
 
         _allRecords.Clear();
         _allRecords.AddRange(records);
+
+        DeletedRecords.Clear();
+        foreach (var d in deleted)
+        {
+            DeletedRecords.Add(d);
+        }
+
         ApplyFilter();
     }
     // Page Customization Properties
@@ -252,16 +264,17 @@ public abstract partial class TaxTableViewModelBase : ViewModelBase
     {
         IsDeleteConfirmVisible = false;
         var toDelete = _allRecords.Where(r => r.IsSelected).ToList();
+        if (toDelete.Count == 0 && SelectedRecord != null)
+        {
+            toDelete.Add(SelectedRecord);
+        }
         if (toDelete.Count == 0) return;
 
         await DataService.Instance.DeleteTaxRecordsAsync(PageTitle, toDelete);
 
-        foreach (var d in toDelete)
-            _allRecords.Remove(d);
-            
         SelectedRecordCount = 0;
         IsAllSelected = false;
-        ApplyFilter();
+        await LoadDataAsync();
     }
 
     [RelayCommand]
@@ -741,5 +754,29 @@ public abstract partial class TaxTableViewModelBase : ViewModelBase
         DirectorId = string.Empty;
         Duration = 1;
         PaymentStatus = "Pending";
+    }
+
+    [RelayCommand]
+    public async Task RestoreTaxRecord(TaxRecord? record)
+    {
+        if (record == null || string.IsNullOrEmpty(record.ID)) return;
+        bool success = await DataService.Instance.RestoreTaxRecordAsync(PageTitle, record.ID);
+        if (success)
+        {
+            LogService.Instance.AddLog("Restore", PageTitle, record.Branch ?? "Central", $"Restored soft-deleted tax record: {record.Code}");
+            await LoadDataAsync();
+        }
+    }
+
+    [RelayCommand]
+    public async Task PermanentlyDeleteTaxRecord(TaxRecord? record)
+    {
+        if (record == null || string.IsNullOrEmpty(record.ID)) return;
+        bool success = await DataService.Instance.PermanentlyDeleteTaxRecordAsync(PageTitle, record.ID);
+        if (success)
+        {
+            LogService.Instance.AddLog("Purge", PageTitle, record.Branch ?? "Central", $"Permanently purged tax record: {record.Code}");
+            await LoadDataAsync();
+        }
     }
 }

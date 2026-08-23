@@ -366,16 +366,17 @@ public abstract partial class AuditTableViewModelBase : ViewModelBase
     {
         IsDeleteConfirmVisible = false;
         var toDelete = _allRecords.Where(r => r.IsSelected).ToList();
+        if (!toDelete.Any() && SelectedRecord != null)
+        {
+            toDelete.Add(SelectedRecord);
+        }
         
         await DataService.Instance.DeleteAuditRecordsAsync(PageTitle, toDelete);
         
-        foreach (var d in toDelete)
-            _allRecords.Remove(d);
-            
         SelectedRecordCount = 0;
         IsAllSelected = false;
 
-        ApplyFilters();
+        await LoadDataAsync();
     }
 
     [RelayCommand]
