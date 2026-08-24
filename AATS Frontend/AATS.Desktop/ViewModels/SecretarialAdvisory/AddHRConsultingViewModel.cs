@@ -228,6 +228,17 @@ public partial class AddHRConsultingViewModel : ViewModelBase
                     uploadedDocs.Add(new SourceDocument { FileName = u.FileName, Url = u.Url, Description = "HR Document" });
                 }
             }
+            if (_originalRecord == null && _selectedClient != null)
+            {
+                var clientDocs = _selectedClient.GetAllClientDocuments();
+                foreach (var doc in clientDocs)
+                {
+                    if (!uploadedDocs.Any(d => d.Url == doc.Url || d.FileName == doc.FileName))
+                    {
+                        uploadedDocs.Add(doc);
+                    }
+                }
+            }
 
             if (_originalRecord != null)
             {
@@ -302,9 +313,12 @@ public partial class AddHRConsultingViewModel : ViewModelBase
         FilterClientCodes(value);
     }
 
+    private ClientRecord? _selectedClient;
+
     public override void SelectClientCode(ClientRecord client)
     {
         _isSelectingClient = true;
+        _selectedClient = client;
         ClientId = client.ClientCode ?? string.Empty;
         ClientName = client.Name ?? string.Empty;
         if (Guid.TryParse(client.Id, out var guid)) _clientGuid = guid;

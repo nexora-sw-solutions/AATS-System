@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -155,4 +156,15 @@ public partial class ClientRecord : ObservableObject
     [ObservableProperty]
     [property: JsonPropertyName("nicAttachments")]
     private List<SourceDocument>? _nicAttachments = new();
+
+    public List<SourceDocument> GetAllClientDocuments()
+    {
+        var list = new List<SourceDocument>();
+        if (BrAttachments != null) list.AddRange(BrAttachments.Where(d => !string.IsNullOrEmpty(d.Url) || !string.IsNullOrEmpty(d.FileName)));
+        if (TinAttachments != null) list.AddRange(TinAttachments.Where(d => !string.IsNullOrEmpty(d.Url) || !string.IsNullOrEmpty(d.FileName)));
+        if (Form01Attachments != null) list.AddRange(Form01Attachments.Where(d => !string.IsNullOrEmpty(d.Url) || !string.IsNullOrEmpty(d.FileName)));
+        if (ArticleOfAssociationAttachments != null) list.AddRange(ArticleOfAssociationAttachments.Where(d => !string.IsNullOrEmpty(d.Url) || !string.IsNullOrEmpty(d.FileName)));
+        if (NicAttachments != null) list.AddRange(NicAttachments.Where(d => !string.IsNullOrEmpty(d.Url) || !string.IsNullOrEmpty(d.FileName)));
+        return list;
+    }
 }

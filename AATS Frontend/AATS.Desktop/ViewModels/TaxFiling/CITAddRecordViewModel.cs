@@ -262,24 +262,12 @@ namespace AATS.Desktop.ViewModels.TaxFiling
             SelectedClientCategoryColor = client.CategoryColor ?? "Transparent";
             HasSelectedClientCategory = true;
 
-            // Auto-populate TIN and BR documents uploaded during client registration
-            if (client.TinAttachments != null)
+            if (!IsEdit && client != null)
             {
-                foreach (var doc in client.TinAttachments)
+                var clientDocs = client.GetAllClientDocuments();
+                foreach (var doc in clientDocs)
                 {
-                    var file = doc.Url ?? doc.FileName;
-                    if (!string.IsNullOrEmpty(file) && !UploadedFiles.Contains(file))
-                    {
-                        UploadedFiles.Add(file);
-                    }
-                }
-            }
-
-            if (client.BrAttachments != null)
-            {
-                foreach (var doc in client.BrAttachments)
-                {
-                    var file = doc.Url ?? doc.FileName;
+                    var file = !string.IsNullOrEmpty(doc.Url) ? doc.Url : doc.FileName;
                     if (!string.IsNullOrEmpty(file) && !UploadedFiles.Contains(file))
                     {
                         UploadedFiles.Add(file);

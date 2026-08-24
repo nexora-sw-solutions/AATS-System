@@ -183,7 +183,8 @@ public partial class AddSecretarialOthersViewModel : ViewModelBase
             ChequeNumber = ChequeNumber,
             ChequeDate = ChequeDate,
             ChequeAmount = ChequeAmount,
-            ChequeStatus = ChequeStatus
+            ChequeStatus = ChequeStatus,
+            SourceDocuments = _selectedClient?.GetAllClientDocuments() ?? new()
         };
         
         await DataService.Instance.AddAuditRecordAsync("Secretarial Others", newRecord);
@@ -223,9 +224,12 @@ public partial class AddSecretarialOthersViewModel : ViewModelBase
         FilterBanks(value);
     }
 
+    private ClientRecord? _selectedClient;
+
     public override void SelectClientCode(ClientRecord client)
     {
         _isSelectingClient = true;
+        _selectedClient = client;
         ClientId = client.ClientCode ?? string.Empty;
         ClientName = client.Name ?? string.Empty;
         if (Guid.TryParse(client.Id, out var guid)) _clientGuid = guid;

@@ -492,30 +492,16 @@ namespace AATS.Desktop.ViewModels.AuditAndAccounts
             _clientGuid = Guid.TryParse(client.Id, out var guid) ? guid : null;
             _branchGuid = client.BranchId;
 
-            if (client.BrAttachments != null)
+            if (client != null)
             {
-                foreach (var d in client.BrAttachments)
+                var clientDocs = client.GetAllClientDocuments();
+                foreach (var doc in clientDocs)
                 {
-                    var path = !string.IsNullOrEmpty(d.Url) ? d.Url : d.FileName;
-                    if (!string.IsNullOrEmpty(path) && !UploadedFiles.Contains(path)) UploadedFiles.Add(path);
-                }
-            }
-
-            if (client.Form01Attachments != null)
-            {
-                foreach (var d in client.Form01Attachments)
-                {
-                    var path = !string.IsNullOrEmpty(d.Url) ? d.Url : d.FileName;
-                    if (!string.IsNullOrEmpty(path) && !UploadedFiles.Contains(path)) UploadedFiles.Add(path);
-                }
-            }
-
-            if (client.ArticleOfAssociationAttachments != null)
-            {
-                foreach (var d in client.ArticleOfAssociationAttachments)
-                {
-                    var path = !string.IsNullOrEmpty(d.Url) ? d.Url : d.FileName;
-                    if (!string.IsNullOrEmpty(path) && !UploadedFiles.Contains(path)) UploadedFiles.Add(path);
+                    var path = !string.IsNullOrEmpty(doc.Url) ? doc.Url : doc.FileName;
+                    if (!string.IsNullOrEmpty(path) && !UploadedFiles.Contains(path))
+                    {
+                        UploadedFiles.Add(path);
+                    }
                 }
             }
         }

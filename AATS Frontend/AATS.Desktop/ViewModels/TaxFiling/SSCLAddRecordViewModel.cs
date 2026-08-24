@@ -261,6 +261,19 @@ namespace AATS.Desktop.ViewModels.TaxFiling
             SelectedClientCategoryColor = client.CategoryColor ?? "Transparent";
             HasSelectedClientCategory = true;
             IsClientCodeDropdownOpen = false;
+
+            if (!IsEdit && client != null)
+            {
+                var clientDocs = client.GetAllClientDocuments();
+                foreach (var doc in clientDocs)
+                {
+                    var file = !string.IsNullOrEmpty(doc.Url) ? doc.Url : doc.FileName;
+                    if (!string.IsNullOrEmpty(file) && !UploadedFiles.Contains(file))
+                    {
+                        UploadedFiles.Add(file);
+                    }
+                }
+            }
         }
 
         [RelayCommand]

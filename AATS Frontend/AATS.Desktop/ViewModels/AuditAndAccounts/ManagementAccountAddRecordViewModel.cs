@@ -569,6 +569,24 @@ namespace AATS.Desktop.ViewModels.AuditAndAccounts
                     if (!string.IsNullOrEmpty(path)) ArticleOfAssociationAttachments.Add(path);
                 }
             }
+
+            if (client.TinAttachments != null && client.TinAttachments.Count > 0)
+            {
+                foreach (var d in client.TinAttachments)
+                {
+                    var path = !string.IsNullOrEmpty(d.Url) ? d.Url : d.FileName;
+                    if (!string.IsNullOrEmpty(path) && !BRAttachments.Contains(path)) BRAttachments.Add(path);
+                }
+            }
+
+            if (client.NicAttachments != null && client.NicAttachments.Count > 0)
+            {
+                foreach (var d in client.NicAttachments)
+                {
+                    var path = !string.IsNullOrEmpty(d.Url) ? d.Url : d.FileName;
+                    if (!string.IsNullOrEmpty(path) && !Form01Attachments.Contains(path)) Form01Attachments.Add(path);
+                }
+            }
         }
     }
 }

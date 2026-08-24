@@ -497,6 +497,18 @@ public partial class AddImportExportViewModel : ViewModelBase
                 }
             }
 
+            if (_existingRecord == null && _selectedClient != null)
+            {
+                var clientDocs = _selectedClient.GetAllClientDocuments();
+                foreach (var doc in clientDocs)
+                {
+                    if (!uploadedDocs.Any(d => d.Url == doc.Url || d.FileName == doc.FileName))
+                    {
+                        uploadedDocs.Add(doc);
+                    }
+                }
+            }
+
             if (_existingRecord != null)
             {
                 _existingRecord.ClientCode = ClientId;
@@ -570,9 +582,12 @@ public partial class AddImportExportViewModel : ViewModelBase
         FilterClientCodes(value);
     }
 
+    private ClientRecord? _selectedClient;
+
     public override void SelectClientCode(ClientRecord client)
     {
         _isSelectingClient = true;
+        _selectedClient = client;
         ClientId = client.ClientCode ?? string.Empty;
         ClientName = client.Name ?? string.Empty;
         if (Guid.TryParse(client.Id, out var guid)) _clientGuid = guid;

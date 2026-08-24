@@ -295,6 +295,40 @@ public partial class AddForm15ViewModel : ViewModelBase
         // Form-15 specific client mapping logic
         Phone = client.Phone ?? string.Empty;
 
+        if (!_isEdit && client != null)
+        {
+            if (client.BrAttachments != null)
+            {
+                foreach (var doc in client.BrAttachments)
+                {
+                    if (!BrDocuments.Any(d => d.FileName == doc.FileName || d.ImagePath == doc.Url))
+                    {
+                        BrDocuments.Add(new AppDocument { FileName = doc.FileName ?? "BR Document", ImagePath = doc.Url ?? string.Empty, Category = "BR", IsExisting = true });
+                    }
+                }
+            }
+            if (client.Form01Attachments != null)
+            {
+                foreach (var doc in client.Form01Attachments)
+                {
+                    if (!Form01Documents.Any(d => d.FileName == doc.FileName || d.ImagePath == doc.Url))
+                    {
+                        Form01Documents.Add(new AppDocument { FileName = doc.FileName ?? "Form 01 Document", ImagePath = doc.Url ?? string.Empty, Category = "Form 01", IsExisting = true });
+                    }
+                }
+            }
+            if (client.ArticleOfAssociationAttachments != null)
+            {
+                foreach (var doc in client.ArticleOfAssociationAttachments)
+                {
+                    if (!ArticlesDocuments.Any(d => d.FileName == doc.FileName || d.ImagePath == doc.Url))
+                    {
+                        ArticlesDocuments.Add(new AppDocument { FileName = doc.FileName ?? "Articles Document", ImagePath = doc.Url ?? string.Empty, Category = "Articles", IsExisting = true });
+                    }
+                }
+            }
+        }
+
         _isSelectingClient = false;
         IsClientCodeDropdownOpen = false;
     }

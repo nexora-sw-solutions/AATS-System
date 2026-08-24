@@ -244,7 +244,8 @@ namespace AATS.Desktop.ViewModels.TaxFiling
                         ChequeAmount = ChequeAmount,
                         ChequeStatus = ChequeStatus,
                         Process = "BOOKKEEP",
-                        CurrentStep = 1
+                        CurrentStep = 1,
+                        SourceDocuments = _selectedClient?.GetAllClientDocuments() ?? new()
                     };
                     
                     await DataService.Instance.AddAuditRecordAsync("Tax Others", newRecord);
@@ -286,16 +287,19 @@ namespace AATS.Desktop.ViewModels.TaxFiling
             FilterBanks(value);
         }
 
+        private ClientRecord? _selectedClient;
+
         public override void SelectClientCode(ClientRecord client)
         {
-        _isSelectingClient = true;
+            _isSelectingClient = true;
+            _selectedClient = client;
             ClientId = client.ClientCode ?? string.Empty;
             ClientName = client.Name ?? string.Empty;
             if (Guid.TryParse(client.Id, out var guid)) _clientGuid = guid;
             _branchGuid = client.BranchId;
             _branchName = client.Branch;
             _isSelectingClient = false;
-        IsClientCodeDropdownOpen = false;
+            IsClientCodeDropdownOpen = false;
         }
 
         public override void SelectBank(string bank)

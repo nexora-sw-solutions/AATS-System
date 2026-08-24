@@ -441,6 +441,19 @@ public partial class AddTradeMarkViewModel : ViewModelBase
         _branchName = client.Branch;
         _isSelectingClient = false;
         IsClientCodeDropdownOpen = false;
+
+        if (_existingRecord == null && client != null)
+        {
+            var clientDocs = client.GetAllClientDocuments();
+            foreach (var doc in clientDocs)
+            {
+                var file = !string.IsNullOrEmpty(doc.Url) ? doc.Url : doc.FileName;
+                if (!string.IsNullOrEmpty(file) && !UploadedFiles.Contains(file))
+                {
+                    UploadedFiles.Add(file);
+                }
+            }
+        }
     }
 
     public override void SelectBank(string bank)

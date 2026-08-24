@@ -199,15 +199,18 @@ namespace AATS.Desktop.ViewModels.AuditAndAccounts
             FilterClientCodes(value);
         }
 
+        private ClientRecord? _selectedClient;
+
         public override void SelectClientCode(ClientRecord client)
         {
-        _isSelectingClient = true;
+            _isSelectingClient = true;
+            _selectedClient = client;
             ClientId = client.ClientCode ?? string.Empty;
             _clientGuid = Guid.TryParse(client.Id, out var guid) ? guid : null;
             _branchGuid = client.BranchId;
             ClientName = client.Name ?? string.Empty;
             _isSelectingClient = false;
-        IsClientCodeDropdownOpen = false;
+            IsClientCodeDropdownOpen = false;
         }
 
         [RelayCommand]
@@ -252,7 +255,8 @@ namespace AATS.Desktop.ViewModels.AuditAndAccounts
                         SubTotal = SubTotal,
                         Discount = Discount,
                         TotalPayment = TotalPayment,
-                        PartialAmount = (PaymentStatus == "Paid") ? (SubTotal - Discount) : (PaymentStatus == "Partial" ? PartialAmount : 0)
+                        PartialAmount = (PaymentStatus == "Paid") ? (SubTotal - Discount) : (PaymentStatus == "Partial" ? PartialAmount : 0),
+                        SourceDocuments = _selectedClient?.GetAllClientDocuments() ?? new()
                     };
                     
                     await DataService.Instance.AddAuditRecordAsync("Audit Others", newRecord);

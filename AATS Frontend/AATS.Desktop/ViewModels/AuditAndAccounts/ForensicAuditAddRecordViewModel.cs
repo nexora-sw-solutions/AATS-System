@@ -592,6 +592,28 @@ namespace AATS.Desktop.ViewModels.AuditAndAccounts
                 }
             }
 
+            if (client.TinAttachments != null && client.TinAttachments.Count > 0)
+            {
+                var tList = UploadedFilesByCategory.ContainsKey("TIN") ? UploadedFilesByCategory["TIN"] : (UploadedFilesByCategory["TIN"] = new());
+                tList.Clear();
+                foreach (var d in client.TinAttachments)
+                {
+                    var path = !string.IsNullOrEmpty(d.Url) ? d.Url : d.FileName;
+                    if (!string.IsNullOrEmpty(path)) tList.Add(path);
+                }
+            }
+
+            if (client.NicAttachments != null && client.NicAttachments.Count > 0)
+            {
+                var nList = UploadedFilesByCategory.ContainsKey("NIC") ? UploadedFilesByCategory["NIC"] : (UploadedFilesByCategory["NIC"] = new());
+                nList.Clear();
+                foreach (var d in client.NicAttachments)
+                {
+                    var path = !string.IsNullOrEmpty(d.Url) ? d.Url : d.FileName;
+                    if (!string.IsNullOrEmpty(path)) nList.Add(path);
+                }
+            }
+
             OnPropertyChanged(nameof(CurrentTabFiles));
         }
     }

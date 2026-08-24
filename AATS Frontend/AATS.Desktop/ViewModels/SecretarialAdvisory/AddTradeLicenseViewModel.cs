@@ -387,6 +387,38 @@ public partial class AddTradeLicenseViewModel : ViewModelBase
         if (Guid.TryParse(client.Id, out var guid)) _clientGuid = guid;
         _branchGuid = client.BranchId;
         _branchName = client.Branch;
+
+        if (!IsEditMode && client != null)
+        {
+            if (client.BrAttachments != null && client.BrAttachments.Count > 0)
+            {
+                var brList = UploadedFilesByCategory.ContainsKey("BR") ? UploadedFilesByCategory["BR"] : (UploadedFilesByCategory["BR"] = new());
+                foreach (var d in client.BrAttachments)
+                {
+                    var path = !string.IsNullOrEmpty(d.Url) ? d.Url : d.FileName;
+                    if (!string.IsNullOrEmpty(path) && !brList.Contains(path)) brList.Add(path);
+                }
+            }
+            if (client.TinAttachments != null && client.TinAttachments.Count > 0)
+            {
+                var tList = UploadedFilesByCategory.ContainsKey("TIN") ? UploadedFilesByCategory["TIN"] : (UploadedFilesByCategory["TIN"] = new());
+                foreach (var d in client.TinAttachments)
+                {
+                    var path = !string.IsNullOrEmpty(d.Url) ? d.Url : d.FileName;
+                    if (!string.IsNullOrEmpty(path) && !tList.Contains(path)) tList.Add(path);
+                }
+            }
+            if (client.Form01Attachments != null && client.Form01Attachments.Count > 0)
+            {
+                var fList = UploadedFilesByCategory.ContainsKey("Form 01") ? UploadedFilesByCategory["Form 01"] : (UploadedFilesByCategory["Form 01"] = new());
+                foreach (var d in client.Form01Attachments)
+                {
+                    var path = !string.IsNullOrEmpty(d.Url) ? d.Url : d.FileName;
+                    if (!string.IsNullOrEmpty(path) && !fList.Contains(path)) fList.Add(path);
+                }
+            }
+        }
+
         _isSelectingClient = false;
         IsClientCodeDropdownOpen = false;
     }

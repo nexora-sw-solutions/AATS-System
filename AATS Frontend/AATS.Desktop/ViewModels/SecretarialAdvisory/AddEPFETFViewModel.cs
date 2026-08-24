@@ -126,7 +126,8 @@ public partial class AddEPFETFViewModel : ViewModelBase
                 PaymentStatus = "PENDING",
                 Process = "PENDING",
                 CurrentStep = 1,
-                StaffList = new System.Collections.Generic.List<StaffMember>()
+                StaffList = new System.Collections.Generic.List<StaffMember>(),
+                SourceDocuments = _selectedClient?.GetAllClientDocuments() ?? new()
             };
             await DataService.Instance.AddAuditRecordAsync("EPF / ETF", newRecord);
         }
@@ -151,9 +152,12 @@ public partial class AddEPFETFViewModel : ViewModelBase
         FilterClientCodes(value);
     }
 
+    private ClientRecord? _selectedClient;
+
     public override void SelectClientCode(ClientRecord client)
     {
         _isSelectingClient = true;
+        _selectedClient = client;
         ClientId = client.ClientCode ?? string.Empty;
         ClientName = client.Name ?? string.Empty;
         if (Guid.TryParse(client.Id, out var guid)) _clientGuid = guid;
