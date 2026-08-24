@@ -636,7 +636,7 @@
 
 
         <!-- Global Delete Confirmation Dialog -->
-        <Border ZIndex="1000" IsVisible="{Binding IsDeleteConfirmVisible}" Classes="premium-modal-overlay">
+        <Border ZIndex="5000" IsVisible="{Binding IsDeleteConfirmVisible}" Classes="premium-modal-overlay">
             <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
                 <StackPanel Spacing="28">
                     <Grid ColumnDefinitions="*, Auto">

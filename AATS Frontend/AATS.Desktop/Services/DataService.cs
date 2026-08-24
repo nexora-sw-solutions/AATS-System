@@ -838,6 +838,7 @@ namespace AATS.Desktop.Services
             try
             {
                 await ApiService.Instance.PostAsync($"/api/v1/clients/{id}/restore", new { });
+                _cachedClients = null;
                 return true;
             }
             catch (Exception ex)
@@ -852,6 +853,7 @@ namespace AATS.Desktop.Services
             try
             {
                 await ApiService.Instance.DeleteAsync($"/api/v1/clients/{id}/permanent");
+                _cachedClients = null;
                 return true;
             }
             catch (Exception ex)

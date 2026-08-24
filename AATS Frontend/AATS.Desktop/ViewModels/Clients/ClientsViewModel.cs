@@ -510,21 +510,18 @@ public partial class ClientsViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void ConfirmDelete()
+    private async Task ConfirmDelete()
     {
         IsDeleteConfirmVisible = false;
         if (_isBulkDelete)
         {
             var selected = _allClients.Where(c => c.IsSelected).ToList();
-            foreach (var client in selected) _allClients.Remove(client);
-            _ = DataService.Instance.DeleteClientsAsync(selected);
+            await DataService.Instance.DeleteClientsAsync(selected);
         }
         else if (_clientToDelete != null)
         {
             string clientName = _clientToDelete.Name ?? "Unknown";
-            _allClients.Remove(_clientToDelete);
-            
-            _ = DataService.Instance.DeleteClientsAsync(new[] { _clientToDelete });
+            await DataService.Instance.DeleteClientsAsync(new[] { _clientToDelete });
 
             LogService.Instance.AddLog("Delete", "Clients", _clientToDelete.Branch ?? "N/A", $"Deleted client: {clientName}");
             CloseClientDetail();
@@ -535,8 +532,7 @@ public partial class ClientsViewModel : ViewModelBase
         SelectedRecordCount = 0;
         HasSelectedRecords = false;
 
-        ApplyFilter();
-        _ = LoadDataAsync();
+        await LoadDataAsync();
     }
 
     [RelayCommand]

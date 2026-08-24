@@ -162,7 +162,7 @@ namespace AATS.API.Controllers
             return response;
         }
 
-        public override async Task<ActionResult<ApiResponse<PaginatedResult<Client>>>> GetAll([FromQuery] bool enrich = true, [FromQuery] bool includeDeleted = true)
+        public override async Task<ActionResult<ApiResponse<PaginatedResult<Client>>>> GetAll([FromQuery] bool enrich = true, [FromQuery] bool includeDeleted = false)
         {
             var list = await _repository.GetWithInclude(c => c.Branch);
             var now = DateTime.UtcNow;
