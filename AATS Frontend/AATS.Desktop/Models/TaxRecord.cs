@@ -53,8 +53,26 @@ namespace AATS.Desktop.Models
         [System.Text.Json.Serialization.JsonPropertyName("createdByName")]
         public string? CreatedByName { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("createdAt")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [System.Text.Json.Serialization.JsonPropertyName("recordDate")]
+        public DateTime RecordDate { get; set; } = DateTime.UtcNow;
+
+        private DateTime _date;
+
         [System.Text.Json.Serialization.JsonPropertyName("date")]
-        public DateTime Date { get; set; }
+        public DateTime Date
+        {
+            get
+            {
+                if (_date != default && _date.Year > 1) return _date;
+                if (RecordDate != default && RecordDate.Year > 1) return RecordDate;
+                if (CreatedAt != default && CreatedAt.Year > 1) return CreatedAt;
+                return DateTime.UtcNow;
+            }
+            set => _date = value;
+        }
 
         [System.Text.Json.Serialization.JsonPropertyName("taxType")]
         public string? TaxType { get; set; }

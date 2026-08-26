@@ -46,7 +46,11 @@ public partial class ClientDetailViewModel : ViewModelBase
     // General Information Card fields
     public string DisplayBranch => Record?.Branch ?? "Central";
     public string DisplayCategory => Record?.Category ?? "Loyal";
-    public string DisplayRegistrationDate => Record?.Date.ToString("yyyy-MM-dd") ?? "N/A";
+    public string DisplayRegistrationDate => (Record != null && Record.Date.Year > 1) 
+        ? Record.Date.ToString("yyyy-MM-dd") 
+        : ((Record != null && Record.CreatedAt.Year > 1) 
+            ? Record.CreatedAt.ToString("yyyy-MM-dd") 
+            : DateTime.UtcNow.ToString("yyyy-MM-dd"));
     public string DisplayName => Record?.Name ?? "N/A";
     public string DisplayStatus => Record?.Status ?? "Active";
     public string DisplayPhone => Record?.Phone ?? "N/A";

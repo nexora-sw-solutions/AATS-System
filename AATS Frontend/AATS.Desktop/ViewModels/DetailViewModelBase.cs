@@ -95,8 +95,17 @@ namespace AATS.Desktop.ViewModels
         public string ID => Record?.Code ?? Record?.ID ?? "N/A";
         public string Code => Record?.Code ?? "N/A";
         public string IDDisplay => Record?.Code ?? Record?.ID ?? "N/A";
-        public string Date => Record?.Date.ToString("yyyy-MM-dd") ?? "N/A";
-        public string DateDisplay => Record?.Date.ToString("dd/MM/yyyy") ?? "N/A";
+        public string Date => (Record != null && Record.Date.Year > 1) 
+            ? Record.Date.ToString("yyyy-MM-dd") 
+            : ((Record != null && Record.CreatedAt.Year > 1) 
+                ? Record.CreatedAt.ToString("yyyy-MM-dd") 
+                : DateTime.UtcNow.ToString("yyyy-MM-dd"));
+
+        public string DateDisplay => (Record != null && Record.Date.Year > 1) 
+            ? Record.Date.ToString("dd/MM/yyyy") 
+            : ((Record != null && Record.CreatedAt.Year > 1) 
+                ? Record.CreatedAt.ToString("dd/MM/yyyy") 
+                : DateTime.UtcNow.ToString("dd/MM/yyyy"));
         public string BranchDisplay => Record?.Branch ?? "N/A";
         public string StatusDisplay => Record?.PaymentStatus ?? "N/A";
         public string AssignmentDisplay => Record?.Assignment ?? "N/A";

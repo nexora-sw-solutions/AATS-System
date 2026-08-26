@@ -38,9 +38,27 @@ namespace AATS.Desktop.Models
         [property: JsonPropertyName("clientCode")]
         private string? _clientCode;
         
-        [ObservableProperty] 
-        [property: JsonPropertyName("date")]
+        [ObservableProperty]
+        [property: JsonPropertyName("createdAt")]
+        private DateTime _createdAt = DateTime.UtcNow;
+
         private DateTime _date;
+
+        [JsonPropertyName("date")]
+        public DateTime Date
+        {
+            get
+            {
+                if (_date != default && _date.Year > 1) return _date;
+                if (CreatedAt != default && CreatedAt.Year > 1) return CreatedAt;
+                return DateTime.UtcNow;
+            }
+            set
+            {
+                _date = value;
+                OnPropertyChanged(nameof(Date));
+            }
+        }
         
         [ObservableProperty] 
         [property: JsonPropertyName("clientName")]
