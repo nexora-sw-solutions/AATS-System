@@ -18,33 +18,57 @@ namespace AATS.Infrastructure.Services
 
     public class R2StorageService
     {
-        private readonly AmazonS3Client _s3Client;
+        private readonly AmazonS3Client? _s3Client;
         private readonly string _bucketName;
         private readonly string _sourceDocsFolder;
         private readonly string _publicBaseUrl;
+        private readonly bool _isConfigured;
 
         public R2StorageService(IConfiguration configuration)
         {
-            var accountId      = configuration["CloudflareR2:AccountId"]       ?? throw new InvalidOperationException("CloudflareR2:AccountId not configured");
-            var accessKey      = configuration["CloudflareR2:AccessKey"]       ?? throw new InvalidOperationException("CloudflareR2:AccessKey not configured");
-            var secretKey      = configuration["CloudflareR2:SecretKey"]       ?? throw new InvalidOperationException("CloudflareR2:SecretKey not configured");
-            _bucketName        = configuration["CloudflareR2:BucketName"]      ?? "aats";
-            _sourceDocsFolder  = configuration["CloudflareR2:SourceDocsFolder"] ?? "Audit & assurance source docs";
-            _publicBaseUrl     = (configuration["CloudflareR2:PublicBaseUrl"]  ?? $"https://{accountId}.r2.cloudflarestorage.com/{_bucketName}").TrimEnd('/');
+            var accountId = configuration["CloudflareR2:AccountId"];
+            var accessKey = configuration["CloudflareR2:AccessKey"];
+            var secretKey = configuration["CloudflareR2:SecretKey"];
 
-            // R2 S3-compatible endpoint — the bucket is in the URL path (ForcePathStyle)
-            var config = new AmazonS3Config
+            _bucketName = configuration["CloudflareR2:BucketName"] ?? "aats";
+            _sourceDocsFolder = configuration["CloudflareR2:SourceDocsFolder"] ?? "Audit & assurance source docs";
+
+            if (!string.IsNullOrWhiteSpace(accountId) &&
+                !string.IsNullOrWhiteSpace(accessKey) &&
+                !string.IsNullOrWhiteSpace(secretKey))
             {
-                ServiceURL            = $"https://{accountId}.r2.cloudflarestorage.com",
-                ForcePathStyle        = true,
-                AuthenticationRegion  = "auto"
-            };
+                _publicBaseUrl = (configuration["CloudflareR2:PublicBaseUrl"] ?? $"https://{accountId}.r2.cloudflarestorage.com/{_bucketName}").TrimEnd('/');
 
-            _s3Client = new AmazonS3Client(accessKey, secretKey, config);
+                try
+                {
+                    var config = new AmazonS3Config
+                    {
+                        ServiceURL = $"https://{accountId}.r2.cloudflarestorage.com",
+                        ForcePathStyle = true,
+                        AuthenticationRegion = "auto"
+                    };
+
+                    _s3Client = new AmazonS3Client(accessKey, secretKey, config);
+                    _isConfigured = true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[R2StorageService Warning] Failed to initialize S3 Client: {ex.Message}");
+                    _s3Client = null;
+                    _isConfigured = false;
+                }
+            }
+            else
+            {
+                _publicBaseUrl = "";
+                _s3Client = null;
+                _isConfigured = false;
+                Console.WriteLine("[R2StorageService Warning] Cloudflare R2 credentials not configured. R2 storage features will be disabled.");
+            }
         }
 
-        // Expose so controllers can use the configured folder name
         public string SourceDocsFolder => _sourceDocsFolder;
+        public bool IsConfigured => _isConfigured;
 
         /// <summary>
         /// Uploads a stream to R2 under the given object key.
@@ -56,6 +80,11 @@ namespace AATS.Infrastructure.Services
             string contentType,
             string folder = "")
         {
+            if (!_isConfigured || _s3Client == null)
+            {
+                throw new InvalidOperationException("Cloudflare R2 storage is not configured or disabled on this server.");
+            }
+
             // R2 requires the full content in a seekable MemoryStream with chunk encoding disabled.
             // Read into memory first so we can get the exact length and disable chunked signing.
             byte[] fileBytes;
@@ -105,15 +134,22 @@ namespace AATS.Infrastructure.Services
         /// </summary>
         public async Task DeleteAsync(string publicUrl)
         {
-            if (string.IsNullOrWhiteSpace(publicUrl)) return;
+            if (!_isConfigured || _s3Client == null || string.IsNullOrWhiteSpace(publicUrl)) return;
 
-            // Extract the object key from the URL
-            var key = publicUrl.Replace(_publicBaseUrl + "/", "");
-            await _s3Client.DeleteObjectAsync(new DeleteObjectRequest
+            try
             {
-                BucketName = _bucketName,
-                Key        = key
-            });
+                // Extract the object key from the URL
+                var key = publicUrl.Replace(_publicBaseUrl + "/", "");
+                await _s3Client.DeleteObjectAsync(new DeleteObjectRequest
+                {
+                    BucketName = _bucketName,
+                    Key        = key
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[R2StorageService Warning] Failed to delete object {publicUrl}: {ex.Message}");
+            }
         }
     }
 }
