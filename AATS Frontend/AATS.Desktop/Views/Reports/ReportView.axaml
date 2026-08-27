@@ -1,0 +1,197 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.Reports"
+        xmlns:i="https://github.com/projektanker/icons.avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1100"
+        x:Class="AATS.Desktop.Views.Reports.ReportView"
+        x:DataType="vm:ReportViewModel"
+        Title="Report"
+        Width="800" Height="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F7F9">
+
+    <Window.Styles>
+        <Style Selector="TextBlock.label">
+            <Setter Property="Foreground" Value="#1A3B70"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+        <Style Selector="TextBlock.value">
+            <Setter Property="Foreground" Value="#0A1931"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#1A3B70"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="10,15"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="Auto, Auto, *">
+        <!-- Toolbar -->
+        <Border Grid.Row="0" Background="White" BorderBrush="#DFE6E9" BorderThickness="0,0,0,1" Padding="20,10">
+            <StackPanel Orientation="Horizontal" Spacing="15" HorizontalAlignment="Right">
+                <Button Name="PrintSavePdfButton" Command="{Binding PrintCommand}" Classes="btn-primary" Background="#1A3B70" Padding="15,8">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <i:Icon Value="fa-solid fa-file-pdf" Foreground="White" FontSize="14"/>
+                        <TextBlock Text="Print &amp; Save PDF" Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <!-- Header -->
+        <Border Grid.Row="1" Height="200" Background="White">
+            <Panel>
+                <!-- Blue Wave Shapes (Simplified for XAML) -->
+                <Path Data="M 0,0 L 800,0 L 800,100 C 600,150 200,50 0,100 Z" Fill="#1A3B70" VerticalAlignment="Top"/>
+                
+                <!-- Watermark Title -->
+                <TextBlock Text="{Binding Title}" 
+                           FontSize="100" FontWeight="Black" 
+                           Foreground="#F0F2F5" 
+                           Opacity="0.5"
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center" 
+                           Margin="0,0,0,0"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"/>
+
+                <!-- Actual Title -->
+                <TextBlock Text="{Binding Title}" 
+                           FontSize="40" FontWeight="Bold" 
+                           Foreground="#1A3B70" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center" 
+                           Margin="40,20,40,0"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"/>
+            </Panel>
+        </Border>
+
+        <!-- Content -->
+        <ScrollViewer Grid.Row="2">
+            <StackPanel Margin="50,30,50,50" Spacing="40">
+                
+                <!-- Information Sections -->
+                <Grid ColumnDefinitions="*, *">
+                    <!-- Personal Info -->
+                    <StackPanel Grid.Column="0" Spacing="15">
+                        <TextBlock Text="PERSONAL INFORMATION" Classes="label" FontSize="16"/>
+                        
+                        <StackPanel>
+                            <TextBlock Text="Full Name:" Foreground="#636E72" FontSize="12"/>
+                            <TextBlock Text="{Binding ClientName}" Classes="value"/>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <TextBlock Text="Date of Birth:" Foreground="#636E72" FontSize="12"/>
+                            <TextBlock Text="{Binding DateOfBirth}" Classes="value"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Contact & Address -->
+                    <StackPanel Grid.Column="1" Spacing="15">
+                        <StackPanel Margin="0,35,0,0">
+                            <TextBlock Text="Phone Number:" Foreground="#636E72" FontSize="12"/>
+                            <TextBlock Text="{Binding PhoneNumber}" Classes="value"/>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <TextBlock Text="Address:" Foreground="#636E72" FontSize="12"/>
+                            <TextBlock Text="{Binding Address}" Classes="value" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Payment Details -->
+                <StackPanel Spacing="15">
+                    <TextBlock Text="PAYMENT DETAILS" Classes="label" FontSize="16"/>
+                    <Grid ColumnDefinitions="*, *">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="Bank Name:" Foreground="#636E72" FontSize="12" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding BankName}" Classes="value" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="Account No:" Foreground="#636E72" FontSize="12" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding AccountNo}" Classes="value" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Items Table -->
+                <Border Background="White" CornerRadius="12" Padding="20" BoxShadow="0 4 20 0 #1A000000">
+                    <StackPanel>
+                        <Grid ColumnDefinitions="120, *, 100, 80, 100" Margin="0,0,0,10">
+                            <TextBlock Grid.Column="0" Text="DATE" FontWeight="Bold" Foreground="#1A3B70"/>
+                            <TextBlock Grid.Column="1" Text="ITEM DESCRIPTION" FontWeight="Bold" Foreground="#1A3B70"/>
+                            <TextBlock Grid.Column="2" Text="PRICE" FontWeight="Bold" Foreground="#1A3B70" TextAlignment="Right"/>
+                            <TextBlock Grid.Column="3" Text="QTY" FontWeight="Bold" Foreground="#1A3B70" TextAlignment="Center"/>
+                            <TextBlock Grid.Column="4" Text="AMOUNT" FontWeight="Bold" Foreground="#1A3B70" TextAlignment="Right"/>
+                        </Grid>
+                        <Separator Background="#DFE6E9" Margin="0,0,0,15"/>
+                        
+                        <ItemsControl ItemsSource="{Binding Items}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="120, *, 100, 80, 100" Margin="0,10">
+                                        <TextBlock Grid.Column="0" Text="{Binding Date}" Foreground="#2D3436"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding Description}" Foreground="#2D3436" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding PriceFormatted}" Foreground="#2D3436" TextAlignment="Right"/>
+                                        <TextBlock Grid.Column="3" Text="{Binding Quantity}" Foreground="#2D3436" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="4" Text="{Binding AmountFormatted}" Foreground="#2D3436" FontWeight="Bold" TextAlignment="Right"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- Footer Totals -->
+                <Grid ColumnDefinitions="*, Auto" Margin="0,20,0,0">
+                    <StackPanel Grid.Column="0" Spacing="5" MaxWidth="400">
+                        <TextBlock Text="TERMS &amp; CONDITIONS" Classes="label" FontSize="12"/>
+                        <TextBlock Text="Be sure to do the payment within 30 days after receiving this invoice to avoid any penalty charges." 
+                                   FontSize="11" Foreground="#636E72" TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Spacing="10" MinWidth="200">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <TextBlock Text="SUBTOTAL" FontWeight="Bold" Foreground="#1A3B70"/>
+                            <TextBlock Grid.Column="1" Text="{Binding SubtotalFormatted}" FontWeight="Bold" Foreground="#2D3436"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="*, Auto">
+                            <TextBlock Text="DISCOUNT" FontWeight="Bold" Foreground="#1A3B70"/>
+                            <TextBlock Grid.Column="1" Text="{Binding DiscountFormatted}" FontWeight="Bold" Foreground="#2D3436"/>
+                        </Grid>
+                        <Separator Background="#1A3B70" Height="2" Margin="0,5"/>
+                        <Grid ColumnDefinitions="*, Auto">
+                            <TextBlock Text="TOTAL" FontSize="20" FontWeight="Black" Foreground="#1A3B70"/>
+                            <TextBlock Grid.Column="1" Text="{Binding TotalFormatted}" FontSize="20" FontWeight="Black" Foreground="#0A1931"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Contact Footer -->
+                <Border Height="80" Background="#1A3B70" CornerRadius="8" Margin="0,50,0,0" Padding="30,0">
+                    <Grid ColumnDefinitions="*, *">
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Contact Us!" Foreground="White" FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="+123-456-7890 | +123-456-7890" Foreground="#AEC9E0" FontSize="12"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <TextBlock Text="www.reallygreatsite.com" Foreground="White" FontWeight="Bold" FontSize="14" HorizontalAlignment="Right"/>
+                            <TextBlock Text="123 Anywhere St., Any City" Foreground="#AEC9E0" FontSize="12" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

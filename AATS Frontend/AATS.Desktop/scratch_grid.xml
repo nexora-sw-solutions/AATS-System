@@ -1,0 +1,445 @@
+<!-- Left Column: Details, Personnel, Documents -->
+
+                    <StackPanel Grid.Row="2" Grid.Column="0" Spacing="32">
+                        
+                        <!-- Registration Details -->
+                        <Border Classes="detail-card">
+                            <StackPanel Spacing="20">
+                                <StackPanel Orientation="Horizontal" Spacing="12">
+                                    <i:Icon Value="fa-solid fa-building-circle-check" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                    <TextBlock Text="REGISTRATION DETAILS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                
+                                <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, 24, Auto">
+                                    <!-- Row 1 -->
+                                    <StackPanel Grid.Row="0" Grid.Column="0">
+                                        <TextBlock Text="COMPANY NAME" Classes="card-label"/>
+                                        <TextBlock Text="{Binding ClientName}" Classes="card-value"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="1">
+                                        <TextBlock Text="TYPE" Classes="card-label"/>
+                                        <TextBlock Text="{Binding CompanyType}" Classes="card-value"/>
+                                    </StackPanel>
+                                    
+                                    <!-- Row 2 -->
+                                    <StackPanel Grid.Row="2" Grid.Column="0">
+                                        <TextBlock Text="ADDRESS" Classes="card-label"/>
+                                        <TextBlock Text="{Binding Address}" Classes="card-value" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="2" Grid.Column="1">
+                                        <TextBlock Text="EMAIL" Classes="card-label"/>
+                                        <TextBlock Text="{Binding Email}" Classes="card-value"/>
+                                        <TextBlock Text="PHONE" Classes="card-label" Margin="0,16,0,4"/>
+                                        <TextBlock Text="{Binding Phone}" Classes="card-value"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Personnel -->
+                        <Border Classes="detail-card">
+                            <StackPanel Spacing="24">
+                                <!-- Personnel Header -->
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                                        <i:Icon Value="fa-solid fa-users" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                        <TextBlock Text="PERSONNEL" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Personnel Tabs -->
+                                <Border BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="0,0,0,1">
+                                    <StackPanel Orientation="Horizontal" Spacing="0">
+                                        <Button Classes="tab-btn" Classes.selected="{Binding SelectedPersonnelTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Directors'}" Command="{Binding SelectPersonnelTabCommand}" CommandParameter="Directors">
+                                            <TextBlock Text="Directors"/>
+                                        </Button>
+                                        <Button Classes="tab-btn" Classes.selected="{Binding SelectedPersonnelTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Secretaries'}" Command="{Binding SelectPersonnelTabCommand}" CommandParameter="Secretaries">
+                                            <TextBlock Text="Secretaries"/>
+                                        </Button>
+                                        <Button Classes="tab-btn" Classes.selected="{Binding SelectedPersonnelTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Shareholders'}" Command="{Binding SelectPersonnelTabCommand}" CommandParameter="Shareholders">
+                                            <TextBlock Text="Shareholders"/>
+                                        </Button>
+                                        <Button Classes="tab-btn" Classes.selected="{Binding SelectedPersonnelTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Others'}" Command="{Binding SelectPersonnelTabCommand}" CommandParameter="Others">
+                                            <TextBlock Text="Others"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Tab Content (Personnel) -->
+                                <StackPanel Spacing="16">
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock Text="RECORDS IN" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding SelectedPersonnelTab}" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                                    </StackPanel>
+                                    
+                                    <ScrollViewer MaxHeight="350" VerticalScrollBarVisibility="Auto">
+                                        <StackPanel>
+                                            <ItemsControl ItemsSource="{Binding Directors}" IsVisible="{Binding SelectedPersonnelTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Directors'}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="models:CompanyCharacter">
+                                                        <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                                                <Ellipse Width="8" Height="8" Fill="{DynamicResource AccentPrimary}" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding Name}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            
+                                            <ItemsControl ItemsSource="{Binding Secretaries}" IsVisible="{Binding SelectedPersonnelTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Secretaries'}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="models:CompanyCharacter">
+                                                        <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                                                <Ellipse Width="8" Height="8" Fill="{DynamicResource AccentPrimary}" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding Name}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            
+                                            <ItemsControl ItemsSource="{Binding Shareholders}" IsVisible="{Binding SelectedPersonnelTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Shareholders'}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="models:CompanyCharacter">
+                                                        <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                                                <Ellipse Width="8" Height="8" Fill="{DynamicResource AccentPrimary}" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding Name}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            
+                                            <ItemsControl ItemsSource="{Binding Others}" IsVisible="{Binding SelectedPersonnelTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Others'}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="models:CompanyCharacter">
+                                                        <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                                                <Ellipse Width="8" Height="8" Fill="{DynamicResource AccentPrimary}" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding Name}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- NIC Documents -->
+                        <Border Classes="detail-card">
+                            <StackPanel Spacing="24">
+                                <StackPanel Orientation="Horizontal" Spacing="12">
+                                    <i:Icon Value="fa-solid fa-file-contract" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                    <TextBlock Text="NIC DOCUMENTS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- NIC Tabs -->
+                                <Border BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="0,0,0,1">
+                                    <StackPanel Orientation="Horizontal" Spacing="0">
+                                        <Button Classes="tab-btn" Classes.selected="{Binding SelectedNicTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Directors'}" Command="{Binding SelectNicTabCommand}" CommandParameter="Directors">
+                                            <TextBlock Text="Directors"/>
+                                        </Button>
+                                        <Button Classes="tab-btn" Classes.selected="{Binding SelectedNicTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Secretaries'}" Command="{Binding SelectNicTabCommand}" CommandParameter="Secretaries">
+                                            <TextBlock Text="Secretaries"/>
+                                        </Button>
+                                        <Button Classes="tab-btn" Classes.selected="{Binding SelectedNicTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Shareholders'}" Command="{Binding SelectNicTabCommand}" CommandParameter="Shareholders">
+                                            <TextBlock Text="Shareholders"/>
+                                        </Button>
+                                        <Button Classes="tab-btn" Classes.selected="{Binding SelectedNicTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Others'}" Command="{Binding SelectNicTabCommand}" CommandParameter="Others">
+                                            <TextBlock Text="Others"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Tab Content (NICs) -->
+                                <StackPanel Spacing="16">
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock Text="FILES IN" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding SelectedNicTab}" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                                    </StackPanel>
+                                    
+                                    <TextBlock Text="No NIC documents uploaded." Foreground="{DynamicResource TextFaint}" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,20" IsVisible="{Binding !FilteredNicDocuments.Count}"/>
+                                    
+                                    <ScrollViewer MaxHeight="350" VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl ItemsSource="{Binding FilteredNicDocuments}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate x:DataType="models:AppDocument">
+                                                    <Border Classes="document-item" Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                        <Grid ColumnDefinitions="Auto, *, Auto">
+                                                            <i:Icon Value="fa-solid fa-file-pdf" Foreground="{DynamicResource AccentPrimary}" FontSize="20" Margin="0,0,16,0"/>
+                                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                                <TextBlock Text="{Binding FileName}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold"/>
+                                                                <TextBlock Text="{Binding FileSize}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                            </StackPanel>
+                                                            
+                                                            <!-- Actions -->
+                                                            <StackPanel Grid.Column="2" Classes="action-icons" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                                                <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:CompanyRegistrationDetailViewModel)DataContext).PreviewDocumentCommand}" CommandParameter="{Binding}">
+                                                                    <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource TextSecondary}"/>
+                                                                </Button>
+                                                                <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:CompanyRegistrationDetailViewModel)DataContext).DownloadDocumentCommand}" CommandParameter="{Binding}">
+                                                                    <i:Icon Value="fa-solid fa-download" Foreground="{DynamicResource TextSecondary}"/>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Right Column: TIN Registration -->
+                    <StackPanel Grid.Row="2" Grid.Column="2" Spacing="20">
+                    <Border Classes="detail-card" VerticalAlignment="Top">
+                        <StackPanel Spacing="24">
+                            <!-- TIN Header -->
+                            <Grid ColumnDefinitions="*, Auto">
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                                    <i:Icon Value="fa-solid fa-file-signature" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                    <TextBlock Text="TIN REGISTRATION" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Button Name="AddRegistrationButton" Grid.Column="1" Classes="btn-primary" Background="{DynamicResource AccentPrimary}" Padding="12,6" Command="{Binding AddRegistrationCommand}" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <i:Icon Value="fa-solid fa-plus" FontSize="12" Foreground="{DynamicResource TextPrimary}"/>
+                                        <TextBlock Text="Registration" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+
+                            <!-- TIN Tabs -->
+                            <Border BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="0,0,0,1">
+                                <StackPanel Orientation="Horizontal" Spacing="0">
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedTinTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='PROCESS'}" Command="{Binding SelectTinTabCommand}" CommandParameter="PROCESS">
+                                        <TextBlock Text="PROCESS"/>
+                                    </Button>
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedTinTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='APPROVED'}" Command="{Binding SelectTinTabCommand}" CommandParameter="APPROVED">
+                                        <TextBlock Text="APPROVED"/>
+                                    </Button>
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedTinTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='PIN'}" Command="{Binding SelectTinTabCommand}" CommandParameter="PIN">
+                                        <TextBlock Text="PIN"/>
+                                    </Button>
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedTinTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='SSID'}" Command="{Binding SelectTinTabCommand}" CommandParameter="SSID">
+                                        <TextBlock Text="SSID"/>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Tab Content (Files) -->
+                            <StackPanel Spacing="16">
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <TextBlock Text="FILES IN" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding SelectedTinTab}" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                                </StackPanel>
+                                
+                                <TextBlock Text="No documents uploaded." Foreground="{DynamicResource TextFaint}" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,20" IsVisible="{Binding !FilteredTinFiles.Count}"/>
+                                
+                                <ItemsControl ItemsSource="{Binding FilteredTinFiles}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="models:AppDocument">
+                                            <Border Classes="document-item" Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                <Grid ColumnDefinitions="Auto, *, Auto">
+                                                    <i:Icon Value="fa-solid fa-file-pdf" Foreground="{DynamicResource AccentPrimary}" FontSize="20" Margin="0,0,16,0"/>
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding FileName}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold"/>
+                                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                                            <TextBlock Text="{Binding FileSize}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                            <TextBlock Text="â€¢" Foreground="{DynamicResource TextFaint}" FontSize="11"/>
+                                                            <TextBlock Text="{Binding Type}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+
+                                                    <!-- Hover Actions -->
+                                                    <StackPanel Grid.Column="2" Classes="action-icons" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:CompanyRegistrationDetailViewModel)DataContext).PreviewDocumentCommand}" CommandParameter="{Binding}">
+                                                            <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource TextSecondary}"/>
+                                                        </Button>
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:CompanyRegistrationDetailViewModel)DataContext).DownloadDocumentCommand}" CommandParameter="{Binding}">
+                                                            <i:Icon Value="fa-solid fa-download" Foreground="{DynamicResource TextSecondary}"/>
+                                                        </Button>
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:CompanyRegistrationDetailViewModel)DataContext).EditDocumentCommand}" CommandParameter="{Binding}">
+                                                            <i:Icon Value="fa-solid fa-pen" Foreground="{DynamicResource TextSecondary}"/>
+                                                        </Button>
+                                                        <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:CompanyRegistrationDetailViewModel)DataContext).DeleteDocumentCommand}" CommandParameter="{Binding}">
+                                                            <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <!-- ATTACHMENTS -->
+                    <Border Classes="detail-card" VerticalAlignment="Top">
+                        <StackPanel Spacing="24">
+                            <!-- Attachments Header -->
+                            <Grid ColumnDefinitions="*, Auto">
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                                    <i:Icon Value="fa-solid fa-paperclip" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                    <TextBlock Text="ATTACHMENTS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Attachments Tabs -->
+                            <Border BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="0,0,0,1">
+                                <StackPanel Orientation="Horizontal" Spacing="0">
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Form 01'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="Form 01">
+                                        <TextBlock Text="Form 01"/>
+                                    </Button>
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='BO Form'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="BO Form">
+                                        <TextBlock Text="BO Form"/>
+                                    </Button>
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Form 05'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="Form 05">
+                                        <TextBlock Text="Form 05"/>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Tab Content (Files) -->
+                            <StackPanel Spacing="16">
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <TextBlock Text="FILES IN" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding SelectedAttachmentTab}" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                                </StackPanel>
+                                
+                                <TextBlock Text="No documents uploaded." Foreground="{DynamicResource TextFaint}" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,20" IsVisible="{Binding !FilteredAttachmentFiles.Count}"/>
+                                
+                                <!-- BO Responsible Person Section -->
+                                <Border Background="{DynamicResource InputBg}" CornerRadius="8" Padding="16,12" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1" IsVisible="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='BO Form'}">
+                                    <StackPanel Spacing="8">
+                                        <TextBlock Text="BO RESPONSIBLE PERSON" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextSecondary}"/>
+                                        
+                                        <TextBlock Text="{Binding BoResponsiblePersonName}" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimary}" IsVisible="{Binding BoResponsiblePersonName, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                                        <TextBlock Text="Not Assigned" FontSize="14" FontStyle="Italic" Foreground="{DynamicResource TextFaint}" IsVisible="{Binding BoResponsiblePersonName, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
+                                        
+                                        <!-- BO Person NIC -->
+                                        <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding HasBoPersonNic}" Margin="0,4,0,0">
+                                            <i:Icon Value="fa-solid fa-id-card" Foreground="{DynamicResource AccentPrimary}" FontSize="14" VerticalAlignment="Center"/>
+                                            <TextBlock Text="NIC Uploaded" FontSize="12" Foreground="{DynamicResource TextMuted}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                                
+                                <ScrollViewer MaxHeight="350" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{Binding FilteredAttachmentFiles}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="models:AppDocument">
+                                                <Border Classes="document-item" Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                    <Grid ColumnDefinitions="Auto, *, Auto">
+                                                        <i:Icon Value="fa-solid fa-file-pdf" Foreground="{DynamicResource AccentPrimary}" FontSize="20" Margin="0,0,16,0"/>
+                                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding FileName}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold"/>
+                                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                                <TextBlock Text="{Binding FileSize}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                                <TextBlock Text="â€¢" Foreground="{DynamicResource TextFaint}" FontSize="11"/>
+                                                                <TextBlock Text="{Binding Category}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                            </StackPanel>
+                                                        </StackPanel>
+
+                                                        <!-- Hover Actions -->
+                                                        <StackPanel Grid.Column="2" Classes="action-icons" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                                            <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:CompanyRegistrationDetailViewModel)DataContext).PreviewDocumentCommand}" CommandParameter="{Binding}">
+                                                                <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource TextSecondary}"/>
+                                                            </Button>
+                                                            <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:CompanyRegistrationDetailViewModel)DataContext).DownloadDocumentCommand}" CommandParameter="{Binding}">
+                                                                <i:Icon Value="fa-solid fa-download" Foreground="{DynamicResource TextSecondary}"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Registration Process Documents -->
+                    <Border Classes="detail-card">
+                        <StackPanel Spacing="24">
+                            <!-- Header -->
+                            <Grid ColumnDefinitions="*, Auto">
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                                    <i:Icon Value="fa-solid fa-folder-open" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                                    <TextBlock Text="REGISTRATION PROCESS DOCUMENTS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Tabs -->
+                            <Border BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="0,0,0,1">
+                                <StackPanel Orientation="Horizontal" Spacing="0">
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedProcessDocumentsCardTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Name Approval'}" Command="{Binding SelectProcessDocumentsCardTabCommand}" CommandParameter="Name Approval">
+                                        <TextBlock Text="Name Approval"/>
+                                    </Button>
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedProcessDocumentsCardTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Signature'}" Command="{Binding SelectProcessDocumentsCardTabCommand}" CommandParameter="Signature">
+                                        <TextBlock Text="Signature"/>
+                                    </Button>
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedProcessDocumentsCardTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Incorporation'}" Command="{Binding SelectProcessDocumentsCardTabCommand}" CommandParameter="Incorporation">
+                                        <TextBlock Text="Incorporation"/>
+                                    </Button>
+                                    <Button Classes="tab-btn" Classes.selected="{Binding SelectedProcessDocumentsCardTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Certified Copies'}" Command="{Binding SelectProcessDocumentsCardTabCommand}" CommandParameter="Certified Copies">
+                                        <TextBlock Text="Certified Copies"/>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Tab Content (Files) -->
+                            <StackPanel Spacing="16">
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <TextBlock Text="RECORDS IN" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding SelectedProcessDocumentsCardTab}" Foreground="{DynamicResource TextMuted}" FontSize="12" FontWeight="Bold"/>
+                                </StackPanel>
+                                
+                                <TextBlock Text="No documents found." Foreground="{DynamicResource TextFaint}" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,20" IsVisible="{Binding !FilteredProcessCardDocuments.Count}"/>
+                                
+                                <ScrollViewer MaxHeight="350" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{Binding FilteredProcessCardDocuments}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="models:AppDocument">
+                                                <Border Classes="document-item" Background="{DynamicResource DrawerHeaderBg}" CornerRadius="10" Padding="16,12" Margin="0,0,0,8" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1">
+                                                    <Grid ColumnDefinitions="Auto, *, Auto">
+                                                        <i:Icon Value="fa-solid fa-file-pdf" Foreground="{DynamicResource AccentPrimary}" FontSize="20" Margin="0,0,16,0"/>
+                                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding FileName}" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold"/>
+                                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                                <TextBlock Text="{Binding FileSize}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                                <TextBlock Text="•" Foreground="{DynamicResource TextFaint}" FontSize="11"/>
+                                                                <TextBlock Text="{Binding Type}" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                                            </StackPanel>
+                                                        </StackPanel>
+
+                                                        <!-- Hover Actions -->
+                                                        <StackPanel Grid.Column="2" Classes="action-icons" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                                            <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:CompanyRegistrationDetailViewModel)DataContext).PreviewProcessDocumentCommand}" CommandParameter="{Binding}">
+                                                                <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource TextSecondary}"/>
+                                                            </Button>
+                                                            <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:CompanyRegistrationDetailViewModel)DataContext).RemoveProcessDocumentCommand}" CommandParameter="{Binding}">
+                                                                <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+                </Grid>
+
+                

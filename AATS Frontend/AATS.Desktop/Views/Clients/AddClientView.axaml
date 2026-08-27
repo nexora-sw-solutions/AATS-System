@@ -1,0 +1,422 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AATS.Desktop.ViewModels.Clients"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:inter="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+             x:Class="AATS.Desktop.Views.Clients.AddClientView"
+             x:DataType="vm:AddClientViewModel"
+             x:CompileBindings="False">
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock.section-title">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextHeading}"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+        <Style Selector="TextBlock.input-label">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextHeading}"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        <Style Selector="TextBox.form-input">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style Selector="TextBox.form-input:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}"/>
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+        </Style>
+        <Style Selector="ComboBox.form-combo">
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextInput}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style Selector="Border.card-panel">
+            <Setter Property="Background" Value="{DynamicResource CardBg}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="25"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+        <Style Selector="Button.btn-save">
+            <Setter Property="Background" Value="{DynamicResource AccentPrimary}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.btn-save:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource AccentHover}"/>
+        </Style>
+        <Style Selector="Button.btn-cancel">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.btn-cancel:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource FilterBarBg}"/>
+        </Style>
+        <Style Selector="Button.action-btn-premium">
+            <Setter Property="Background" Value="{DynamicResource CardBg}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.action-btn-premium:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource SelectionIndicatorBg}"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Panel>
+        <Grid RowDefinitions="*, Auto">
+            <ScrollViewer Grid.Row="0">
+            <Grid RowDefinitions="Auto, Auto, Auto, Auto" Margin="25,20,15,20">
+                <!-- Header -->
+                <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,25">
+                    <TextBlock Text="Add Record (Client)" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="15">
+                        <Button Classes="btn-cancel" Content="Cancel" Command="{Binding CancelCommand}"/>
+                        <Button Classes="btn-save" Command="{Binding SaveClientCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <i:Icon Value="fa-solid fa-cloud-arrow-up" FontSize="14"/>
+                                <TextBlock Text="Save Client"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Error Message Banner -->
+                <Border Grid.Row="1" Background="{DynamicResource NexoraErrorBg}" BorderBrush="{DynamicResource NexoraErrorBorder}" BorderThickness="1" CornerRadius="6" Padding="15,10" Margin="0,0,0,15" IsVisible="{Binding HasFormError}" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <i:Icon Value="fa-solid fa-circle-exclamation" Foreground="{DynamicResource NexoraErrorIcon}" FontSize="14" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding FormErrorMessage}" Foreground="{DynamicResource NexoraErrorText}" FontSize="13" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- GENERAL INFORMATION Card -->
+                <Border Grid.Row="2" Classes="card-panel">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,20">
+                            <i:Icon Value="fa-solid fa-address-card" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                            <TextBlock Text="GENERAL INFORMATION" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        
+                        <!-- Row 1: Client Name & Email Address -->
+                        <Grid ColumnDefinitions="*, *" Margin="0,0,0,20">
+                            <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                                <TextBlock Text="Client Name" Classes="input-label"/>
+                                <TextBox Name="ClientNameTextBox" Classes="form-input" Watermark="Business Name" Text="{Binding ClientName}"/>
+<Popup IsOpen="{Binding IsClientNameDropdownOpen}" PlacementTarget="{Binding #ClientNameTextBox}" Placement="Bottom" IsLightDismissEnabled="True" MaxHeight="220" Width="{Binding #ClientNameTextBox.Bounds.Width}">
+    <Border Background="{DynamicResource CardBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="0,0,6,6" BoxShadow="0 4 16 0 #40000000" ClipToBounds="True">
+        <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding ClientNameSuggestions}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Background="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Cursor="Hand" Command="{Binding $parent[UserControl].DataContext.SelectClientNameCommand}" CommandParameter="{Binding}">
+                            <Grid ColumnDefinitions="Auto, *" Height="36" Background="Transparent">
+                                <Rectangle Grid.Column="0" Width="4" Height="20" Fill="{Binding CategoryColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0" RadiusX="2" RadiusY="2"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="10,0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" FontSize="13"/>
+                                    <TextBlock Text="-" Foreground="{DynamicResource TextSecondary}" Opacity="0.7" FontSize="13"/>
+                                    <TextBlock Text="{Binding ClientCode}" Foreground="{DynamicResource TextSecondary}" Opacity="0.8" FontSize="12" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Border>
+</Popup>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                <TextBlock Text="Email Address" Classes="input-label"/>
+                                <TextBox Classes="form-input" Watermark="contact@business.com" Text="{Binding Email}"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Row 2: Phone Number & Assigned Branch -->
+                        <Grid ColumnDefinitions="*, *" Margin="0,0,0,20">
+                            <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                                <TextBlock Text="Phone Number" Classes="input-label"/>
+                                <TextBox Classes="form-input" Watermark="+94 ..." Text="{Binding Phone}"/>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                <TextBlock Text="Assigned Branch" Classes="input-label"/>
+                                <ComboBox ItemsSource="{Binding AvailableBranches}" 
+                                          SelectedItem="{Binding Branch}"
+                                          PlaceholderText="Select"
+                                          HorizontalAlignment="Stretch"
+                                          Classes="form-combo"
+                                          Height="38">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Row 3: Category & Status -->
+                        <Grid ColumnDefinitions="*, *" Margin="0,0,0,20">
+                            <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                                <TextBlock Text="Category" Classes="input-label"/>
+                                <ComboBox ItemsSource="{Binding Categories}" 
+                                          SelectedItem="{Binding Category}"
+                                          PlaceholderText="Select"
+                                          HorizontalAlignment="Stretch"
+                                          Classes="form-combo"
+                                          Height="38">
+                                </ComboBox>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                <TextBlock Text="Status" Classes="input-label"/>
+                                <ComboBox ItemsSource="{Binding Statuses}" 
+                                          SelectedItem="{Binding Status}"
+                                          PlaceholderText="Select"
+                                          HorizontalAlignment="Stretch"
+                                          Classes="form-combo"
+                                          Height="38">
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Row 4: Auditor Notes -->
+                        <StackPanel>
+                            <TextBlock Text="Auditor Notes" Classes="input-label"/>
+                            <TextBox Text="{Binding AuditorNotes}" Classes="form-input" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="100" Watermark="Enter auditor notes here..."/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- ATTACHMENTS Section -->
+                <Border Grid.Row="3" Classes="card-panel">
+                    <StackPanel Spacing="24">
+                        <!-- Card Header -->
+                        <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,20">
+                            <i:Icon Value="fa-solid fa-paperclip" Foreground="{DynamicResource AccentPrimary}" FontSize="18"/>
+                            <TextBlock Text="ATTACHMENTS" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Attachments Tabs -->
+                        <Border BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal" Spacing="0">
+                                <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='BR'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="BR">
+                                    <TextBlock Text="BR"/>
+                                </Button>
+                                <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='TIN'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="TIN">
+                                    <TextBlock Text="TIN"/>
+                                </Button>
+                                <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Form 01'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="Form 01">
+                                    <TextBlock Text="Form 01"/>
+                                </Button>
+                                <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Article of Association'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="Article of Association">
+                                    <TextBlock Text="Article of Association"/>
+                                </Button>
+                                <Button Classes="tab-btn" Classes.selected="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='NIC'}" Command="{Binding SelectAttachmentTabCommand}" CommandParameter="NIC">
+                                    <TextBlock Text="NIC"/>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Tab Content -->
+                        <ScrollViewer MaxHeight="450" VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <!-- BR Tab -->
+                                <StackPanel IsVisible="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='BR'}">
+                                    <ItemsControl ItemsSource="{Binding BrAttachments}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="6" Padding="12" Margin="0,0,0,8">
+                                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                                        <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="1" Text="{Binding FileName}" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextInput}"/>
+                                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                            <Button Command="{Binding $parent[ItemsControl].DataContext.PreviewAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource AccentPrimary}" FontSize="14"/>
+                                                            </Button>
+                                                            <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveBrAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Button Classes="action-btn-premium" HorizontalAlignment="Left" Command="{Binding PickBrAttachmentCommand}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource AccentPrimary}"/>
+                                            <TextBlock Text="Add BR Document" Foreground="{DynamicResource AccentPrimary}" FontSize="12"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+
+                                <!-- TIN Tab -->
+                                <StackPanel IsVisible="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='TIN'}">
+                                    <ItemsControl ItemsSource="{Binding TinAttachments}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="6" Padding="12" Margin="0,0,0,8">
+                                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                                        <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="1" Text="{Binding FileName}" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextInput}"/>
+                                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                            <Button Command="{Binding $parent[ItemsControl].DataContext.PreviewAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource AccentPrimary}" FontSize="14"/>
+                                                            </Button>
+                                                            <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveTinAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Button Classes="action-btn-premium" HorizontalAlignment="Left" Command="{Binding PickTinAttachmentCommand}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource AccentPrimary}"/>
+                                            <TextBlock Text="Add TIN Document" Foreground="{DynamicResource AccentPrimary}" FontSize="12"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+
+                                <!-- Form 01 Tab -->
+                                <StackPanel IsVisible="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Form 01'}">
+                                    <ItemsControl ItemsSource="{Binding Form01Attachments}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="6" Padding="12" Margin="0,0,0,8">
+                                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                                        <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="1" Text="{Binding FileName}" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextInput}"/>
+                                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                            <Button Command="{Binding $parent[ItemsControl].DataContext.PreviewAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource AccentPrimary}" FontSize="14"/>
+                                                            </Button>
+                                                            <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveForm01AttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Button Classes="action-btn-premium" HorizontalAlignment="Left" Command="{Binding PickForm01AttachmentCommand}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource AccentPrimary}"/>
+                                            <TextBlock Text="Add Form 01 Document" Foreground="{DynamicResource AccentPrimary}" FontSize="12"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+
+                                <!-- Article of Association Tab -->
+                                <StackPanel IsVisible="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='Article of Association'}">
+                                    <ItemsControl ItemsSource="{Binding ArticleOfAssociationAttachments}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="6" Padding="12" Margin="0,0,0,8">
+                                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                                        <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="1" Text="{Binding FileName}" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextInput}"/>
+                                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                            <Button Command="{Binding $parent[ItemsControl].DataContext.PreviewAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource AccentPrimary}" FontSize="14"/>
+                                                            </Button>
+                                                            <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveArticleOfAssociationAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Button Classes="action-btn-premium" HorizontalAlignment="Left" Command="{Binding PickArticleOfAssociationAttachmentCommand}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource AccentPrimary}"/>
+                                            <TextBlock Text="Add Article of Association Document" Foreground="{DynamicResource AccentPrimary}" FontSize="12"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+
+                                <!-- NIC Tab -->
+                                <StackPanel IsVisible="{Binding SelectedAttachmentTab, Converter={StaticResource StringEqualityConverter}, ConverterParameter='NIC'}">
+                                    <ItemsControl ItemsSource="{Binding NicAttachments}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{DynamicResource DrawerHeaderBg}" CornerRadius="6" Padding="12" Margin="0,0,0,8">
+                                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                                        <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="1" Text="{Binding FileName}" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextInput}"/>
+                                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                            <Button Command="{Binding $parent[ItemsControl].DataContext.PreviewAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource AccentPrimary}" FontSize="14"/>
+                                                            </Button>
+                                                            <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveNicAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Button Classes="action-btn-premium" HorizontalAlignment="Left" Command="{Binding PickNicAttachmentCommand}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <i:Icon Value="fa-solid fa-plus" Foreground="{DynamicResource AccentPrimary}"/>
+                                            <TextBlock Text="Add NIC Document" Foreground="{DynamicResource AccentPrimary}" FontSize="12"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- Discard Confirm Modal Overlay -->
+        <Border ZIndex="101" IsVisible="{Binding IsDiscardConfirmVisible}" Classes="premium-modal-overlay">
+            <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="440">
+                <StackPanel Spacing="25">
+                    <i:Icon Value="fa-solid fa-triangle-exclamation" Foreground="{DynamicResource StatusWarning}" FontSize="40" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Discard changes?" Foreground="{DynamicResource TextPrimary}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Any unsaved progress will be lost." 
+                               Foreground="{DynamicResource TextSecondary}" FontSize="13" TextAlignment="Center" TextWrapping="Wrap"/>
+                    <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Content="Keep Editing" Command="{Binding CancelDiscardCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        <Button Grid.Column="2" Content="Discard" Command="{Binding ConfirmDiscardCommand}" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Panel>
+</UserControl>

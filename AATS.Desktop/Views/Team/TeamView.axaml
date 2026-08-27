@@ -1,0 +1,928 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:helpers="using:AATS.Desktop.Helpers"
+             xmlns:vm="clr-namespace:AATS.Desktop.ViewModels.Team"
+             xmlns:Models="clr-namespace:AATS.Desktop.Models"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             xmlns:inter="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+             x:Class="AATS.Desktop.Views.Team.TeamView"
+             x:DataType="vm:TeamViewModel"
+             x:CompileBindings="False">
+
+    <UserControl.Styles>
+
+
+        <!-- Suppress Native Row Selection & Hover Backgrounds -->
+        <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+            <Setter Property="Fill" Value="Transparent"/>
+            <Setter Property="Opacity" Value="0"/>
+        </Style>
+
+        <!-- Suppress Native Cell Focus/Currency Visuals -->
+        <Style Selector="DataGridCell:current /template/ Grid#FocusVisual">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+        <Style Selector="DataGridCell:current /template/ Rectangle#CurrencyVisual">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+        <Style Selector="DataGridCell:selected /template/ Grid#FocusVisual">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+
+        <!-- Globally style all FlyoutPresenters in this View to be invisible containers -->
+        <Style Selector="FlyoutPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="MinWidth" Value="0"/>
+            <!-- Removes the outer grayish container background completely -->
+        </Style>
+
+        <!-- Menu Item Hover Controls -->
+        <Style Selector="Button.action-trigger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.menu-item-btn">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        
+        <Style Selector="Button.menu-item-btn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource SelectedRowBg}"/>
+        </Style>
+
+        <!-- Modal Input Textbox Resets -->
+        <Style Selector="TextBox.modal-input /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style Selector="TextBox.modal-input:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style Selector="TextBox.modal-input:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+        <Style Selector="ComboBox.modal-combo /template/ Border#Background">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        
+        <!-- Ensure icons and text don't change color unnecessarily on hover -->
+        <Style Selector="Button.menu-item-btn:pointerover TextBlock">
+            <Setter Property="Opacity" Value="0.9"/>
+        </Style>
+
+        <!-- Specialized Role Badge Styles -->
+        <Style Selector="Border.role-badge">
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Border.role-Admin">
+            <Setter Property="Background" Value="#F3E8FF"/>
+            <Setter Property="BorderBrush" Value="#E9D5FF"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Foreground" Value="#7E22CE"/>
+            </Style>
+        </Style>
+
+        <Style Selector="Border.role-AuditAndAssurance">
+            <Setter Property="Background" Value="#DBEAFE"/>
+            <Setter Property="BorderBrush" Value="#BFDBFE"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Foreground" Value="#1E40AF"/>
+            </Style>
+        </Style>
+
+        <Style Selector="Border.role-SecretarialAndAdvisory">
+            <Setter Property="Background" Value="#D1FAE5"/>
+            <Setter Property="BorderBrush" Value="#A7F3D0"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Foreground" Value="#065F46"/>
+            </Style>
+        </Style>
+
+        <Style Selector="Border.role-TaxFiling">
+            <Setter Property="Background" Value="#FFEDD5"/>
+            <Setter Property="BorderBrush" Value="#FED7AA"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Foreground" Value="#9A3412"/>
+            </Style>
+        </Style>
+
+        <Style Selector="Border.role-All">
+            <Setter Property="Background" Value="#FCE7F3"/>
+            <Setter Property="BorderBrush" Value="#FBCFE8"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Foreground" Value="#9D174D"/>
+            </Style>
+        </Style>
+
+        <!-- Standardized Status Badge Design (Design parity with Clients module) -->
+        <Style Selector="Border.status-badge">
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Border.status-active">
+            <Setter Property="Background" Value="#DCFCE7"/>
+            <Setter Property="BorderBrush" Value="#BBF7D0"/>
+            <Setter Property="BoxShadow" Value="0 0 8 0 #33BBF7D0"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Foreground" Value="#166534"/>
+            </Style>
+        </Style>
+
+        <Style Selector="Border.status-inactive">
+            <Setter Property="Background" Value="#F3F4F6"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Foreground" Value="#374151"/>
+            </Style>
+        </Style>
+
+
+
+        <Style Selector="Border.dashboard-card">
+            <Setter Property="Background" Value="{DynamicResource CardBg}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+
+        <!-- Slide Drawer Animations -->
+        <Style Selector="Border.detail-drawer">
+            <Setter Property="Background" Value="{DynamicResource DrawerBg}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="BorderThickness" Value="1,0,0,0"/>
+            <Setter Property="Width" Value="450"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.3" Easing="CubicEaseOut"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="Border.detail-drawer[IsVisible=True]">
+            <Setter Property="RenderTransform" Value="translate(0,0)"/>
+        </Style>
+        <Style Selector="Border.detail-drawer[IsVisible=False]">
+            <Setter Property="RenderTransform" Value="translate(450px,0)"/>
+        </Style>
+
+        <!-- Avatar Circle Style -->
+        <Style Selector="Border.avatar-circle">
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="Background" Value="{DynamicResource BorderDefault}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource IconActionBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Panel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <!-- Main Content (Full Width) -->
+        <Grid Grid.Column="0" RowDefinitions="Auto, Auto, *, Auto, Auto" Margin="25,20,25,10" VerticalAlignment="Top">
+            <!-- Header -->
+            <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,25" ZIndex="10">
+                <TextBlock Text="Team Management" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                <Button Grid.Column="1" Classes="add-record-button" Command="{Binding AddNewMemberCommand}" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <i:Icon Value="fa-solid fa-user-plus" FontSize="14" Foreground="{DynamicResource AddRecordFg}"/>
+                        <TextBlock Text="Add New Member" FontWeight="Bold"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <!-- Standardized Filter Section -->
+            <Border Grid.Row="1" Background="{DynamicResource FilterBarBg}" CornerRadius="12" Padding="15" Margin="0,0,0,20" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1">
+                <Grid ColumnDefinitions="*, 15, Auto, 10, Auto, 10, Auto, 10, Auto">
+                    <!-- Search -->
+                    <Grid Grid.Column="0" ColumnDefinitions="*, Auto">
+                        <Panel Grid.Column="0">
+                            <TextBox Classes="filter-search" Watermark="Search by name or email..." Text="{Binding SearchText}"/>
+                            <i:Icon Value="fa-solid fa-magnifying-glass" HorizontalAlignment="Left" Margin="12,0,0,0" Foreground="{DynamicResource TextSecondary}" FontSize="14"/>
+                        </Panel>
+                    </Grid>
+
+                    <!-- Role Filter -->
+                    <ComboBox Grid.Column="2" ItemsSource="{Binding RoleFilters}" SelectedItem="{Binding SelectedRoleFilter}" 
+                              Classes="filter-combo" Width="130"/>
+
+                    <!-- Branch Filter -->
+                    <ComboBox Grid.Column="4" ItemsSource="{Binding BranchFilters}" SelectedItem="{Binding SelectedBranchFilter}" 
+                              Classes="filter-combo" Width="140"/>
+
+                    <!-- Unified Date Filter -->
+                    <Button Grid.Column="6" Classes="date-filter-trigger">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <i:Icon Value="fa-solid fa-calendar-alt" Foreground="{DynamicResource AccentPrimary}" FontSize="16"/>
+                            <TextBlock Text="{Binding DateFilterSummary}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                            <i:Icon Value="fa-solid fa-chevron-down" Foreground="{DynamicResource TextMuted}" FontSize="10" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                        </StackPanel>
+                        <Button.Flyout>
+                            <Flyout Placement="BottomEdgeAlignedLeft" FlyoutPresenterClasses="premium-flyout">
+                                <Border Background="{DynamicResource DrawerBg}" 
+                                        BorderBrush="{DynamicResource BorderDefault}" 
+                                        BorderThickness="1" 
+                                        CornerRadius="12" 
+                                        Padding="0" 
+                                        ClipToBounds="True"
+                                        BoxShadow="{DynamicResource FlyoutShadow}">
+                                    <Grid ColumnDefinitions="Auto, 1, Auto">
+                                        <!-- Left: Quick Picks List -->
+                                        <Border Classes="quick-pick-sidebar">
+                                            <ListBox ItemsSource="{Binding DateFilters}" SelectedItem="{Binding SelectedDateFilter}"
+                                                     Classes="quick-pick-list"/>
+                                        </Border>
+
+                                        <!-- Vertical Divider -->
+                                        <Border Grid.Column="1" Background="{DynamicResource BorderMuted}" Width="1" VerticalAlignment="Stretch"/>
+
+                                        <!-- Right: Context Content -->
+                                        <Border Grid.Column="2" Padding="25" MinWidth="350" MinHeight="480">
+                                            <Panel>
+                                                <!-- All Dates / Simple Filters -->
+                                                <StackPanel Spacing="15" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=All Dates}">
+                                                    <Panel Height="80">
+                                                        <i:Icon Value="fa-solid fa-calendar-check" FontSize="48" Foreground="{DynamicResource TextMuted}" Opacity="0.3" HorizontalAlignment="Center"/>
+                                                    </Panel>
+                                                    <TextBlock Text="Viewing all time records" Foreground="{DynamicResource TextSecondary}" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+                                                
+                                                <StackPanel Spacing="15" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Today}">
+                                                    <Panel Height="80">
+                                                        <i:Icon Value="fa-solid fa-clock" FontSize="48" Foreground="{DynamicResource StatusInfo}" Opacity="0.5" HorizontalAlignment="Center"/>
+                                                    </Panel>
+                                                    <TextBlock Text="Viewing records from today" Foreground="{DynamicResource TextSecondary}" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+
+                                                <StackPanel Spacing="15" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=This Week}">
+                                                    <Panel Height="80">
+                                                        <i:Icon Value="fa-solid fa-calendar-week" FontSize="48" Foreground="{DynamicResource AccentBlue}" Opacity="0.5" HorizontalAlignment="Center"/>
+                                                    </Panel>
+                                                    <TextBlock Text="Viewing records from this week" Foreground="{DynamicResource TextSecondary}" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+
+                                                <!-- Month Selection -->
+                                                <StackPanel Spacing="15" 
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=This Month}">
+                                                    <TextBlock Text="Select Month" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TextPrimary}"/>
+                                                    <Calendar SelectedDate="{Binding MonthDate}"/>
+                                                    <TextBlock Text="Tip: Select any day in the month" FontSize="11" Foreground="{DynamicResource TextMuted}" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+
+                                                <!-- Year Selection -->
+                                                <StackPanel Spacing="15" 
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=This Year}">
+                                                    <TextBlock Text="Select Year" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TextPrimary}"/>
+                                                     <ListBox ItemsSource="{Binding Years}" 
+                                                              SelectedItem="{Binding SelectedYear}"
+                                                              Classes="year-selector-list">
+                                                         <ListBox.ItemsPanel>
+                                                             <ItemsPanelTemplate>
+                                                                 <WrapPanel/>
+                                                             </ItemsPanelTemplate>
+                                                         </ListBox.ItemsPanel>
+                                                     </ListBox>
+                                                </StackPanel>
+
+                                                <!-- Specific Date Selection -->
+                                                <StackPanel Spacing="15" 
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Specific Date}">
+                                                    <TextBlock Text="Select Specific Date" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TextPrimary}"/>
+                                                    <Calendar SelectedDate="{Binding SpecificDate}"/>
+                                                </StackPanel>
+
+                                                <!-- Specific Period Selection -->
+                                                <StackPanel Spacing="15" 
+                                                            IsVisible="{Binding SelectedDateFilter, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Specific Period}">
+                                                    <TextBlock Text="Select Range" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TextPrimary}"/>
+                                                    <Border Background="{DynamicResource DateFlyoutBg}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1" CornerRadius="8" Padding="5">
+                                                        <StackPanel Spacing="10">
+                                                            <Calendar SelectionMode="SingleRange" 
+                                                                      SelectedDatesChanged="Calendar_OnSelectedDatesChanged"
+                                                                      HorizontalAlignment="Center"/>
+                                                            <Grid ColumnDefinitions="*, Auto, *" Margin="10,0">
+                                                                <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                                                                    <TextBlock Text="Start Date" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                                                    <TextBlock Text="{Binding PeriodStartDate, StringFormat={}{0:dd MMM yyyy}}" FontWeight="SemiBold" FontSize="12"/>
+                                                                </StackPanel>
+                                                                <i:Icon Grid.Column="1" Value="fa-solid fa-arrow-right" FontSize="10" Foreground="{DynamicResource TextMuted}" VerticalAlignment="Center" Margin="10,0"/>
+                                                                <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                                                                    <TextBlock Text="End Date" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                                                    <TextBlock Text="{Binding PeriodEndDate, StringFormat={}{0:dd MMM yyyy}}" FontWeight="SemiBold" FontSize="12"/>
+                                                                </StackPanel>
+                                                            </Grid>
+                                                        </StackPanel>
+                                                    </Border>
+                                                    <TextBlock Text="Tip: Click and drag or use Shift+Click to select a range" FontSize="11" Foreground="{DynamicResource TextMuted}" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Panel>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+
+                    <!-- Removed Clear Filters button as requested -->
+                </Grid>
+            </Border>
+
+            <!-- Team DataGrid -->
+            <Border Grid.Row="2" Background="{DynamicResource FilterBarBg}" CornerRadius="12" Padding="5" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1">
+                <Grid>
+                    <DataGrid ItemsSource="{Binding FilteredMembers}" 
+                              AutoGenerateColumns="False" 
+                              IsReadOnly="True" 
+                              CanUserSortColumns="True"
+                              Background="Transparent" BorderThickness="0"
+                              GridLinesVisibility="None" RowBackground="Transparent">
+                        <DataGrid.Columns>
+                            <!-- Username (Avatar + Name) -->
+                            <DataGridTemplateColumn Header="Username" Width="170">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="Models:TeamMember">
+                                        <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center" Margin="10,0" Opacity="{Binding RowOpacity}">
+                                            <Border Width="30" Height="30" CornerRadius="15" Background="{DynamicResource HoverBg}" BorderBrush="{DynamicResource IconActionBorder}" BorderThickness="1">
+                                                <TextBlock Text="{Binding Initial}" Foreground="{DynamicResource TextSecondary}" FontWeight="Bold" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding Username}" Foreground="{DynamicResource TextInput}" FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                            <Border IsVisible="{Binding IsDeleted}" Background="#FEE2E2" BorderBrush="#FCA5A5" BorderThickness="1" CornerRadius="4" Padding="6,2" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding DeletedBadgeText}" Foreground="#DC2626" FontSize="10" FontWeight="Bold"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Email -->
+                            <DataGridTemplateColumn Header="Email" Width="180">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Email}" Foreground="{DynamicResource TextSecondary}" FontSize="11" VerticalAlignment="Center" Margin="10,0" TextTrimming="CharacterEllipsis"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Phone -->
+                            <DataGridTemplateColumn Header="Phone" Width="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Phone}" Foreground="{DynamicResource TextSecondary}" FontSize="11" VerticalAlignment="Center" Margin="10,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Branch -->
+                            <DataGridTemplateColumn Header="Branch" Width="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" Margin="10,0">
+                                            <i:Icon Value="fa-solid fa-location-dot" Foreground="{DynamicResource TextMuted}" FontSize="11"/>
+                                            <TextBlock Text="{Binding Branch}" Foreground="{DynamicResource TextNav}" FontSize="11"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Role -->
+                            <DataGridTemplateColumn Header="Role" Width="200">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="10,0" Classes="role-badge" 
+                                                Classes.role-Admin="{Binding IsAdmin}"
+                                                Classes.role-AuditAndAssurance="{Binding IsAuditAndAssurance}"
+                                                Classes.role-SecretarialAndAdvisory="{Binding IsSecretarialAndAdvisory}"
+                                                Classes.role-TaxFiling="{Binding IsTaxFiling}"
+                                                Classes.role-All="{Binding IsAll}">
+                                            <Grid ColumnDefinitions="Auto, *">
+                                                <i:Icon Grid.Column="0" Value="{Binding RoleIcon}" FontSize="10" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Role}" FontSize="10" FontWeight="Bold" VerticalAlignment="Center" TextWrapping="NoWrap"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Created At -->
+                            <DataGridTemplateColumn Header="Created" Width="130">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CreatedAtFormatted}" Foreground="{DynamicResource TextSecondary}" FontSize="11" VerticalAlignment="Center" Margin="10,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Status -->
+                            <DataGridTemplateColumn Header="Status" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="Models:TeamMember">
+                                        <Border Classes="status-badge" Margin="10,0" VerticalAlignment="Center" Opacity="{Binding RowOpacity}"
+                                                Classes.status-active="{Binding Status, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Active}"
+                                                Classes.status-inactive="{Binding Status, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Inactive}">
+                                            <TextBlock Text="{Binding Status}" FontSize="11" FontWeight="Bold"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Actions -->
+                            <DataGridTemplateColumn Header="Actions" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Classes="action-trigger" Background="Transparent" Padding="8" CornerRadius="6" Cursor="Hand" HorizontalAlignment="Center">
+                                            <i:Icon Value="fa-solid fa-ellipsis" Foreground="{DynamicResource TextSecondary}" FontSize="16"/>
+                                            <Button.Flyout>
+                                                <Flyout Placement="BottomEdgeAlignedRight">
+                                                    <Border Background="{DynamicResource DrawerBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="8" Padding="5" Width="150">
+                                                        <StackPanel Spacing="5">
+                                                            <Button Classes="menu-item-btn" Command="{Binding $parent[UserControl].DataContext.OpenEditMemberCommand}" CommandParameter="{Binding}">
+                                                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                                                    <i:Icon Value="fa-solid fa-pen" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                                                                    <TextBlock Text="Edit Profile" Foreground="{DynamicResource TextNav}" FontSize="12"/>
+                                                                </StackPanel>
+                                                            </Button>
+                                                            <Button Classes="menu-item-btn" Command="{Binding $parent[UserControl].DataContext.DeleteMemberCommand}" CommandParameter="{Binding}">
+                                                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                                                    <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="12"/>
+                                                                    <TextBlock Text="Delete Member" Foreground="{DynamicResource StatusDanger}" FontSize="12"/>
+                                                                </StackPanel>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Flyout>
+                                            </Button.Flyout>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Removed Bulk Action Overlay as Selection is disabled -->
+                </Grid>
+            </Border>
+
+            <!-- Footer Section -->
+            <Grid Grid.Row="3" ColumnDefinitions="Auto, *, Auto" Margin="0,15,0,0">
+                <Button Classes="footer-link" Command="{Binding OpenGuideCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <i:Icon Value="fa-solid fa-circle-question" Foreground="{DynamicResource TextSecondary}" FontSize="16"/>
+                        <TextBlock Text="{Binding GuideLinkText}" Foreground="{DynamicResource TextSecondary}" FontSize="12" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="20">
+                    <TextBlock Text="{Binding PaginationDisplay}" Foreground="{DynamicResource TextSecondary}" FontSize="13" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <Button Command="{Binding PrevPageCommand}" CornerRadius="4" Background="{DynamicResource FilterBarBg}" Width="30" Height="30" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1">
+                            <i:Icon Value="fa-solid fa-chevron-left" FontSize="10"/>
+                        </Button>
+                        <Button Command="{Binding NextPageCommand}" CornerRadius="4" Background="{DynamicResource FilterBarBg}" Width="30" Height="30" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1">
+                            <i:Icon Value="fa-solid fa-chevron-right" FontSize="10"/>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <!-- Recently Deleted Team Members Section (30-Day Retention Trash - Styled to match Main Table) -->
+            <Border Grid.Row="4" IsVisible="{Binding DeletedTeamMembers.Count}" Background="{DynamicResource CardBg}" CornerRadius="12" Padding="5" Margin="0,20,0,0" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="1">
+                <Expander IsExpanded="{Binding IsTrashExpanded, Mode=TwoWay}" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0">
+                    <Expander.Header>
+                        <Grid ColumnDefinitions="Auto, *, Auto" Margin="5,0">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                                <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                <TextBlock Text="Recently Deleted Team Members (30-Day Trash)" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource TextPrimary}"/>
+                                <Border Background="#FEE2E2" CornerRadius="10" Padding="8,2">
+                                    <TextBlock Text="{Binding DeletedTeamMembers.Count, StringFormat='{}{0} deleted'}" Foreground="{DynamicResource StatusDanger}" FontSize="11" FontWeight="Bold"/>
+                                </Border>
+                            </StackPanel>
+                            <TextBlock Grid.Column="2" Text="Items are permanently purged after 30 days" FontSize="11" Foreground="{DynamicResource TextMuted}" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Expander.Header>
+
+                    <Border Margin="0,10,0,0" Background="Transparent" CornerRadius="8">
+                        <DataGrid ItemsSource="{Binding DeletedTeamMembers}" 
+                                  AutoGenerateColumns="False" 
+                                  IsReadOnly="True" 
+                                  CanUserSortColumns="True"
+                                  Background="Transparent" BorderThickness="0"
+                                  GridLinesVisibility="None" RowBackground="Transparent">
+                            <DataGrid.Columns>
+                                <!-- Username -->
+                                <DataGridTemplateColumn Header="Username" Width="170">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="Models:TeamMember">
+                                            <StackPanel Orientation="Horizontal" Spacing="12" Margin="10,0" Opacity="0.85">
+                                                <Border Width="30" Height="30" CornerRadius="15" Background="{DynamicResource HoverBg}" BorderBrush="{DynamicResource IconActionBorder}" BorderThickness="1">
+                                                    <TextBlock Text="{Binding Initial}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimary}" FontSize="11" FontWeight="Bold"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding Username}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" FontSize="12" TextTrimming="CharacterEllipsis"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Email -->
+                                <DataGridTemplateColumn Header="Email" Width="180">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="Models:TeamMember">
+                                            <TextBlock Text="{Binding Email}" Foreground="{DynamicResource TextSecondary}" FontSize="11" VerticalAlignment="Center" Margin="10,0" Opacity="0.8" TextTrimming="CharacterEllipsis"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Role -->
+                                <DataGridTemplateColumn Header="Role" Width="180">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="Models:TeamMember">
+                                            <TextBlock Text="{Binding Role}" Foreground="{DynamicResource TextSecondary}" FontSize="11" VerticalAlignment="Center" Margin="10,0" Opacity="0.8"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Branch -->
+                                <DataGridTemplateColumn Header="Branch" Width="130">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="Models:TeamMember">
+                                            <TextBlock Text="{Binding Branch}" Foreground="{DynamicResource TextSecondary}" FontSize="11" VerticalAlignment="Center" Margin="10,0" Opacity="0.8"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Retention Countdown -->
+                                <DataGridTemplateColumn Header="Retention" Width="160">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="Models:TeamMember">
+                                            <Border Background="#FEF3C7" BorderBrush="#FDE68A" BorderThickness="1" CornerRadius="6" Padding="8,3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0">
+                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                    <i:Icon Value="fa-solid fa-clock" Foreground="#92400E" FontSize="11"/>
+                                                    <TextBlock Text="{Binding RemainingDays, StringFormat='{}{0} days left'}" Foreground="#92400E" FontSize="11" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Action Column -->
+                                <DataGridTemplateColumn Header="Action" Width="180">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="Models:TeamMember">
+                                            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" Margin="10,0">
+                                                <Button Classes="action-btn" Command="{Binding $parent[UserControl].DataContext.RestoreTeamMemberCommand}" CommandParameter="{Binding}" ToolTip.Tip="Restore Member">
+                                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <i:Icon Value="fa-solid fa-rotate-left" Foreground="{DynamicResource AccentPrimary}" FontSize="12"/>
+                                                        <TextBlock Text="Restore" Foreground="{DynamicResource AccentPrimary}" FontSize="11" FontWeight="SemiBold"/>
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button Classes="action-btn" Command="{Binding $parent[UserControl].DataContext.PermanentlyDeleteTeamMemberCommand}" CommandParameter="{Binding}" ToolTip.Tip="Delete Permanently">
+                                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="12"/>
+                                                        <TextBlock Text="Purge" Foreground="{DynamicResource StatusDanger}" FontSize="11" FontWeight="SemiBold"/>
+                                                    </StackPanel>
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                </Expander>
+            </Border>
+        </Grid>
+
+        <!-- Member Detail Slide Drawer Removed -->
+
+        <!-- Instruction Guide Popup (Overlay) -->
+        <Border ZIndex="10" IsVisible="{Binding IsGuideVisible}" helpers:GuideHelper.EnableOutsideClickClose="True" Background="{DynamicResource OverlayBg}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border Background="{DynamicResource InputBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="12" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="30">
+                <StackPanel Spacing="20">
+                    <!-- Header -->
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                            <i:Icon Value="fa-regular fa-circle-question" FontSize="20" Foreground="{DynamicResource TextHeading}"/>
+                            <TextBlock Text="Guide: Team Management" Foreground="{DynamicResource TextHeading}" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Background="Transparent" BorderThickness="0" Padding="5" Command="{Binding CloseGuideCommand}" Cursor="Hand">
+                            <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="16"/>
+                        </Button>
+                    </Grid>
+                    
+                    <TextBlock Text="Master the tools for tracking and managing team access and profiles." Foreground="{DynamicResource TextSecondary}" FontSize="14" Margin="0,-10,0,10"/>
+
+                    <!-- Grid of features -->
+                    <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *" Margin="0,0,0,10">
+                        <!-- 1 -->
+                        <Border Grid.Row="0" Grid.Column="0" Background="{DynamicResource GuideCardBg}" BorderThickness="0" CornerRadius="8" Padding="15" Margin="0,0,10,10">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="1" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Dual-Mode Modal" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="Click the 3-dots Edit Profile menu to securely populate and alter member data dynamically." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- 2 -->
+                        <Border Grid.Row="0" Grid.Column="1" Background="{DynamicResource GuideCardBg}" BorderThickness="0" CornerRadius="8" Padding="15" Margin="10,0,0,10">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="2" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Smart Filtering" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="Filter by Role (Admin/Staff) and Branch location for rapid employee oversight across the Grid." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- 3 -->
+                        <Border Grid.Row="1" Grid.Column="0" Background="{DynamicResource GuideCardBg}" BorderThickness="0" CornerRadius="8" Padding="15" Margin="0,10,10,0">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="3" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Quick Actions" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="Use the row-level ellipses menu to instantly delete members directly from the dataset." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- 4 -->
+                        <Border Grid.Row="1" Grid.Column="1" Background="{DynamicResource GuideCardBg}" BorderThickness="0" CornerRadius="8" Padding="15" Margin="10,10,0,0">
+                            <StackPanel Spacing="10">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Border Background="{DynamicResource GuideBadgeBg}" CornerRadius="10" Width="20" Height="20">
+                                        <TextBlock Text="4" Foreground="{DynamicResource GuideCardBg}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Password Shield" Foreground="{DynamicResource TextHeading}" FontWeight="Bold" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Text="Updating passwords inside Edit mode strictly requires the verification of the current credential." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <Button Content="Got it, thanks!" Background="{DynamicResource GuideGotItBg}" Foreground="{DynamicResource DrawerHeaderBg}" FontWeight="Bold" CornerRadius="6" Padding="15,8" HorizontalAlignment="Right" Command="{Binding CloseGuideCommand}" Cursor="Hand"/>
+                </StackPanel>
+            </Border>
+        </Border>
+
+            <!-- Add New Member Modal Overlay -->
+            <Grid IsVisible="{Binding IsAddMemberModalOpen}" Panel.ZIndex="100">
+                <!-- Background blocking layer for click-to-close -->
+                <Button Command="{Binding CloseAddMemberModalCommand}" Background="{DynamicResource OverlayBg}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0" CornerRadius="0">
+                    <Button.Styles>
+                        <!-- Remove pointerover background changes so the shadow stays still -->
+                        <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                            <Setter Property="Background" Value="{DynamicResource OverlayBg}" />
+                        </Style>
+                        <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+                            <Setter Property="Background" Value="{DynamicResource OverlayBg}" />
+                        </Style>
+                    </Button.Styles>
+                </Button>
+                
+                <!-- Modal Body -->
+                <Border Background="{DynamicResource DrawerBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="12" Width="520" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="30" BoxShadow="0 25 50 -12 #66000000">
+                    <Grid RowDefinitions="Auto, Auto, *">
+                        <!-- ... existing modal content ... -->
+                        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,25">
+                            <StackPanel Spacing="5">
+                                <TextBlock Text="{Binding ModalTitle}" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextInput}" />
+                                <TextBlock Text="{Binding ModalDescription}" FontSize="12" Foreground="{DynamicResource TextSecondary}" />
+                            </StackPanel>
+                            <!-- Close Button -->
+                            <Button Grid.Column="1" Command="{Binding CloseAddMemberModalCommand}" Background="Transparent" BorderThickness="0" Cursor="Hand" VerticalAlignment="Top" Padding="5">
+                                <i:Icon Value="fa-solid fa-xmark" FontSize="16" Foreground="{DynamicResource TextSecondary}" />
+                                <Button.Styles>
+                                    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                        <Setter Property="Background" Value="Transparent" />
+                                    </Style>
+                                </Button.Styles>
+                            </Button>
+                        </Grid>
+
+                        <!-- Form Content -->
+                        <StackPanel Grid.Row="2" Spacing="20">
+                            <!-- Error Message -->
+                            <Border Background="{DynamicResource NexoraErrorBg}" BorderBrush="{DynamicResource NexoraErrorBorder}" BorderThickness="1" CornerRadius="6" Padding="12,8" IsVisible="{Binding HasFormError}">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <i:Icon Value="fa-solid fa-circle-exclamation" Foreground="{DynamicResource NexoraErrorIcon}" FontSize="14"/>
+                                    <TextBlock Text="{Binding FormErrorMessage}" Foreground="{DynamicResource NexoraErrorText}" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Username -->
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="Username" Foreground="{DynamicResource TextSecondary}" FontSize="12" FontWeight="SemiBold"/>
+                                <Panel>
+                                    <TextBox Classes="filter-search" Watermark="John Doe" Text="{Binding NewMemberUsername}" Padding="40,10,10,10"/>
+                                    <i:Icon Value="fa-regular fa-user" Foreground="{DynamicResource TextMuted}" FontSize="14" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                                </Panel>
+                            </StackPanel>
+
+                            <!-- Role and Branch -->
+                            <Grid ColumnDefinitions="*, 20, *">
+                                <StackPanel Grid.Column="0" Spacing="8">
+                                    <TextBlock Text="Role" Foreground="{DynamicResource TextSecondary}" FontSize="12" FontWeight="SemiBold"/>
+                                    <Panel>
+                                        <ComboBox Classes="filter-combo" ItemsSource="{Binding AvailableRoles}" SelectedItem="{Binding NewMemberRole}" HorizontalAlignment="Stretch" Padding="40,0,0,0"/>
+                                        <i:Icon Value="fa-solid fa-briefcase" Foreground="{DynamicResource TextMuted}" FontSize="14" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                                    </Panel>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Spacing="8">
+                                    <TextBlock Text="Branch" Foreground="{DynamicResource TextSecondary}" FontSize="12" FontWeight="SemiBold"/>
+                                    <Panel>
+                                        <ComboBox Classes="filter-combo" ItemsSource="{Binding AvailableBranches}" SelectedItem="{Binding SelectedNewMemberBranch}" HorizontalAlignment="Stretch" Padding="40,0,0,0">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <i:Icon Value="fa-solid fa-location-dot" Foreground="{DynamicResource TextMuted}" FontSize="14" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                                    </Panel>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Phone -->
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="Phone" Foreground="{DynamicResource TextSecondary}" FontSize="12" FontWeight="SemiBold"/>
+                                <Panel>
+                                    <TextBox Classes="filter-search" Watermark="+94 77 123 4567" Text="{Binding NewMemberPhone}" Padding="40,10,10,10"/>
+                                    <i:Icon Value="fa-solid fa-phone" Foreground="{DynamicResource TextMuted}" FontSize="14" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                                </Panel>
+                            </StackPanel>
+
+                            <!-- Email Address -->
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="Email Address" Foreground="{DynamicResource TextSecondary}" FontSize="12" FontWeight="SemiBold"/>
+                                <Panel>
+                                    <TextBox Classes="filter-search" Watermark="john@aats.com" Text="{Binding NewMemberEmail}" Padding="40,10,10,10"/>
+                                    <i:Icon Value="fa-regular fa-envelope" Foreground="{DynamicResource TextMuted}" FontSize="14" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                                </Panel>
+                            </StackPanel>
+
+                            <!-- Password and Confirm Password -->
+                            <Grid ColumnDefinitions="*, 20, *">
+                                <StackPanel Grid.Column="0" Spacing="8">
+                                    <TextBlock Text="Password" Foreground="{DynamicResource TextSecondary}" FontSize="12" FontWeight="SemiBold"/>
+                                                                        <Panel>
+                                        <TextBox Classes="filter-search" PasswordChar="{Binding PasswordChar}" Watermark="Create Password" Text="{Binding NewMemberPassword}" Padding="40,10,40,10"/>
+                                        <i:Icon Value="fa-solid fa-lock" Foreground="{DynamicResource TextMuted}" FontSize="14" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                                        <Button Command="{Binding TogglePasswordVisibilityCommand}" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,8,0" VerticalAlignment="Center" Cursor="Hand" Padding="5">
+                                            <Panel>
+                                                <i:Icon Value="fa-regular fa-eye" FontSize="14" Foreground="{DynamicResource TextMuted}" IsVisible="{Binding !IsPasswordVisible}" />
+                                                <i:Icon Value="fa-regular fa-eye-slash" FontSize="14" Foreground="{DynamicResource TextMuted}" IsVisible="{Binding IsPasswordVisible}" />
+                                            </Panel>
+                                        </Button>
+                                    </Panel>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Spacing="8">
+                                    <TextBlock Text="Confirm Password" Foreground="{DynamicResource TextSecondary}" FontSize="12" FontWeight="SemiBold"/>
+                                                                        <Panel>
+                                        <TextBox Classes="filter-search" PasswordChar="{Binding ConfirmPasswordChar}" Watermark="Confirm Password" Text="{Binding NewMemberConfirmPassword}" Padding="40,10,40,10"/>
+                                        <i:Icon Value="fa-solid fa-lock" Foreground="{DynamicResource TextMuted}" FontSize="14" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                                        <Button Command="{Binding ToggleConfirmPasswordVisibilityCommand}" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,8,0" VerticalAlignment="Center" Cursor="Hand" Padding="5">
+                                            <Panel>
+                                                <i:Icon Value="fa-regular fa-eye" FontSize="14" Foreground="{DynamicResource TextMuted}" IsVisible="{Binding !IsConfirmPasswordVisible}" />
+                                                <i:Icon Value="fa-regular fa-eye-slash" FontSize="14" Foreground="{DynamicResource TextMuted}" IsVisible="{Binding IsConfirmPasswordVisible}" />
+                                            </Panel>
+                                        </Button>
+                                    </Panel>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Footer Actions -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="15" Margin="0,15,0,0">
+                                <Button Content="Cancel" Command="{Binding CloseAddMemberModalCommand}" Background="Transparent" Foreground="{DynamicResource TextSecondary}" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Padding="15,10" />
+                                <Button Content="{Binding SaveButtonText}" Command="{Binding SaveNewMemberCommand}" Classes="add-record-button" FontWeight="Bold" CornerRadius="6" Cursor="Hand" Padding="25,10" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Discard Changes Confirmation Overlay (Inside Modal Grid) -->
+                <Border ZIndex="1000" IsVisible="{Binding IsDiscardConfirmVisible}" Background="{DynamicResource OverlayBg}">
+                    <Border Background="{DynamicResource InputBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="12" Width="400" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="30">
+                        <StackPanel Spacing="25">
+                            <i:Icon Value="fa-solid fa-triangle-exclamation" Foreground="{DynamicResource StatusWarning}" FontSize="40" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Discard changes?" Foreground="{DynamicResource TextPrimary}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            <TextBlock Text="You have unsaved information. Are you sure you want to discard it?" Foreground="{DynamicResource TextSecondary}" FontSize="13" TextAlignment="Center" TextWrapping="Wrap"/>
+                            <Grid ColumnDefinitions="*, 12, *">
+                                <Button Grid.Column="0" Content="Keep Editing" Command="{Binding CancelDiscardCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                                <Button Grid.Column="2" Content="Discard" Command="{Binding ConfirmDiscardCommand}" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Border>
+            </Grid>
+
+            <!-- Global Delete Confirmation Dialog -->
+            <Border ZIndex="1000" IsVisible="{Binding IsDeleteConfirmVisible}" Classes="premium-modal-overlay" Margin="-25,-20,-25,-10">
+                <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
+                    <StackPanel Spacing="28">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                                 <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                    <i:Icon Value="fa-solid fa-circle-exclamation" Foreground="{DynamicResource StatusDanger}" FontSize="22"/>
+                                </Border>
+                                <TextBlock Text="Delete Member?" Foreground="{DynamicResource TextHeading}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Classes="footer-link" Command="{Binding CancelDeleteCommand}" VerticalAlignment="Top" Margin="0,-10,-10,0">
+                                <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                            </Button>
+                        </Grid>
+                        <TextBlock Text="{Binding DeleteConfirmMessage}" Foreground="{DynamicResource TextSecondary}" FontSize="16" LineHeight="26" TextWrapping="Wrap"/>
+                        <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                            <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelDeleteCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                            <Button Grid.Column="2" Content="Delete" Command="{Binding ConfirmDeleteCommand}" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Border>
+
+            <!-- Restore Member Confirmation Dialog -->
+            <Border ZIndex="5000" IsVisible="{Binding IsRestoreConfirmVisible}" Classes="premium-modal-overlay" Margin="-25,-20,-25,-10">
+                <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
+                    <StackPanel Spacing="28">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                                 <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                    <i:Icon Value="fa-solid fa-rotate-left" Foreground="{DynamicResource AccentPrimary}" FontSize="22"/>
+                                </Border>
+                                <TextBlock Text="Restore User?" Foreground="{DynamicResource TextHeading}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Classes="footer-link" Command="{Binding CancelRestoreTeamMemberCommand}" VerticalAlignment="Top" Margin="0,-10,-10,0">
+                                <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                            </Button>
+                        </Grid>
+                        <TextBlock Text="{Binding RestoreConfirmMessage}" Foreground="{DynamicResource TextSecondary}" FontSize="16" LineHeight="26" TextWrapping="Wrap"/>
+                        <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                            <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelRestoreTeamMemberCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                            <Button Grid.Column="2" Content="Restore" Command="{Binding ConfirmRestoreTeamMemberCommand}" Classes="btn-primary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Border>
+
+            <!-- Permanently Delete Member Confirmation Dialog -->
+            <Border ZIndex="5000" IsVisible="{Binding IsPurgeConfirmVisible}" Classes="premium-modal-overlay" Margin="-25,-20,-25,-10">
+                <Border Classes="premium-modal-content" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480">
+                    <StackPanel Spacing="28">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                                 <Border Width="48" Height="48" CornerRadius="24" Background="{DynamicResource HoverBg}">
+                                    <i:Icon Value="fa-solid fa-triangle-exclamation" Foreground="{DynamicResource StatusDanger}" FontSize="22"/>
+                                </Border>
+                                <TextBlock Text="Permanently Delete User?" Foreground="{DynamicResource TextHeading}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Classes="footer-link" Command="{Binding CancelPurgeTeamMemberCommand}" VerticalAlignment="Top" Margin="0,-10,-10,0">
+                                <i:Icon Value="fa-solid fa-xmark" Foreground="{DynamicResource TextSecondary}" FontSize="20"/>
+                            </Button>
+                        </Grid>
+                        <TextBlock Text="{Binding PurgeConfirmMessage}" Foreground="{DynamicResource TextSecondary}" FontSize="16" LineHeight="26" TextWrapping="Wrap"/>
+                        <Grid ColumnDefinitions="*, 12, *" Margin="0,10,0,0">
+                            <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelPurgeTeamMemberCommand}" Classes="btn-secondary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                            <Button Grid.Column="2" Content="Purge Permanently" Command="{Binding ConfirmPurgeTeamMemberCommand}" Classes="btn-delete" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Border>
+    </Panel>
+</UserControl>

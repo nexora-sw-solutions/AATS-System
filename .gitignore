@@ -1,0 +1,155 @@
+# Ignore antigravity agent's scratch folder
+scratch/
+
+# IDE configurations
+.vs/
+.idea/
+.vscode/
+*.user
+*.userosscache
+*.suo
+
+# Build & binary outputs
+[Bb]in/
+[Oo]bj/
+sent_emails/
+*.log
+
+# Environment secrets
+.env
+*.env
+*.env.local
+
+# ============================================================
+# AATS .gitignore — .NET / Avalonia / ASP.NET Core / Aspire
+# ============================================================
+
+# -------------------------------------------------------
+# .NET Build Outputs
+# -------------------------------------------------------
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Publish output
+publish/
+[Pp]ublish/
+
+# MSBuild binary logs
+*.binlog
+
+# -------------------------------------------------------
+# NuGet
+# -------------------------------------------------------
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+# NuGet package restore lock file (keep if you use locked-mode restore)
+# package.lock.json
+
+# -------------------------------------------------------
+# Visual Studio IDE
+# -------------------------------------------------------
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+# ReSharper
+.idea/
+_ReSharper*/
+*.DotSettings.user
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# -------------------------------------------------------
+# Temporary / Debug / Build Log Files
+# -------------------------------------------------------
+build.log
+build_err*.txt
+build_errors*.txt
+build_output*.txt
+crash_log*.txt
+detailed_build*.txt
+final_build_errors*.txt
+final_launch_test*.txt
+final_test_log*.txt
+final_verification_log*.txt
+launch_attempt*.txt
+launch_mid*.txt
+launch_result*.txt
+*.log
+*.tmp
+*.temp
+*.cache
+
+# -------------------------------------------------------
+# Scratch / Temporary Project
+# -------------------------------------------------------
+scratch/bin/
+scratch/obj/
+
+# -------------------------------------------------------
+# Entity Framework Core Migrations Snapshots (optional)
+# Comment out if you DO want to track migrations
+# -------------------------------------------------------
+# **/Migrations/*.cs
+
+# -------------------------------------------------------
+# Test Results
+# -------------------------------------------------------
+TestResults/
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+
+# -------------------------------------------------------
+# OS-generated files
+# -------------------------------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# -------------------------------------------------------
+# Sensitive / Environment Config (keep templates, not secrets)
+# -------------------------------------------------------
+*.env
+.env
+*.env.local
+secrets.json
+appsettings.Local.json
+appsettings.Production.json
+
+# -------------------------------------------------------
+# ASP.NET Core / Aspire
+# -------------------------------------------------------
+# Static web asset manifests (generated)
+*.staticwebassets.endpoints.json
+
+# -------------------------------------------------------
+# Avalonia Designer
+# -------------------------------------------------------
+# Avalonia XAML previewer cache
+**/.avalonia/
+
+# -------------------------------------------------------
+# Rider / JetBrains
+# -------------------------------------------------------
+*.suo
+*.ntvs*
+*.njsproj
+*.suo
+*.sw?
+
+# -------------------------------------------------------
+# Windows-specific
+# -------------------------------------------------------
+*.lnk

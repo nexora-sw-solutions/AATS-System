@@ -1,0 +1,738 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:AATS.Desktop.ViewModels"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             xmlns:converters="clr-namespace:Avalonia.Data.Converters;assembly=Avalonia.Base"
+             xmlns:models="using:AATS.Desktop.Models"
+             x:Class="AATS.Desktop.Views.MainShellView"
+             x:DataType="vm:MainViewModel">
+    <UserControl.Styles>
+        <Style Selector="Button.breadcrumb-btn">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ContentPresenter Content="{TemplateBinding Content}" 
+                                      Background="Transparent"
+                                      Padding="0"/>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+        <Style Selector="Button.breadcrumb-btn:pointerover TextBlock">
+            <Setter Property="TextDecorations" Value="Underline"/>
+            <Setter Property="Opacity" Value="0.8"/>
+        </Style>
+
+        <Style Selector="Button.circle-nav-button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style Selector="Button.user-profile-btn">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Resources>
+                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent"/>
+                <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="Transparent"/>
+            </Style.Resources>
+        </Style>
+
+        <Style Selector="Button.user-profile-btn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.user-profile-btn:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="FlyoutPresenter.user-profile-flyout">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="CornerRadius" Value="12"/>
+        </Style>
+
+        <Style Selector="Button.user-dropdown-item">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.1"/>
+                    <BrushTransition Property="Foreground" Duration="0:0:0.1"/>
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button.user-dropdown-item:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource HoverBg}"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.user-dropdown-item.sign-out:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource SignOutHoverBg}"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource StatusDanger}"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid>
+        <Grid ColumnDefinitions="260, *">
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="{DynamicResource SidebarBg}" BorderBrush="{DynamicResource SidebarBorder}" BorderThickness="0,0,1,0">
+            <ScrollViewer>
+                <StackPanel Margin="10,20">
+                    <!-- Logo Header -->
+                    <StackPanel Orientation="Horizontal" Margin="20,0,0,30" Spacing="15">
+                        <Image Source="avares://AATS.Desktop/Assets/New%20Logo.png" Width="34" Height="34" RenderOptions.BitmapInterpolationMode="HighQuality"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="AATS" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource LogoTitle}"/>
+                            <TextBlock Text="Management System" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource LogoSubtitle}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Navigation Items -->
+                    <StackPanel Spacing="5">
+                        <Button Classes="nav-button" 
+                                Command="{Binding NavigateToDashboardCommand}"
+                                Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Dashboard}">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <i:Icon Value="fa-solid fa-house" Foreground="{DynamicResource AccentBlue}"/>
+                                <TextBlock Text="Dashboard"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Audit & Accounts -->
+                        <Expander Classes="sidebar-expander" IsExpanded="{Binding IsAccountsExpanded, Mode=TwoWay}">
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <i:Icon Value="fa-solid fa-file-invoice-dollar" Foreground="{DynamicResource AccentBlue}"/>
+                                    <TextBlock Text="Accounts &amp; Audit" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Expander.Header>
+                            <StackPanel Spacing="2">
+                                <Button Classes="sub-nav-button" Content="Audit &amp; Assurance" 
+                                        Command="{Binding NavigateToAuditAssuranceCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=AuditAssurance}"/>
+                                <Button Classes="sub-nav-button" Content="Internal Audit" 
+                                        Command="{Binding NavigateToInternalAuditCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=InternalAudit}"/>
+                                <Button Classes="sub-nav-button" Content="Forensic Audit" 
+                                        Command="{Binding NavigateToForensicAuditCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=ForensicAudit}"/>
+                                <Button Classes="sub-nav-button" Content="Management Account" 
+                                        Command="{Binding NavigateToManagementAccountCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=ManagementAccount}"/>
+                                <Button Classes="sub-nav-button" Content="Tax Account" 
+                                        Command="{Binding NavigateToTaxAccountCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=TaxAccount}"/>
+                                <Button Classes="sub-nav-button" Content="Internal Control Systems &amp; Outsourcing" 
+                                        Command="{Binding NavigateToInternalControlCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=InternalControl}"/>
+                                <Button Classes="sub-nav-button" Content="Others" 
+                                        Command="{Binding NavigateToAuditOthersCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=AuditOthers}"/>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Tax Filing -->
+                        <Expander Name="TaxFilingExpander" Classes="sidebar-expander" IsExpanded="{Binding IsTaxFilingExpanded, Mode=TwoWay}">
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <i:Icon Value="fa-solid fa-receipt" Foreground="{DynamicResource AccentBlue}"/>
+                                    <TextBlock Text="Tax Filing" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Expander.Header>
+                            <StackPanel Spacing="2">
+                                <Button Classes="sub-nav-button" Content="CIT (Corporate)" 
+                                        Command="{Binding NavigateToCITCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=CIT}"/>
+                                <Button Classes="sub-nav-button" Content="IIT (Individual)" 
+                                        Command="{Binding NavigateToIITCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=IIT}"/>
+                                <Button Name="VATNavButton" Classes="sub-nav-button" Content="VAT" 
+                                        Command="{Binding NavigateToVATCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=VAT}"/>
+                                <Button Classes="sub-nav-button" Content="SSCL" 
+                                        Command="{Binding NavigateToSSCLCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=SSCL}"/>
+                                <Button Classes="sub-nav-button" Content="WHT" 
+                                        Command="{Binding NavigateToWHTCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=WHT}"/>
+                                <Button Classes="sub-nav-button" Content="Others" 
+                                        Command="{Binding NavigateToTaxOthersCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=TaxOthers}"/>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Secretarial & Advisory -->
+                        <Expander Name="SecretarialExpander" Classes="sidebar-expander" IsExpanded="{Binding IsSecretarialExpanded, Mode=TwoWay}">
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <i:Icon Value="fa-solid fa-briefcase" Foreground="{DynamicResource AccentBlue}"/>
+                                    <TextBlock Text="Secretarial &amp; Advisory" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Expander.Header>
+                            <StackPanel Spacing="2">
+                                <Button Name="CompanyRegistrationNavButton" Classes="sub-nav-button" Content="Company Registration" 
+                                        Command="{Binding NavigateToCompanyRegistrationCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=CompanyRegistration}"/>
+                                <Button Classes="sub-nav-button" Content="EPF / ETF" 
+                                        Command="{Binding NavigateToEPFETFCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=EPFETF}"/>
+                                <Button Classes="sub-nav-button" Content="Form - 15" 
+                                        Command="{Binding NavigateToForm15Command}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Form15}"/>
+                                <Button Classes="sub-nav-button" Content="Trade License" 
+                                        Command="{Binding NavigateToTradeLicenseCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=TradeLicense}"/>
+                                <Button Classes="sub-nav-button" Content="Trade Mark" 
+                                        Command="{Binding NavigateToTradeMarkCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=TradeMark}"/>
+                                <Button Classes="sub-nav-button" Content="Import and Export Clearance" 
+                                        Command="{Binding NavigateToImportExportCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=ImportExport}"/>
+                                <Button Classes="sub-nav-button" Content="BOI" 
+                                        Command="{Binding NavigateToBOICommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=BOI}"/>
+                                <Button Classes="sub-nav-button" Content="HR and Management Consulting" 
+                                        Command="{Binding NavigateToHRConsultingCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=HRConsulting}"/>
+                                <Button Classes="sub-nav-button" Content="Business Plan and Asset Valuation Consulting" 
+                                        Command="{Binding NavigateToBusinessPlanCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=BusinessPlan}"/>
+                                <Button Classes="sub-nav-button" Content="Others" 
+                                        Command="{Binding NavigateToSecretarialOthersCommand}"
+                                        Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=SecretarialOthers}"/>
+                            </StackPanel>
+                        </Expander>
+
+                        <Button Classes="nav-button" 
+                                Command="{Binding NavigateToClientsCommand}"
+                                Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Clients}">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <i:Icon Value="fa-solid fa-users" Foreground="{DynamicResource AccentBlue}"/>
+                                <TextBlock Text="Clients"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Classes="nav-button" 
+                                Command="{Binding NavigateToTeamCommand}"
+                                Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Team}"
+                                IsVisible="{Binding IsAdmin}">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <i:Icon Value="fa-solid fa-user-tie" Foreground="{DynamicResource AccentBlue}"/>
+                                <TextBlock Text="Team"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Classes="nav-button" 
+                                Command="{Binding NavigateToActivityLogCommand}"
+                                Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=ActivityLog}"
+                                IsVisible="{Binding IsAdmin}">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <i:Icon Value="fa-solid fa-clipboard-list" Foreground="{DynamicResource AccentBlue}"/>
+                                <TextBlock Text="Activity Log"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Classes="nav-button" 
+                                Command="{Binding NavigateToNexoraCommand}"
+                                Classes.active="{Binding ActivePage, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Nexora}"
+                                IsVisible="{Binding IsAdmin}">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <i:Icon Value="fa-solid fa-building" Foreground="{DynamicResource AccentBlue}"/>
+                                <TextBlock Text="Nexora"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Column="1" RowDefinitions="70, *" ClipToBounds="False">
+            <!-- Navbar -->
+            <Border Grid.Row="0" Background="{DynamicResource NavbarBg}" Padding="25,0,15,0" BorderBrush="{DynamicResource NavbarBorder}" BorderThickness="0,0,0,1">
+                <Grid ColumnDefinitions="Auto, *, Auto">
+                    <!-- Left: Navigation & Breadcrumbs -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Spacing="15">
+                        <Button Name="NavbarBackButton" Classes="circle-nav-button" Command="{Binding GoBackCommand}">
+                            <i:Icon Value="fa-solid fa-chevron-left" FontSize="11"/>
+                        </Button>
+                        <Button Classes="circle-nav-button" Command="{Binding GoForwardCommand}">
+                            <i:Icon Value="fa-solid fa-chevron-right" FontSize="11"/>
+                        </Button>
+                        
+                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0" Spacing="8">
+                            <!-- Main Breadcrumb (Home or Category) -->
+                            <Button Classes="breadcrumb-btn" Command="{Binding NavigateToBreadcrumbMainCommand}">
+                                <TextBlock Classes="breadcrumb-main" Text="{Binding BreadcrumbMain}"/>
+                            </Button>
+                            
+                            <!-- Chevron 1 -->
+                            <i:Icon Value="fa-solid fa-chevron-right" Foreground="{DynamicResource BreadcrumbChevron}" FontSize="10" 
+                                    IsVisible="{Binding BreadcrumbSub, Converter={x:Static converters:StringConverters.IsNotNullOrEmpty}}"
+                                    VerticalAlignment="Center"/>
+                            
+                            <!-- Sub Breadcrumb (Module) - Clickable if we are at Leaf level -->
+                            <Button Classes="breadcrumb-btn" Command="{Binding NavigateToBreadcrumbSubCommand}"
+                                    IsVisible="{Binding IsBreadcrumbSubClickable}">
+                                <TextBlock Classes="breadcrumb-sub" Text="{Binding BreadcrumbSub}"/>
+                            </Button>
+
+                            <!-- Sub Breadcrumb (Module) - Static if this is the current page -->
+                            <TextBlock Classes="breadcrumb-sub" Text="{Binding BreadcrumbSub}" 
+                                       IsVisible="{Binding IsBreadcrumbSubOnlyVisible}"/>
+
+                            <!-- Chevron 2 -->
+                            <i:Icon Value="fa-solid fa-chevron-right" Foreground="{DynamicResource BreadcrumbChevron}" FontSize="10" 
+                                    IsVisible="{Binding BreadcrumbLeaf, Converter={x:Static converters:StringConverters.IsNotNullOrEmpty}}"
+                                    VerticalAlignment="Center"/>
+
+                            <!-- Leaf Breadcrumb (Page) - Always Static (Current Page) -->
+                            <TextBlock Classes="breadcrumb-sub" Text="{Binding BreadcrumbLeaf}" 
+                                       IsVisible="{Binding BreadcrumbLeaf, Converter={x:Static converters:StringConverters.IsNotNullOrEmpty}}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Right: Search & User Actions -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="25" VerticalAlignment="Center">
+                        <!-- Global App Search -->
+                        <Panel Name="SearchPanel" Width="300">
+                            <TextBox Name="SearchInput"
+                                     Classes="search-bar" 
+                                     Watermark="Search modules..." 
+                                     Text="{Binding AppSearchText}"
+                                     HorizontalAlignment="Stretch"
+                                     KeyDown="SearchInput_OnKeyDown">
+                                <TextBox.KeyBindings>
+                                    <KeyBinding Gesture="Enter" Command="{Binding HandleSearchEnterCommand}"/>
+                                </TextBox.KeyBindings>
+                            </TextBox>
+                            <i:Icon Value="fa-solid fa-magnifying-glass" Foreground="{DynamicResource SearchIcon}" FontSize="13" 
+                                    HorizontalAlignment="Left" Margin="12,0,0,0" VerticalAlignment="Center"
+                                    IsHitTestVisible="False"/>
+                            
+                            <Popup IsOpen="{Binding IsSearchDropdownOpen, Mode=TwoWay}" 
+                                   PlacementTarget="{Binding #SearchPanel}" 
+                                   Placement="Bottom" 
+                                   VerticalOffset="5"
+                                   IsLightDismissEnabled="True">
+                                <Border Width="300" 
+                                        Background="{DynamicResource UserDropdownBg}" 
+                                        BorderBrush="{DynamicResource BorderDefault}" 
+                                        BorderThickness="1" 
+                                        CornerRadius="12" 
+                                        BoxShadow="0 15 45 0 #60000000"
+                                        Padding="5"
+                                        ClipToBounds="True">
+                                    <ListBox Name="SearchResultsList"
+                                             ItemsSource="{Binding FilteredModules}"
+                                             SelectedItem="{Binding SelectedSearchItem}"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             MaxHeight="450"
+                                             KeyDown="SearchResultsList_OnKeyDown">
+                                        <ListBox.Styles>
+                                            <Style Selector="ListBoxItem">
+                                                <Setter Property="Padding" Value="0"/>
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="CornerRadius" Value="8"/>
+                                            </Style>
+                                            <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background" Value="{DynamicResource HoverBg}"/>
+                                            </Style>
+                                        </ListBox.Styles>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate x:DataType="models:ModuleSearchItem">
+                                                <Button Command="{Binding $parent[UserControl].((vm:MainViewModel)DataContext).NavigateToModuleCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Padding="0"
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        Cursor="Hand">
+                                                    <Border Padding="12,10" Background="Transparent" CornerRadius="8">
+                                                        <Grid ColumnDefinitions="Auto, *">
+                                                            <i:Icon Grid.Column="0" Value="fa-solid fa-arrow-right-to-bracket" 
+                                                                    Foreground="{DynamicResource AccentBlue}" 
+                                                                    FontSize="14" 
+                                                                    VerticalAlignment="Center" 
+                                                                    Margin="0,0,12,0"
+                                                                    Opacity="0.6"/>
+                                                            <StackPanel Grid.Column="1" Spacing="2">
+                                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource TextPrimary}"/>
+                                                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                                                    <TextBlock Text="{Binding Category}" FontSize="11" Foreground="{DynamicResource AccentBlue}" Opacity="0.8"/>
+                                                                    <TextBlock Text="•" FontSize="11" Foreground="{DynamicResource TextMuted}"/>
+                                                                    <TextBlock Text="{Binding Route}" FontSize="11" Foreground="{DynamicResource TextMuted}"/>
+                                                                </StackPanel>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </Button>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Border>
+                            </Popup>
+                        </Panel>
+
+                        <StackPanel Orientation="Horizontal" Spacing="18" VerticalAlignment="Center">
+                            <!-- Notifications (Admin Only) -->
+                            <Panel Width="32" Height="32" IsVisible="{Binding IsAdmin}">
+                                <Button Name="NotificationButton" Classes="circle-nav-button" Background="Transparent" Width="32" Height="32">
+                                    <Button.Flyout>
+                                        <Flyout Placement="BottomEdgeAlignedRight" FlyoutPresenterClasses="user-profile-flyout">
+                                            <Border Width="320" Background="{DynamicResource UserDropdownBg}" CornerRadius="12" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" ClipToBounds="True">
+                                                <StackPanel>
+                                                    <!-- Header -->
+                                                    <Border Background="{DynamicResource UserHeaderBg}" Padding="15">
+                                                        <Grid ColumnDefinitions="*, Auto">
+                                                            <TextBlock Text="Recent Notifications" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource TextPrimary}"/>
+                                                            <Button Grid.Column="1" Classes="footer-link" Command="{Binding NavigateToNotificationsCommand}">
+                                                                <TextBlock Text="View All" FontSize="11" Foreground="{DynamicResource AccentBlue}"/>
+                                                            </Button>
+                                                        </Grid>
+                                                    </Border>
+
+                                                    <!-- List -->
+                                                    <ListBox ItemsSource="{Binding RecentNotifications}"
+                                                             MaxHeight="450"
+                                                             Background="Transparent"
+                                                             BorderThickness="0"
+                                                             Padding="0">
+                                                        <ListBox.Styles>
+                                                            <Style Selector="ListBoxItem">
+                                                                <Setter Property="Padding" Value="0"/>
+                                                                <Setter Property="Background" Value="Transparent"/>
+                                                            </Style>
+                                                        </ListBox.Styles>
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate x:DataType="models:AppNotification">
+                                                                <Button Classes="user-dropdown-item" 
+                                                                        Command="{Binding $parent[UserControl].((vm:MainViewModel)DataContext).NavigateToNotificationsCommand}">
+                                                                    <Grid ColumnDefinitions="Auto, *">
+                                                                        <i:Icon Grid.Column="0" Value="{Binding Icon}" Foreground="{Binding IconColor}" FontSize="14" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                                                                        <StackPanel Grid.Column="1" Spacing="2">
+                                                                            <TextBlock Text="{Binding Summary}" FontSize="12" Foreground="{DynamicResource TextPrimary}" FontWeight="{Binding IsRead, Converter={StaticResource IsReadToFontWeightConverter}}"/>
+                                                                            <TextBlock Text="{Binding DisplayTime}" FontSize="10" Foreground="{DynamicResource TextMuted}"/>
+                                                                        </StackPanel>
+                                                                    </Grid>
+                                                                </Button>
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
+                                                    </ListBox>
+                                                </StackPanel>
+                                            </Border>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                    <Panel>
+                                        <i:Icon Value="fa-solid fa-bell" Foreground="{DynamicResource BellIcon}" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <Ellipse Width="7" Height="7" Fill="{DynamicResource StatusDanger}" 
+                                                 HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0"
+                                                 IsVisible="{Binding NotificationUnreadCount, Converter={StaticResource IntToBoolConverter}}"/>
+                                    </Panel>
+                                </Button>
+                            </Panel>
+
+                            <Button Classes="user-profile-btn" Margin="5,0,0,0">
+                                <Button.Flyout>
+                                    <Flyout Placement="BottomEdgeAlignedRight" FlyoutPresenterClasses="user-profile-flyout">
+                                        <Border Width="240" Background="{DynamicResource UserDropdownBg}" CornerRadius="12" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" ClipToBounds="True">
+                                            <StackPanel>
+                                                <!-- User Info Header -->
+                                                <Border Background="{DynamicResource UserHeaderBg}" Padding="15">
+                                                    <Grid ColumnDefinitions="Auto, *">
+                                                        <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{DynamicResource UserDropdownBg}" BorderBrush="{DynamicResource AccentPrimary}" BorderThickness="1">
+                                                            <i:Icon Value="fa-solid fa-user" Foreground="{DynamicResource AccentBlue}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                        </Border>
+                                                        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                                <TextBlock Text="{Binding CurrentUser.Username}" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}"/>
+                                                                <Border Background="{Binding CurrentUser.RoleBackground}" BorderBrush="{Binding CurrentUser.RoleForeground}" BorderThickness="1" CornerRadius="4" Padding="4,1">
+                                                                    <TextBlock Text="{Binding CurrentUser.Role}" FontSize="9" Foreground="{Binding CurrentUser.RoleForeground}" FontWeight="Bold"/>
+                                                                </Border>
+                                                            </StackPanel>
+                                                            <TextBlock Text="{Binding CurrentUser.Email}" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+
+                                                <!-- Actions -->
+                                                <StackPanel Margin="8">
+                                                    <Button Classes="user-dropdown-item" Command="{Binding ShowEditProfileCommand}">
+                                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                                            <i:Icon Value="fa-regular fa-user" FontSize="14"/>
+                                                            <TextBlock Text="Edit Profile" VerticalAlignment="Center"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    
+                                                    <Border Height="1" Background="{DynamicResource BorderDefault}" Margin="0,4"/>
+                                                    
+                                                    <Button Classes="user-dropdown-item sign-out" Command="{Binding ShowSignOutConfirmCommand}">
+                                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                                            <i:Icon Value="fa-solid fa-right-from-bracket" FontSize="14"/>
+                                                            <TextBlock Text="Sign Out" VerticalAlignment="Center"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Border>
+                                    </Flyout>
+                                </Button.Flyout>
+                                <Border Width="38" Height="38" CornerRadius="19" ClipToBounds="True" Background="{DynamicResource UserAvatarBg}" BorderBrush="{DynamicResource UserAvatarBorder}" BorderThickness="1">
+                                    <i:Icon Value="fa-solid fa-user" Foreground="{DynamicResource AccentBlue}" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Content Area -->
+            <Border Grid.Row="1" Background="{DynamicResource ContentBg}" Padding="0" ClipToBounds="False">
+                <ContentControl Content="{Binding CurrentView}" Margin="0" ClipToBounds="False"/>
+            </Border>
+        </Grid>
+    </Grid>
+
+    <!-- Edit Profile Modal Overlay -->
+    <Border IsVisible="{Binding IsEditProfileVisible, FallbackValue=False}" Classes="premium-modal-overlay">
+        <Grid>
+            <Border Width="500" Classes="premium-modal-content" VerticalAlignment="Center">
+                <StackPanel Spacing="25">
+                    <!-- Header -->
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Grid.Column="0" Spacing="5">
+                            <TextBlock Text="Edit Profile" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}"/>
+                            <TextBlock Text="Update your personal details. Role and Branch are managed by system administrators." 
+                                       Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Classes="circle-nav-button" Background="Transparent" Command="{Binding CancelEditProfileCommand}" VerticalAlignment="Top">
+                            <i:Icon Value="fa-solid fa-xmark" FontSize="14"/>
+                        </Button>
+                    </Grid>
+
+                    <!-- Form -->
+                    <StackPanel Spacing="15">
+                        <!-- Username -->
+                        <StackPanel>
+                            <TextBlock Text="Username" Classes="input-label"/>
+                            <TextBox Text="{Binding EditUsername}" Classes="form-input">
+                                <TextBox.InnerLeftContent>
+                                    <i:Icon Value="fa-solid fa-user" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
+                                </TextBox.InnerLeftContent>
+                            </TextBox>
+                        </StackPanel>
+
+                        <!-- Role & Branch (Read-only) -->
+                        <Grid ColumnDefinitions="*, *" HorizontalAlignment="Stretch">
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <TextBlock Text="Role" Classes="input-label"/>
+                                <TextBox Text="{Binding CurrentUser.Role}" IsReadOnly="True" Focusable="False" Classes="form-input" Opacity="0.6" Cursor="No">
+                                    <TextBox.InnerLeftContent>
+                                        <i:Icon Value="fa-solid fa-id-badge" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
+                                    </TextBox.InnerLeftContent>
+                                </TextBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <TextBlock Text="Branch" Classes="input-label"/>
+                                <TextBox Text="{Binding CurrentUser.Branch}" IsReadOnly="True" Focusable="False" Classes="form-input" Opacity="0.6" Cursor="No">
+                                    <TextBox.InnerLeftContent>
+                                        <i:Icon Value="fa-solid fa-location-dot" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
+                                    </TextBox.InnerLeftContent>
+                                </TextBox>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Phone -->
+                        <StackPanel>
+                            <TextBlock Text="Phone" Classes="input-label"/>
+                            <TextBox Text="{Binding EditPhone}" Classes="form-input">
+                                <TextBox.InnerLeftContent>
+                                    <i:Icon Value="fa-solid fa-phone" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
+                                </TextBox.InnerLeftContent>
+                            </TextBox>
+                        </StackPanel>
+
+                        <!-- Email -->
+                        <StackPanel>
+                            <TextBlock Text="Email Address" Classes="input-label"/>
+                            <TextBox Text="{Binding EditEmail}" Classes="form-input">
+                                <TextBox.InnerLeftContent>
+                                    <i:Icon Value="fa-solid fa-envelope" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
+                                </TextBox.InnerLeftContent>
+                            </TextBox>
+                        </StackPanel>
+
+                        <Border Height="1" Background="{DynamicResource BorderDefault}" Margin="0,5"/>
+
+                        <!-- Password Fields -->
+                        <StackPanel Spacing="15">
+                             <StackPanel>
+                                <TextBlock Text="Current Password" Classes="input-label"/>
+                                <TextBox Text="{Binding CurrentPassword}" PasswordChar="*" Classes="form-input" Watermark="Enter current password">
+                                    <TextBox.InnerLeftContent>
+                                        <i:Icon Value="fa-solid fa-lock" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
+                                    </TextBox.InnerLeftContent>
+                                </TextBox>
+                            </StackPanel>
+
+                            <Grid ColumnDefinitions="*, *">
+                                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                    <TextBlock Text="New Password" Classes="input-label"/>
+                                    <TextBox Text="{Binding NewPassword}" PasswordChar="*" Classes="form-input" Watermark="New Password">
+                                        <TextBox.InnerLeftContent>
+                                            <i:Icon Value="fa-solid fa-shield-halved" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
+                                        </TextBox.InnerLeftContent>
+                                    </TextBox>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                    <TextBlock Text="Confirm" Classes="input-label"/>
+                                    <TextBox Text="{Binding ConfirmPassword}" PasswordChar="*" Classes="form-input" Watermark="Confirm New">
+                                        <TextBox.InnerLeftContent>
+                                            <i:Icon Value="fa-solid fa-check-double" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
+                                        </TextBox.InnerLeftContent>
+                                    </TextBox>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Error Message -->
+                    <Border IsVisible="{Binding HasEditProfileError}" Background="{DynamicResource NexoraErrorBg}" BorderBrush="{DynamicResource NexoraErrorBorder}" BorderThickness="1" CornerRadius="8" Padding="12">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <i:Icon Value="fa-solid fa-circle-exclamation" Foreground="{DynamicResource NexoraErrorText}" FontSize="14" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding EditProfileErrorMessage}" Foreground="{DynamicResource NexoraErrorText}" FontSize="13" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Footer Actions -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="15">
+                        <Button Classes="btn-secondary" Content="Cancel" Command="{Binding CancelEditProfileCommand}"/>
+                        <Button Classes="btn-primary" Content="Update Profile" Command="{Binding UpdateProfileCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+
+    <!-- Sign Out Confirmation Overlay -->
+    <Border IsVisible="{Binding IsSignOutConfirmVisible, FallbackValue=False}" Classes="premium-modal-overlay">
+        <Grid>
+            <Border Width="400" Classes="premium-modal-content" VerticalAlignment="Center">
+                <StackPanel Spacing="25">
+                    <StackPanel Spacing="15" HorizontalAlignment="Center">
+                        <Border Width="60" Height="60" CornerRadius="30" Background="{DynamicResource ConfirmIconBg}" HorizontalAlignment="Center">
+                            <i:Icon Value="fa-solid fa-right-from-bracket" Foreground="{DynamicResource StatusDanger}" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="Sign Out Confirmation" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Are you sure you want to sign out? You will need to log back in to access your data." 
+                                   Foreground="{DynamicResource TextSecondary}" FontSize="14" TextWrapping="Wrap" TextAlignment="Center"/>
+                    </StackPanel>
+                    
+                    <Grid ColumnDefinitions="*, *">
+                        <Button Grid.Column="0" Margin="0,0,7,0" Classes="btn-secondary" Content="Cancel" Command="{Binding CancelSignOutCommand}"/>
+                        <Button Grid.Column="1" Margin="7,0,0,0" Classes="btn-delete" Content="Sign Out" Command="{Binding ConfirmSignOutCommand}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+
+    <!-- Edit Authorization OTP Verification Overlay -->
+    <Border IsVisible="{Binding IsOtpModalVisible, FallbackValue=False}" Classes="premium-modal-overlay">
+        <Grid>
+            <Border Width="500" Classes="premium-modal-content" VerticalAlignment="Center">
+                <StackPanel Spacing="25">
+                    <!-- Header -->
+                    <Grid ColumnDefinitions="Auto, *, Auto">
+                        <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{DynamicResource ConfirmIconBg}" Margin="0,0,12,0" VerticalAlignment="Center">
+                            <i:Icon Value="fa-solid fa-user-shield" Foreground="{DynamicResource AccentPrimary}" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
+                            <TextBlock Text="Edit Authorization Required" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}"/>
+                            <TextBlock Text="A secure OTP has been generated for verification." Foreground="{DynamicResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <Button Grid.Column="2" Classes="circle-nav-button" Background="Transparent" Command="{Binding CancelOtpCommand}" VerticalAlignment="Top">
+                            <i:Icon Value="fa-solid fa-xmark" FontSize="14"/>
+                        </Button>
+                    </Grid>
+
+                    <!-- Info Alert -->
+                    <Border Background="{DynamicResource UserHeaderBg}" BorderBrush="{DynamicResource BorderDefault}" BorderThickness="1" CornerRadius="8" Padding="15">
+                        <StackPanel Spacing="8">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <i:Icon Value="fa-solid fa-envelope" Foreground="{DynamicResource AccentBlue}" FontSize="14" VerticalAlignment="Center"/>
+                                <TextBlock Text="Notification Sent to Administrators" Foreground="{DynamicResource TextPrimary}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <TextBlock Text="The one-time authorization password has been sent to the Admin Portal notification dashboard and administrator registered emails. Please enter the code below to gain access." 
+                                       Foreground="{DynamicResource TextSecondary}" FontSize="11" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Form Input -->
+                    <StackPanel Spacing="15">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="One-Time Password (OTP)" Classes="input-label" FontWeight="SemiBold" FontSize="12"/>
+                            <TextBox Text="{Binding OtpInput}" 
+                                     Classes="form-input" 
+                                     Watermark="Enter 6-digit OTP code"
+                                     HorizontalContentAlignment="Center"
+                                     LetterSpacing="6"
+                                     FontSize="20"
+                                     FontWeight="Bold"
+                                     MaxLength="6">
+                                <TextBox.KeyBindings>
+                                    <KeyBinding Gesture="Enter" Command="{Binding VerifyOtpCommand}"/>
+                                </TextBox.KeyBindings>
+                                <TextBox.InnerLeftContent>
+                                    <i:Icon Value="fa-solid fa-key" FontSize="14" Foreground="{DynamicResource TextMuted}" Margin="12,0,0,0"/>
+                                </TextBox.InnerLeftContent>
+                            </TextBox>
+                        </StackPanel>
+
+                        <!-- Error Message Block -->
+                        <Border IsVisible="{Binding HasOtpError}" Background="{DynamicResource NexoraErrorBg}" BorderBrush="{DynamicResource NexoraErrorBorder}" BorderThickness="1" CornerRadius="8" Padding="12">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <i:Icon Value="fa-solid fa-circle-exclamation" Foreground="{DynamicResource NexoraErrorText}" FontSize="14" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding OtpErrorMessage}" Foreground="{DynamicResource NexoraErrorText}" FontSize="13" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Success Message Block -->
+                        <Border IsVisible="{Binding IsOtpSuccess}" Background="#DCFCE7" BorderBrush="#BBF7D0" BorderThickness="1" CornerRadius="8" Padding="12">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <i:Icon Value="fa-solid fa-circle-check" Foreground="#166534" FontSize="14" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding OtpSuccessMessage}" Foreground="#166534" FontSize="13" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Footer Actions -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12">
+                        <Button Classes="btn-secondary" Content="Resend Code" Command="{Binding ResendOtpCommand}"/>
+                        <Button Classes="btn-secondary" Content="Cancel" Command="{Binding CancelOtpCommand}"/>
+                        <Button Classes="btn-primary" Content="Verify &amp; Proceed" Command="{Binding VerifyOtpCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+    </Grid>
+
+</UserControl>

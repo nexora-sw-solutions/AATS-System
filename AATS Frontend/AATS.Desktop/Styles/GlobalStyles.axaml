@@ -1,0 +1,143 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- Cheque Details Card Styling -->
+    <Style Selector="Border.cheque-details-card">
+        <Setter Property="Background" Value="{DynamicResource CardBg}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="BoxShadow" Value="0 4 12 0 #20000000"/>
+        <Setter Property="ClipToBounds" Value="True"/>
+        
+        <!-- Collapsed State (Default) -->
+        <Setter Property="Opacity" Value="0"/>
+        <Setter Property="MaxHeight" Value="0"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
+        <Setter Property="Margin" Value="0,0,0,0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        
+        <Setter Property="Transitions">
+            <Transitions>
+                <DoubleTransition Property="Opacity" Duration="0:0:0.3" Easing="CubicEaseInOut"/>
+                <DoubleTransition Property="MaxHeight" Duration="0:0:0.3" Easing="CubicEaseInOut"/>
+                <ThicknessTransition Property="Padding" Duration="0:0:0.3" Easing="CubicEaseInOut"/>
+                <ThicknessTransition Property="Margin" Duration="0:0:0.3" Easing="CubicEaseInOut"/>
+                <ThicknessTransition Property="BorderThickness" Duration="0:0:0.3" Easing="CubicEaseInOut"/>
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="Border.cheque-details-card.is-active">
+        <Setter Property="Opacity" Value="1"/>
+        <Setter Property="MaxHeight" Value="500"/> <!-- Sufficient height for all fields -->
+        <Setter Property="Padding" Value="15"/>
+        <Setter Property="Margin" Value="0,5,0,20"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <!-- Global Premium DataGrid Styles (Parity with Client View) -->
+    <Style Selector="DataGrid">
+        <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="RowHeight" Value="42"/>
+    </Style>
+
+    <!-- Suppress cell selection highlights and focus outlines to act like standard row selection -->
+    <Style Selector="DataGridCell:current /template/ Grid#FocusVisual">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="DataGridCell:current /template/ Rectangle#CurrencyVisual">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="DataGridCell:selected /template/ Grid#FocusVisual">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="DataGridCell:selected /template/ Border#CellBackground">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style Selector="DataGridCell:selected">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+    <Style Selector="DataGridCell:focus">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="DataGridColumnHeader">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Padding" Value="12,10"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="AreSeparatorsVisible" Value="False"/>
+    </Style>
+
+    <!-- Disable Header Selectable/Hover Effects -->
+    <Style Selector="DataGridColumnHeader:pointerover /template/ Grid">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style Selector="DataGridColumnHeader:pointerover /template/ Border">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="DataGridRow">
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}"/>
+        <Setter Property="BorderThickness" Value="0,1,0,0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
+        <Setter Property="Fill" Value="{DynamicResource RowHoverBg}"/>
+        <Setter Property="Opacity" Value="0.5"/>
+    </Style>
+
+    <!-- Full-Cell Interactive Row Buttons -->
+    <Style Selector="Button.row-button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+    </Style>
+    <Style Selector="Button.row-button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style Selector="Button.row-button.selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource SelectedRowBg}"/>
+    </Style>
+
+    <!-- Keyboard selection highlight and hover highlight for Client ID Autocomplete suggestions -->
+    <Style Selector="Popup ItemsControl Button.highlighted /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource HoverBg}"/>
+    </Style>
+    <Style Selector="Popup ItemsControl Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource HoverBg}"/>
+    </Style>
+
+
+    <Style Selector="Button.tab-btn">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0,0,0,2"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+    <Style Selector="Button.tab-btn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource BorderSubtle}"/>
+    </Style>
+    <Style Selector="Button.tab-btn.selected">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}"/>
+    </Style>
+    <Style Selector="Button.tab-btn TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+    <Style Selector="Button.tab-btn.selected TextBlock">
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+
+</Styles>

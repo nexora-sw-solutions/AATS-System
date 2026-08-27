@@ -1,0 +1,605 @@
+AATS 4.0  
+Role -Based Color Theme System  
+Software Design Specification (SDS) — v4.3.0  
+Document Classification: Technical Design Specification / UI -UX Architecture  
+Target Audience: Frontend Developers, UI/UX Designers, System Architects, Project Stakeholders  
+Theme Architecture: Exclusive Dark Mode Application Ecosystem  
+ Executive Summary  
+The Nexora AATS (Audit, Accounting, and Tax Suite) v4.0 application operates exclusively within a modern, deep -tone 
+Dark Mode visual architecture. To enhance cognitive orientation, streamline navigation, and establish immediate 
+visual context across comple x professional workflows, this specification defines an exhaustive Role -Based Color 
+Theme System.  
+By assigning distinct visual identities to specific operational modules — Audit & Assurance, Secretarial & Advisory, Tax 
+Filing, All Roles (General Practitioner), and Administrator — the system ensures that users instantly recognize their 
+operational conte xt without sacrificing universal brand cohesion, accessibility compliance, or ergonomic comfort 
+during prolonged professional use.  
+In accordance with system governance standards, the Administrator module directly adopts the active Core Blue 
+Theme currently deployed across the platform, providing seamless continuity for administrative control and system 
+configuration.  
+ Part I: Architectural Framework & Design Philosophy  
+1. Theme Overview  
+1.1  Design Philosophy & Core Principles  
+The AATS role -based color system is built upon three foundational ergonomic principles:  
+● Cognitive Anchoring: High -frequency accounting and legal tasks require sustained focus. Color accents are 
+used as contextual anchors rather than decorative clutter, allowing professionals to subconsciously register 
+which compliance domain they are operatin g in.  
+● Harmonious Dark Mode Depth: To prevent visual fatigue over 8 –10 hour workdays, background surfaces 
+avoid pure black (#000000). Instead, the architecture utilizes layered, rich navy -slate shadows (#020617 to 
+#1E293B) that absorb ambient glare while providin g distinct elevation cues via luminance separation.  
+● Semantic Cohesion: While each role possesses a unique primary and accent identity, all functional semantics 
+(success, warning, error, info, disabled states) share a universal color vocabulary across all modules.  
+1.2  Role Personalities & Visual Identities  
+ 
+Role / Module  Visual Identity  Swatch / Hex  RGB Rationale  
+Administrator  Core Blue / Institutional 
+Authority  #3B82F6  RGB (59, 130, 
+246)  Directly utilizes the active application core theme 
+(AccentPrimary / AccentBlue). Represents platform 
+governance, system security, and user management with 
+familiar, established institutional authority.  
+Audit & Assurance  Deep Analytical Indigo / 
+Corporate Royal  #4F46E5  RGB (79, 70, 229)  Differentiates audit verification, internal control 
+evaluations, and risk matrices with a solemn, highly 
+analytical, and authoritative indigo atmosphere.  
+Secretarial & 
+Advisory  Emerald Green / Deep Teal  #10B981  RGB (16, 185, 
+129)  Represents growth, compliance health, statutory advisory, 
+and corporate renewal. Green reinforces positive statutory 
+standing and corporate governance health.  
+Tax Filing  Warm Amber / Statutory 
+Gold #F59E0B  RGB (245, 158, 
+11) Commands attention to fiscal deadlines, statutory 
+schedules, and tax liability calculations. Gold reflects fiscal 
+value, currency, and urgency without inducing panic.  
+All Roles (General)  Executive Sky Blue / Slate 
+Navy  #0EA5E9  RGB (14, 165, 
+233)  Provides a balanced, neutral executive atmosphere 
+suitable for cross -departmental dashboards, general 
+reporting, and multi -disciplinary staff.  
+Part II: Role -Based Theme Specifications  
+ Role 1: Administrator Theme Specification  
+CORE BLUE  
+System governance, user role assignments, security audit trails, license management, and global API configuration. 
+Uses the application's active Core Blue theme.  
+2.1  Primary Color Palette  
+Token  Swatch / Hex  RGB Opacity  Usage  
+Primary Color  #3B82F6  RGB (59, 130, 246)  100%  Admin control buttons, active navigation indicators, 
+primary system actions (AccentPrimary).  
+Primary Dark  #1E40AF  RGB (30, 64, 175)  100%  Button pressed states, gradient anchors (AccentBlueDark).  
+Primary Light  #60A5FA  RGB (96, 165, 250)  100%  Hover highlights, chart curves, active text emphasis 
+(AccentBlue).  
+Secondary Color  #0284C7  RGB (2, 132, 199)  100%  Secondary administrative buttons, security badges.  
+Accent Color  #38BDF8  RGB (56, 189, 248)  100% / 85%  Active configuration toggles, live system telemetry 
+highlights.  
+2.2  Neutral Palette  
+ 
+Token  Swatch / Hex  RGB / Opacity  Usage  
+Primary Background  #0A1931  RGB (10, 25, 49)  Base application window and system workspace (AppBackground).  
+Secondary Background  #0F172A  RGB (15, 23, 42)  Security log sidebars, user management gutters (UserDropdownBg).  
+Elevated Cards  #151E2E  RGB (21, 30, 46)  Configuration cards, role matrix tables (CardBg).  
+Side Navigation  #020617  RGB (2, 6, 23)  Left-hand shell navigation background (SidebarBg).  
+Top Navigation  #0A0F1A  RGB (10, 15, 26)  Top header shell bar (NavbarBg).  
+Drawer Background  #0A111E  RGB (10, 17, 30)  Slide -out permission inspection drawers (DrawerBg).  
+Dialog Background  #0F172A  RGB (15, 23, 42)  System confirmation modal boxes (ModalBg).  
+Input Background  #0A0F1A  RGB (10, 15, 26)  API key inputs, user search fields (InputBg).  
+Disabled Background  #1E293B  RGB (30, 41, 59)  Inactive system toggles and disabled button surfaces (HoverBg).  
+Hover Background  #1E293B  RGB (30, 41, 59)  User list pointer -over state.  
+Selected Background  #1E3A8A  25% Opacity  Selected user account or active system log row.  
+Border Colors  #1E293B  RGB (30, 41, 59)  Standard card borders (BorderDefault).  
+Divider Colors  #334155  40% Opacity  Permission matrix gridlines.  
+2.3  Typography Colors  
+ 
+Token  Swatch / Hex  RGB / State  Usage  
+Primary Text  #F8FAFC  RGB (248, 250, 252)  System headings, username headers, API endpoints 
+(TextHeading).  
+Secondary Text  #94A3B8  RGB (148, 163, 184)  Form labels, subheadings, table column headers 
+(TextSecondary).  Token  Swatch / Hex  RGB / State  Usage  
+Muted Text  #64748B  RGB (100, 116, 139)  Security log timestamps, system UUIDs (TextMuted).  
+Placeholder Text  #475569  RGB (71, 85, 105)  Input field watermarks and hints.  
+Disabled Text  #334155  RGB (51, 65, 85)  Inactive permission checkboxes.  
+Hyperlinks  #60A5FA  RGB (96, 165, 250)  Links to security audit trails or API documentation (AccentBlue).  
+Icons  #94A3B8  Default / Active  Security keys, shield symbols, gear icons.  
+2.4  Button Color System  
+ 
+Button Type  State  Background  Text / Icon  Border  
+Primary  Default  #3B82F6  #FFFFFF  Transparent  
+Primary  Hover  #60A5FA  #FFFFFF  Transparent  
+Primary  Pressed  #1E40AF  #FFFFFF  Transparent  
+Primary  Disabled  #1E293B  #475569  Transparent  
+Secondary  Default  #1E293B  #F8FAFC  #334155  
+Secondary  Hover  #334155  #FFFFFF  #475569  
+Secondary  Pressed  #0F172A  #94A3B8  #1E293B  
+Secondary  Disabled  #151E2E  #334155  #1E293B  
+Outlined  Default  Transparent  #3B82F6  #3B82F6  
+Outlined  Hover  #3B82F6 (15%)  #60A5FA  #60A5FA  
+Text Default  Transparent  #3B82F6  Transparent  
+Text Hover  #3B82F6 (10%)  #60A5FA  Transparent  
+2.5  Card & Table Styling  
+Card Styling: General Information Cards: Background #151E2E, Border #1E293B (1px), Corner Radius 12px. Summary / 
+Security Cards: Background Gradient LinearGradient(135deg, #151E2E 0%, #1E3A8A 100%), Border #3B82F6 (30% 
+Opacity). Hover States: Background el evates to #1E293B, Border transitions to #3B82F6 (60% Opacity), Box Shadow 0 
+8px 24px rgba(0, 0, 0, 0.4).  
+Table Styling: Table Header: Background #0F172A, Text #94A3B8, Font Weight SemiBold, Bottom Border #3B82F6 
+(2px). Table Body Rows: Background #151E2E, Alternate Row Background #111827. Row Interactions: Hover 
+Background #1E293B, Selected Row #3B82F6 (20% O pacity) with Left Accent Border #3B82F6 (3px). Gridlines: 
+Horizontal separator #1E293B (1px), Vertical column separators Transparent.  
+2.6  Navigation, Badges & Progress Indicators  
+Side Nav Selected Item: Background LinearGradient(90deg, rgba(59,130,246,0.25) 0% to rgba(59,130,246,0.05) 
+100%), Left Bar #3B82F6 (4px), Text/Icon #60A5FA. Security Badges: "Super Admin / Verified" uses #3B82F6 at 20% 
+Opacity with #60A5FA text and #3B82F6  border (1px). Progress Indicators: System backup and indexing bars fill with 
+#3B82F6, track #1E293B.  
+2.7  Charts Palette  
+ Series  Data Represented  Swatch / Hex  Name  
+Primary Series  System Telemetry / API Latency  #3B82F6  Core Blue  
+Secondary Series  Active User Sessions  #60A5FA  Light Sky  
+Third Series  System Load  #F59E0B  Amber Warning  
+Fourth Series  Database IO  #10B981  Teal Healthy  
+Fifth Series  Error Exceptions  #EF4444  Crimson Danger  
+ Role 2: Audit & Assurance Theme Specification  
+DEEP ANALYTICAL INDIGO  
+Financial audits, internal control evaluations, risk matrices, and compliance verification. Differentiated from 
+Administrator via a solemn, authoritative Deep Analytical Indigo theme.  
+3.1  Primary Color Palette  
+Token  Swatch / Hex  RGB Opacity  Usage  
+Primary Color  #4F46E5  RGB (79, 70, 229)  100%  Primary verification buttons, active audit tabs, risk 
+assessment links.  
+Primary Dark  #3730A3  RGB (55, 48, 163)  100%  Button pressed states, active navigation indicators, deep 
+gradient roots.  
+Primary Light  #818CF8  RGB (129, 140, 
+248)  100%  Hover highlights, chart primary curves, dark -surface text 
+emphasis.  
+Secondary Color  #6366F1  RGB (99, 102, 241)  100%  Secondary buttons, secondary metrics, sub -module badges.  
+Accent Color  #A5B4FC  RGB (165, 180, 
+252)  100% / 85%  Notification badges, active KPI highlights, live data toggles.  
+3.2  Neutral Palette  
+ 
+Token  Swatch / Hex  RGB / Opacity  Usage  
+Primary Background  #0C0A20  RGB (12, 10, 32)  Base audit workspace window.  
+Secondary Background  #13112E  RGB (19, 17, 46)  Secondary structural zones, footer panels, filter gutters.  
+Elevated Cards  #1C193E  RGB (28, 25, 62)  Primary data cards, risk matrices, table surfaces.  
+Side Navigation  #070614  RGB (7, 6, 20)  Left-hand shell navigation background.  
+Top Navigation  #0C0A20  RGB (12, 10, 32)  Top header shell bar.  
+Drawer Background  #13112E  RGB (19, 17, 46)  Slide -out inspection drawers and detail panels.  
+Dialog Background  #1C193E  RGB (28, 25, 62)  Modal dialog boxes and alert popups.  
+Input Background  #0C0A20  RGB (12, 10, 32)  Text fields, dropdown boxes, search inputs.  
+Disabled Background  #26234F  RGB (38, 35, 79)  Inactive form controls and disabled button surfaces.  
+Hover Background  #26234F  RGB (38, 35, 79)  Table row hover, list item pointer -over state.  
+Selected Background  #312E81  25% Opacity  Active row selection, selected list item.  
+Border Colors  #26234F  RGB (38, 35, 79)  Standard card borders, structural dividers.  
+Divider Colors  #3F3C78  40% Opacity  Subtle section separators and list splitters.  
+3.3  Typography Colors  
+ 
+Token  Swatch / Hex  RGB / State  Usage  
+Primary Text  #F8FAFC  RGB (248, 250, 252)  Headings, primary data values, modal titles.  
+Secondary Text  #C7D2FE  RGB (199, 210, 254)  Form labels, subheadings, table column headers.  
+Muted Text  #818CF8  60% Opacity  Timestamps, footnote captions, secondary metadata.  Token  Swatch / Hex  RGB / State  Usage  
+Placeholder Text  #4F46E5  50% Opacity  Input field watermarks and hints.  
+Disabled Text  #3F3C78  RGB (63, 60, 120)  Inactive option labels and unselected breadcrumb leaves.  
+Hyperlinks  #818CF8  RGB (129, 140, 248)  Clickable text links, drill -down breadcrumbs.  
+Icons  #C7D2FE  Default / Active  Navigation icons, action glyphs, field prefixes.  
+3.4  Button Color System  
+ 
+Button Type  State  Background  Text / Icon  Border  
+Primary  Default  #4F46E5  #FFFFFF  Transparent  
+Primary  Hover  #818CF8  #FFFFFF  Transparent  
+Primary  Pressed  #3730A3  #FFFFFF  Transparent  
+Primary  Disabled  #26234F  #A5B4FC (40%)  Transparent  
+Secondary  Default  #26234F  #F8FAFC  #3F3C78  
+Secondary  Hover  #3F3C78  #FFFFFF  #818CF8  
+Outlined  Default  Transparent  #4F46E5  #4F46E5  
+Outlined  Hover  #4F46E5 (15%)  #818CF8  #818CF8  
+3.5  Card & Table Styling  
+Card Styling: General Information Cards: Background #1C193E, Border #26234F (1px), Corner Radius 12px. Summary / 
+KPI Cards: Background Gradient LinearGradient(135deg, #1C193E 0%, #312E81 100%), Border #4F46E5 (30% Opacity). 
+Hover States: Background elevate s to #26234F, Border transitions to #4F46E5 (60% Opacity), Box Shadow 0 8px 24px 
+rgba(79, 70, 229, 0.35).  
+Table Styling: Table Header: Background #13112E, Text #C7D2FE, Font Weight SemiBold, Bottom Border #4F46E5 
+(2px). Table Body Rows: Background #1C193E, Alternate Row Background #171533. Row Interactions: Hover 
+Background #26234F, Selected Row #4F46E5 (20% O pacity) with Left Accent Border #4F46E5 (3px).  
+3.6  Navigation, Badges & Progress Indicators  
+Side Nav Selected Item: Background LinearGradient(90deg, rgba(79,70,229,0.25) 0% to rgba(79,70,229,0.05) 100%), 
+Left Bar #4F46E5 (4px), Text/Icon #818CF8. Audit Status Badges: "Verified / Signed" uses #4F46E5 at 20% Opacity with 
+#818CF8 text and #4F46E5 bo rder. Progress Indicators: Audit checklist bars fill with #4F46E5, track #26234F.  
+3.7  Charts Palette  
+ 
+Series  Data Represented  Swatch / Hex  Name  
+Primary Series  Current Audit Year  #4F46E5  Indigo Primary  
+Secondary Series  Prior Year Baseline  #818CF8  Light Indigo  
+Third Series  Industry Benchmark  #F59E0B  Amber Contrast  
+Fourth Series  Risk Variance  #10B981  Teal Accent  
+Fifth Series  Threshold Limit  #EC4899  Pink Marker  
+ Role 3: Secretarial & Advisory Theme Specification  
+EMERALD GREEN / DEEP TEAL  
+Corporate governance, statutory compliance records, board resolutions, and annual filings.  
+4.1  Primary Color Palette  
+Token  Swatch / Hex  RGB Opacity  Usage  
+Primary Color  #10B981  RGB (16, 185, 129)  100%  Primary actions, compliance approval milestones, active 
+tabs. 
+Primary Dark  #059669  RGB (5, 150, 105)  100%  Active buttons, deep gradient anchors, pressed states.  
+Primary Light  #34D399  RGB (52, 211, 153)  100%  Hover states, positive statutory status indicators, chart 
+lines.  
+Secondary Color  #0D9488  RGB (13, 148, 136)  100%  Secondary actions, statutory filing cards, advisory badges.  
+Accent Color  #6EE7B7  RGB (110, 231, 
+183)  100% / 85%  Highlights, statutory alerts, quick -filter tags.  
+4.2  Neutral Palette  
+ 
+Token  Swatch / Hex  RGB / Opacity  Usage  
+Primary Background  #061814  RGB (6, 24, 20)  Deep teal -black workspace surface.  
+Secondary Background  #09201B  RGB (9, 32, 27)  Sidebar gutters, footer panels, secondary zones.  
+Elevated Cards  #0F2922  RGB (15, 41, 34)  Main content cards, resolution drafting panels.  
+Side Navigation  #030D0B  RGB (3, 13, 11)  Left-hand navigation column background.  
+Top Navigation  #061814  RGB (6, 24, 20)  Top application header bar.  
+Drawer Background  #0A201B  RGB (10, 32, 27)  Document review slide -out panels.  
+Dialog Background  #0F2922  RGB (15, 41, 34)  Modal popup surface.  
+Input Background  #061814  RGB (6, 24, 20)  Form fields, date pickers, dropdown inputs.  
+Disabled Background  #13332B  RGB (19, 51, 43)  Disabled form inputs and inactive buttons.  
+Hover Background  #13332B  RGB (19, 51, 43)  Row pointer -over state, list hover.  
+Selected Background  #065F46  25% Opacity  Selected statutory record or active list item.  
+Border Colors  #13332B  RGB (19, 51, 43)  Card borders, form boundaries.  
+Divider Colors  #1F4E42  40% Opacity  Table splitters and section lines.  
+4.3  Typography Colors  
+ 
+Token  Swatch / Hex  RGB / State  Usage  
+Primary Text  #F0FDF4  RGB (240, 253, 244)  Main headers, corporate entity names, key resolution text.  
+Secondary Text  #99F6E4  RGB (153, 246, 228)  Subtitles, field labels, statutory deadlines.  
+Muted Text  #5EEAD4  60% Opacity  Explanatory footnotes, filing timestamps.  
+Placeholder Text  #2DD4BF  40% Opacity  Text box hints and input watermarks.  Token  Swatch / Hex  RGB / State  Usage  
+Disabled Text  #1F4E42  RGB (31, 78, 66)  Inactive menu items and disabled labels.  
+Hyperlinks  #34D399  RGB (52, 211, 153)  Links to company registry entities or statutory references.  
+Icons  #99F6E4  Default / Active  Section icons and action symbols.  
+4.4  Button Color System  
+ 
+Button Type  State  Background  Text / Icon  Border  
+Primary  Default  #10B981  #064E3B  Transparent  
+Primary  Hover  #34D399  #064E3B  Transparent  
+Primary  Pressed  #059669  #FFFFFF  Transparent  
+Primary  Disabled  #13332B  #34D399 (40%)  Transparent  
+Secondary  Default  #13332B  #F0FDF4  #1F4E42  
+Secondary  Hover  #1F4E42  #FFFFFF  #2DD4BF  
+Outlined  Default  Transparent  #10B981  #10B981  
+Outlined  Hover  #10B981 (15%)  #34D399  #34D399  
+4.5  Card & Table Styling  
+Card Styling: General Information Cards: Background #0F2922, Border #13332B (1px), Corner Radius 12px. Summary / 
+KPI Cards: Background Gradient LinearGradient(135deg, #0F2922 0%, #065F46 100%), Border #10B981 (30% Opacity). 
+Hover States: Background elevate s to #13332B, Border transitions to #10B981 (60% Opacity), Box Shadow 0 8px 24px 
+rgba(6, 78, 59, 0.3).  
+Table Styling: Table Header: Background #09201B, Text #99F6E4, Font Weight SemiBold, Bottom Border #10B981 
+(2px). Table Body Rows: Background #0F2922, Alternate Row Background #0B221C. Row Interactions: Hover 
+Background #13332B, Selected Row #10B981 (20% O pacity) with Left Accent Border #10B981 (3px).  
+4.6  Navigation, Badges & Progress Indicators  
+Side Nav Selected Item: Background LinearGradient(90deg, rgba(16,185,129,0.25) 0% to rgba(16,185,129,0.05) 
+100%), Left Bar #10B981 (4px), Text/Icon #34D399. Statutory Status Badges: "In Good Standing" uses #10B981 at 20% 
+Opacity with #34D399 text and #10B9 81 border. Progress Indicators: statutory filing workflow bars fill with #10B981, 
+track #13332B.  
+4.7  Charts Palette  
+ 
+Series  Data Represented  Swatch / Hex  Name  
+Primary Series  Compliant Entities  #10B981  Emerald Teal  
+Secondary Series  Pending Renewals  #34D399  Mint Light  
+Third Series  Annual Returns  #38BDF8  Sky Blue Contrast  
+Fourth Series  Overdue Filings  #F43F5E  Rose Red Marker  
+Fifth Series  Board Meetings  #A855F7  Purple Accent  
+ Role 4: Tax Filing Theme Specification  
+WARM AMBER / STATUTORY GOLD  
+Corporate tax calculations, VAT returns, withholding schedules, and revenue authority submissions.  
+5.1  Primary Color Palette  
+Token  Swatch / Hex  RGB Opacity  Usage  
+Primary Color  #F59E0B  RGB (245, 158, 11)  100%  Primary submission buttons, tax liability calculations, active 
+filters.  
+Primary Dark  #D97706  RGB (217, 119, 6)  100%  Button pressed states, active navigation accents, deep 
+gradient anchors.  
+Primary Light  #FBBF24  RGB (251, 191, 36)  100%  Hover highlights, chart curves, tax due date warning text.  
+Secondary Color  #EA580C  RGB (234, 88, 12)  100%  Secondary actions, deduction summary badges, fiscal alerts.  
+Accent Color  #FDE68A  RGB (253, 230, 
+138)  100% / 85%  Highlighting tax credit balances, refund status tags.  
+5.2  Neutral Palette  
+ 
+Token  Swatch / Hex  RGB / Opacity  Usage  
+Primary Background  #1A140A  RGB (26, 20, 10)  Deep bronze -black base application surface.  
+Secondary Background  #221A0F  RGB (34, 26, 15)  Secondary panels, statutory schedule sidebars.  
+Elevated Cards  #2B2113  RGB (43, 33, 19)  Main calculation cards, tax bracket tables.  
+Side Navigation  #120E07  RGB (18, 14, 7)  Left-hand navigation background.  
+Top Navigation  #1A140A  RGB (26, 20, 10)  Top header shell bar.  
+Drawer Background  #221A0F  RGB (34, 26, 15)  Slide -out VAT inspection drawers.  
+Dialog Background  #2B2113  RGB (43, 33, 19)  Modal confirmation popups.  
+Input Background  #1A140A  RGB (26, 20, 10)  Financial input fields, currency boxes.  
+Disabled Background  #382B19  RGB (56, 43, 25)  Inactive deduction inputs and disabled submission buttons.  
+Hover Background  #382B19  RGB (56, 43, 25)  Table row pointer -over state.  
+Selected Background  #78350F  25% Opacity  Selected tax record or active filing year.  
+Border Colors  #382B19  RGB (56, 43, 25)  Card borders, financial table gridlines.  
+Divider Colors  #523E23  40% Opacity  Subtle ledger separators.  
+5.3  Typography Colors  
+ 
+Token  Swatch / Hex  RGB / State  Usage  
+Primary Text  #FFFBEB  RGB (255, 251, 235)  Main titles, taxable income figures, total liability headers.  
+Secondary Text  #FDE68A  RGB (253, 230, 138)  Form labels, schedule captions, bracket headers.  
+Muted Text  #D97706  70% Opacity  Explanatory tax codes, depreciation footnotes.  
+Placeholder Text  #92400E  RGB (146, 64, 14)  Currency input watermarks.  Token  Swatch / Hex  RGB / State  Usage  
+Disabled Text  #523E23  RGB (82, 62, 35)  Inactive schedule options.  
+Hyperlinks  #FBBF24  RGB (251, 191, 36)  Links to revenue authority documentation or tax schedules.  
+Icons  #FDE68A  Default / Active  Ledger symbols and calculator glyphs.  
+5.4  Button Color System  
+ 
+Button Type  State  Background  Text / Icon  Border  
+Primary  Default  #F59E0B  #451A03  Transparent  
+Primary  Hover  #FBBF24  #451A03  Transparent  
+Primary  Pressed  #D97706  #FFFFFF  Transparent  
+Primary  Disabled  #382B19  #FBBF24 (40%)  Transparent  
+Secondary  Default  #382B19  #FFFBEB  #523E23  
+Secondary  Hover  #523E23  #FFFFFF  #FBBF24  
+Outlined  Default  Transparent  #F59E0B  #F59E0B  
+Outlined  Hover  #F59E0B (15%)  #FBBF24  #FBBF24  
+5.5  Card & Table Styling  
+Card Styling: General Information Cards: Background #2B2113, Border #382B19 (1px), Corner Radius 12px. Summary / 
+Liability Cards: Background Gradient LinearGradient(135deg, #2B2113 0%, #78350F 100%), Border #F59E0B (30% 
+Opacity). Hover States: Background e levates to #382B19, Border transitions to #F59E0B (60% Opacity), Box Shadow 0 
+8px 24px rgba(120, 53, 15, 0.4).  
+Table Styling: Table Header: Background #221A0F, Text #FDE68A, Font Weight SemiBold, Bottom Border #F59E0B 
+(2px). Table Body Rows: Background #2B2113, Alternate Row Background #251C10. Row Interactions: Hover 
+Background #382B19, Selected Row #F59E0B (20% O pacity) with Left Accent Border #F59E0B (3px).  
+5.6  Navigation, Badges & Progress Indicators  
+Side Nav Selected Item: Background LinearGradient(90deg, rgba(245,158,11,0.25) 0% to rgba(245,158,11,0.05) 
+100%), Left Bar #F59E0B (4px), Text/Icon #FBBF24. Tax Status Badges: "Filed / Assessed" uses #F59E0B at 20% Opacity 
+with #FBBF24 text and #F59E0B bor der. Progress Indicators: Tax return preparation bars fill with #F59E0B, track 
+#382B19.  
+5.7  Charts Palette  
+ 
+Series  Data Represented  Swatch / Hex  Name  
+Primary Series  Corporate Tax  #F59E0B  Warm Gold  
+Secondary Series  VAT / Sales Tax  #FBBF24  Bright Amber  
+Third Series  Withholding Tax  #10B981  Emerald Contrast  
+Fourth Series  Deductions  #3B82F6  Blue Marker  
+Fifth Series  Penalties/Interest  #EF4444  Danger Red  
+ Role 5: All Roles (General Practitioner) Theme Specification  
+EXECUTIVE SKY BLUE / SLATE NAVY  
+Cross -departmental executive overview, multi -module activity logs, unified client CRM, and firm -wide analytics.  
+6.1  Primary Color Palette  
+Token  Swatch / Hex  RGB Opacity  Usage  
+Primary Color  #0EA5E9  RGB (14, 165, 233)  100%  Global navigation anchors, standard primary buttons, active 
+module toggles.  
+Primary Dark  #0284C7  RGB (2, 132, 199)  100%  Active pressed states, gradient deep ends.  
+Primary Light  #38BDF8  RGB (56, 189, 248)  100%  Hover states, global KPI chart curves.  
+Secondary Color  #6366F1  RGB (99, 102, 241)  100%  Cross -module bridging tags, secondary filters.  
+Accent Color  #7DD3FC  RGB (125, 211, 
+252)  100% / 85%  Global notifications, multi -role highlights.  
+6.2  Neutral Palette  
+ 
+Token  Swatch / Hex  RGB / Opacity  Usage  
+Primary Background  #0B132B  RGB (11, 19, 43)  Standard executive dark navy background.  
+Secondary Background  #111C3A  RGB (17, 28, 58)  Global header, footer, and utility sidebars.  
+Elevated Cards  #1C2A4E  RGB (28, 42, 78)  Dashboard summary widgets and global cards.  
+Side Navigation  #050B1A  RGB (5, 11, 26)  Unified navigation shell.  
+Top Navigation  #0B132B  RGB (11, 19, 43)  Global search header bar.  
+Drawer Background  #111C3A  RGB (17, 28, 58)  Global activity log slide -outs.  
+Dialog Background  #1C2A4E  RGB (28, 42, 78)  Standard dialog surface.  
+Input Background  #0B132B  RGB (11, 19, 43)  Global search inputs and unified dropdowns.  
+Disabled Background  #283862  RGB (40, 56, 98)  Inactive controls across standard modules.  
+Hover Background  #283862  RGB (40, 56, 98)  General row hover state.  
+Selected Background  #0C4A6E  25% Opacity  Selected client record or active filter.  
+Border Colors  #283862  RGB (40, 56, 98)  Standard structural dividers.  
+Divider Colors  #3D5280  40% Opacity  Subtle layout splitters.  
+6.3  Typography Colors  
+ 
+Token  Swatch / Hex  RGB / State  Usage  
+Primary Text  #F0F9FF  RGB (240, 249, 255)  Main titles and executive KPI figures.  
+Secondary Text  #BAE6FD  RGB (186, 230, 253)  Subheadings and standard labels.  
+Muted Text  #7DD3FC  60% Opacity  Timestamps and general descriptions.  
+Placeholder Text  #0284C7  60% Opacity  Search bar hints.  
+Disabled Text  #3D5280  RGB (61, 82, 128)  Inactive navigation options.  Token  Swatch / Hex  RGB / State  Usage  
+Hyperlinks  #38BDF8  RGB (56, 189, 248)  Standard clickable links.  
+Icons  #BAE6FD  Default / Active  Global navigation glyphs.  
+6.4  Button Color System  
+ 
+Button Type  State  Background  Text / Icon  Border  
+Primary  Default  #0EA5E9  #FFFFFF  Transparent  
+Primary  Hover  #38BDF8  #FFFFFF  Transparent  
+Primary  Pressed  #0284C7  #FFFFFF  Transparent  
+Primary  Disabled  #283862  #7DD3FC (40%)  Transparent  
+Secondary  Default  #283862  #F0F9FF  #3D5280  
+Secondary  Hover  #3D5280  #FFFFFF  #38BDF8  
+Outlined  Default  Transparent  #0EA5E9  #0EA5E9  
+Outlined  Hover  #0EA5E9 (15%)  #38BDF8  #38BDF8  
+6.5  Card & Table Styling  
+Card Styling: General Information Cards: Background #1C2A4E, Border #283862 (1px), Corner Radius 12px. Summary / 
+Executive Cards: Background Gradient LinearGradient(135deg, #1C2A4E 0%, #0C4A6E 100%), Border #0EA5E9 (30% 
+Opacity). Hover States: Background e levates to #283862, Border transitions to #0EA5E9 (60% Opacity), Box Shadow 0 
+8px 24px rgba(14, 165, 233, 0.3).  
+Table Styling: Table Header: Background #111C3A, Text #BAE6FD, Font Weight SemiBold, Bottom Border #0EA5E9 
+(2px). Table Body Rows: Background #1C2A4E, Alternate Row Background #172342. Row Interactions: Hover 
+Background #283862, Selected Row #0EA5E9 (20% O pacity) with Left Accent Border #0EA5E9 (3px).  
+6.6  Navigation, Badges & Progress Indicators  
+Side Nav Selected Item: Background LinearGradient(90deg, rgba(14,165,233,0.25) 0% to rgba(14,165,233,0.05) 
+100%), Left Bar #0EA5E9 (4px), Text/Icon #38BDF8. Global Module Badges: Module identification tags use #0EA5E9 at 
+20% Opacity with #38BDF8 text and # 0EA5E9 border. Progress Indicators: Global loading bars fill with #0EA5E9, track 
+#283862.  
+6.7  Charts Palette  
+ 
+Series  Data Represented  Swatch / Hex  Name  
+Primary Series  Audit Metrics  #3B82F6  Audit Blue  
+Secondary Series  Secretarial Metrics  #10B981  Secretarial Green  
+Third Series  Tax Metrics  #F59E0B  Tax Gold  
+Fourth Series  Firm Revenue  #0EA5E9  Executive Sky  
+Fifth Series  Overhead Costs  #4F46E5  Analytical Indigo  
+ Part III: Global Design System Standards  
+6. Status Colors (Universal Across All Roles)  
+To maintain operational safety and prevent ambiguity during statutory compliance, all status indicators adhere to a 
+strict, universal color vocabulary across all role modules.  
+ 
+Status Category  Standard States  Swatch / Hex  Background (20%)  Text / Border  Usage Guidelines  
+Success / Positive  Active, Completed, Approved, Paid, 
+In Good Standing  #10B981  rgba(16,185,129,0.20)  #34D399 / 
+#10B981  Applied to successful statutory filings, 
+completed audit sign -offs, verified BOI 
+documents, and paid tax invoices.  
+Warning / Attention  Pending, Processing, Expired, 
+Overdue, Unpaid  #F59E0B  rgba(245,158,11,0.20)  #FBBF24 / 
+#F59E0B  Used for items requiring timely human 
+intervention, upcoming tax deadlines (<30 
+days), processing calculations, and unpaid 
+billing records.  
+Danger / Negative  Rejected, Cancelled, Suspended, 
+Blacklisted, Overdue (>60d)  #EF4444  rgba(239,68,68,0.20)  #F87171 / 
+#EF4444  Strictly reserved for statutory rejections, 
+failed internal controls, blacklisted client 
+entities, suspended user accounts, and 
+critical system errors.  
+Information / 
+Neutral  Draft, Under Review, Archived, 
+System Info  #3B82F6  rgba(59,130,246,0.20)  #60A5FA / 
+#3B82F6  Used for initial document drafts, non -
+critical notifications, general informational 
+guidance, and archived compliance records.  
+ Part IV: Design Tokens & Implementation Reference  
+21. Design Tokens Scale  
+21.1  Comprehensive 50 –900 Color Scales  
+To facilitate clean implementation in modern CSS styling or Avalonia XAML Resource Dictionaries, the following 
+systematic luminance scales define the exact tonal variations for each role theme.  
+Administrator Core Blue (Admin -CoreBlue -*) 
+50 100 200 300 400 
+#EFF6FF  #DBEAFE  #BFDBFE  #93C5FD  #60A5FA  
+ 
+500* 600 700 800 900 
+#3B82F6  #2563EB  #1D4ED8  #1E40AF  #1E3A8A  
+Audit Analytical Indigo (Audit -Indigo -*) 
+50 100 200 300 400 
+#EEF2FF  #E0E7FF  #C7D2FE  #A5B4FC  #818CF8  
+ 
+500* 600 700 800 900 
+#4F46E5  #4338CA  #3730A3  #312E81  #1E1B4B  
+Secretarial Emerald (Sec -Emerald -*) 
+50 100 200 300 400 
+#ECFDF5  #D1FAE5  #A7F3D0  #6EE7B7  #34D399  
+ 
+500* 600 700 800 900 
+#10B981  #059669  #047857  #065F46  #064E3B  
+Tax Amber (Tax -Amber -*) 
+50 100 200 300 400 
+#FFFBEB  #FEF3C7  #FDE68A  #FCD34D  #FBBF24  
+ 
+500* 600 700 800 900 
+#F59E0B  #D97706  #B45309  #92400E  #78350F  
+All Roles Sky (General -Sky-*) 
+50 100 200 300 400 
+#F0F9FF  #E0F2FE  #BAE6FD  #7DD3FC  #38BDF8  
+ 
+500* 600 700 800 900 #0EA5E9  #0284C7  #0369A1  #075985  #0C4A6E  
+* denotes the Primary token for the role.  
+18. Shadows & Elevation  
+In an exclusive Dark Mode architecture, traditional drop shadows are less perceptible against dark navy surfaces. 
+Therefore, AATS utilizes a dual -elevation strategy combining Luminance Step -Up (lighter card backgrounds for higher 
+elevation) with Alpha -Blen ded Accent Glows.  
+ 
+Elevation Level  Surface Background  Shadow / Glow Token  Recommended Usage  
+Level 0 (Flat)  Base Workspace Background  None Application shell background, document desk 
+surface.  
+Level 1 (Card)  Card Surface (*Bg)  0 4px 12px rgba(0,0,0,0.35)  Standard information cards, table containers, 
+form sections.  
+Level 2 (Hover/Raised)  Elevated Surface (*HoverBg)  0 8px 24px rgba(0,0,0,0.50), 0 0 0 1px 
+[RolePrimary -500] (30% alpha)  Interactive card hover states, active dragging 
+rows, summary widgets.  
+Level 3 (Overlay/Drawer)  Drawer Surface (*DrawerBg)  -8px 0 32px rgba(0,0,0,0.70), 0 0 12px 
+[RolePrimary -500] (15% alpha)  Slide -out inspection drawers, notification flyout 
+panels.  
+Level 4 (Modal Dialog)  Dialog Surface (*DialogBg)  0 16px 48px rgba(0,0,0,0.85), 0 0 0 2px 
+[RolePrimary -500] (50% alpha)  Confirmation modal dialogs, critical error 
+popups, lightbox document previews.  
+19. Transparency & Opacity Tokens  
+To ensure uniform visual rendering across Avalonia UI and CSS transparency rendering, the following standard alpha 
+tokens must be applied:  
+ 
+Semantic Token  Alpha %  Hex Alpha Suffix  Intended Application  
+Opacity -Hover  15% 26 Subtle background tint when hovering over outlined buttons, table rows, or 
+interactive list items.  
+Opacity -Selection  25% 40 Active row selection in data grids, selected side navigation tab background.  
+Opacity -Disabled  40% 66 Disabled button text, inactive form icon prefixes, unselected breadcrumb 
+text. 
+Opacity -BadgeBg  20% 33 Background fill for status pills, category tags, and priority badges.  
+Opacity -BorderGlow  35% 59 Focus state outer glow ring around active input text fields and dropdowns.  
+Opacity -ModalOverlay  75% BF Pure black (#000000BF) backdrop overlay behind Level 4 modal dialogs.  
+20. Accessibility Standards  
+The AATS Role -Based Color System strictly enforces compliance with WCAG 2.1 Level AA standards, with critical 
+financial data elements achieving Level AAA performance.  
+Contrast Ratios  
+● Primary Text on Backgrounds: All primary text (#F8FAFC, #F0FDF4, etc.) against base surfaces exceeds a 12:1 
+contrast ratio (well above the 4.5:1 AA requirement).  
+● Secondary Text on Cards: Secondary labels (#94A3B8, etc.) maintain a minimum 7.2:1 contrast ratio.  
+● Interactive Button Text: Primary button text (#FFFFFF or dark #064E3B / #451A03) against primary role fills 
+(#3B82F6, #10B981, #F59E0B, #4F46E5) guarantees a minimum 4.8:1 ratio.  
+Color Blindness Accommodation (Deuteranopia & Protanopia)  ● Workflow states never rely on color alone. Every status indicator pairs a distinct color with an explicit text 
+label, structured badge border, and unique iconography (e.g., checkmark for Approved, alert triangle for 
+Overdue, ban sign for Rejected).  
+Font Visibility & Legibility  
+● In Dark Mode, font weights below Regular (400) are prohibited for body text to prevent background bleeding. 
+Numerical financial tables must utilize tabular monospaced figures with SemiBold (600) headers to maximize 
+rapid character recognition.  
+ Part V: Component Usage Matrix & Theme Comparison  
+22. Component Usage Matrix  
+ 
+UI Component  Target Color Token / Definition  Purpose & Functional Rule  
+Top Header Shell  TopNavigationBg (#0A0F1A / #0C0A20 / #061814 / #1A140A 
+/ #0B132B)  Anchors the top application workspace; remains 
+stationary during module scrolling.  
+Side Navigation Shell  SideNavigationBg (#020617 / #070614 / #030D0B / #120E07 
+/ #050B1A)  Houses primary module routing; provides maximum 
+depth contrast against main workspace.  
+Side Nav Active Tab  LinearGradient(90deg, [RolePrimary -500] 25% to 
+transparent) + Left Bar 4px  Immediately identifies the active operational module 
+without overwhelming the sidebar.  
+Primary Action Button  RolePrimary -500 Background, TextPrimary or high -
+contrast dark text  Triggers the primary form submission, audit 
+verification, or tax filing action.  
+Secondary Action Button  ElevatedCardBg Background, RolePrimary -500 Border (1px)  Provides non -destructive secondary actions (Save 
+Draft, Export PDF, Cancel).  
+Data Grid Header  SecondaryBg Background, SecondaryText Text, 
+RolePrimary -500 Bottom Border (2px)  Demarcates table structure and establishes column 
+sorting context.  
+Data Grid Selected Row  RolePrimary -500 at 20% Opacity Background, Left Border 
+3px Highlights the record currently selected for inspection 
+in detail drawers or split views.  
+KPI / Summary Card  LinearGradient(135deg, [ElevatedCardBg] to 
+[RolePrimary -900])  Draws visual emphasis to top -level analytical metrics 
+and executive KPI summaries.  
+Form Text Input (Focus)  InputBg Background, RolePrimary -500 Border (2px) + 3px 
+Outer Glow  Guides user focus during high -precision financial and 
+numerical data entry.  
+Modal Dialog Header  DialogBg Surface with RolePrimary -500 Top Accent Bar 
+(4px)  Frames critical workflow interruptions, confirmation 
+prompts, and statutory sign -offs. 
+23. Theme Comparison Table  
+ 
+Design Element  Administrator  Audit & Assurance  Secretarial  Tax Filing  All Roles  
+Primary Theme Color  #3B82F6  #4F46E5  #10B981  #F59E0B  #0EA5E9  
+Accent / Highlight  #38BDF8  #A5B4FC  #6EE7B7  #FDE68A  #7DD3FC  
+Workspace Background  #0A1931  #0C0A20  #061814  #1A140A  #0B132B  
+Card / Surface  #151E2E  #1C193E  #0F2922  #2B2113  #1C2A4E  
+Side Navigation Bg  #020617  #070614  #030D0B  #120E07  #050B1A  
+Primary Text Color  #F8FAFC  #F8FAFC  #F0FDF4  #FFFBEB  #F0F9FF  
+Primary Chart Line  #3B82F6  #4F46E5  #10B981  #F59E0B  #0EA5E9  
+Active Tab Border  #3B82F6  #4F46E5  #10B981  #F59E0B  #0EA5E9  
+ Part VI: Governance & Future Expansion  
+24. Future Expansion Guidelines  
+As the Nexora AATS application suite expands to incorporate new specialized professional modules (such as Forensic 
+Accounting, Wealth & Asset Management, or International Transfer Pricing), future design implementations must 
+strictly adhere to the followin g governance protocol:  
+1. Tonal Separation Protocol  
+● Any new module must select a primary color hue (H in HSL) that is separated by at least 30 degrees on the 
+color wheel from all existing primary hues (Admin Core Blue 217°, Audit Indigo 244°, Secretarial Green 161°, 
+Tax Amber 38°, General Sky 199°).  
+● Example: A future Forensic Accounting module should utilize a Deep Crimson / Rose identity (#E11D48 / HSL 
+347°), while a Wealth Management module should utilize a Statutory Cyan / Teal identity (#06B6D4 / HSL 
+189°).  
+2. Luminance & Saturation Locking  
+● To maintain visual harmony across the Dark Mode workspace, new primary colors must maintain an HSL 
+Saturation between 75% and 90% and a Luminance between 45% and 55% for their base 500 token.  
+● Background surfaces (PrimaryBackground, CardBg) must never use pure black or unrelated hues; they must 
+be derived by tinting a pure dark slate (#020617) with exactly 4% to 6% of the module's primary hue.  
+3. Strict Inheritance of Universal Status Semantics  
+● Future modules are strictly prohibited from altering or overriding the universal status colors defined in 
+Section 6. A success milestone in Wealth Management must use the exact same Emerald Green (#10B981) as 
+an audit verification in Audit & Assurance.  
+4. Implementation via Dynamic Token Binding  
+● In Avalonia XAML or CSS root declarations, new themes must be instantiated by defining a new 
+<ResourceDictionary x:Key="Theme_NewModuleName"> that maps the module's specific 50 –900 color 
+tokens to the standardized semantic property names (RolePrimary -500, AppBackground, ElevatedCardBg, 
+etc.), ensuring zero code refactoring is required in core UI components.  
+— End of Design Specification – Nexora AATS v4.3.0 — 
