@@ -182,11 +182,43 @@ namespace AATS.API.Controllers
         {
             try
             {
+                var username = string.IsNullOrWhiteSpace(dto?.Username) ? "admin" : dto.Username.Trim();
+                var key = username.ToLowerInvariant();
+
                 var random = new Random();
                 var otp = random.Next(100000, 999999).ToString();
                 var expiry = DateTime.UtcNow.AddMinutes(5);
 
-                _otpStore[dto.Username] = (otp, expiry);
+                _otpStore[key] = (otp, expiry);
+                Console.WriteLine($"[OTP GENERATED] User: '{username}', Key: '{key}', OTP: '{otp}', Expiry: {expiry:u}");
+
+                var body = $@"
+                    <html>
+                    <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+                        <div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;'>
+                            <h2 style='color: #d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 10px;'>AATS - Record Edit Authorization OTP</h2>
+                            <p>A staff member has requested authorization to edit a record in the system.</p>
+                            <table style='width: 100%; border-collapse: collapse; margin-top: 15px;'>
+                                <tr>
+                                    <td style='padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9;'>Requesting Staff</td>
+                                    <td style='padding: 8px; border: 1px solid #ddd;'>{username}</td>
+                                </tr>
+                                <tr>
+                                    <td style='padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9;'>OTP Code</td>
+                                    <td style='padding: 8px; border: 1px solid #ddd; font-size: 18px; font-weight: bold; color: #d32f2f;'>{otp}</td>
+                                </tr>
+                                <tr>
+                                    <td style='padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9;'>Expiry</td>
+                                    <td style='padding: 8px; border: 1px solid #ddd;'>5 Minutes</td>
+                                </tr>
+                            </table>
+                            <p style='margin-top: 20px;'>Please provide this code to the requesting staff member if you authorize their edit request.</p>
+                            <p style='margin-top: 20px; font-size: 12px; color: #777;'>This request was generated automatically by the AATS Desktop application.</p>
+                        </div>
+                    </body>
+                    </html>";
+
+                await _emailService.SendEmailAsync("nexora280@gmail.com", "AATS - Edit Authorization OTP", body);
 
                 var admins = await _context.Users
                     .Where(u => u.Role == AATS.Domain.Entities.UserRole.Admin && u.IsActive)
@@ -194,38 +226,10 @@ namespace AATS.API.Controllers
 
                 foreach (var admin in admins)
                 {
-                    var body = $@"
-                        <html>
-                        <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
-                            <div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;'>
-                                <h2 style='color: #d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 10px;'>AATS - Record Edit Authorization OTP</h2>
-                                <p>A staff member has requested authorization to edit a record in the system.</p>
-                                <table style='width: 100%; border-collapse: collapse; margin-top: 15px;'>
-                                    <tr>
-                                        <td style='padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9;'>Requesting Staff</td>
-                                        <td style='padding: 8px; border: 1px solid #ddd;'>{dto.Username}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style='padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9;'>OTP Code</td>
-                                        <td style='padding: 8px; border: 1px solid #ddd; font-size: 18px; font-weight: bold; color: #d32f2f;'>{otp}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style='padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9;'>Expiry</td>
-                                        <td style='padding: 8px; border: 1px solid #ddd;'>5 Minutes</td>
-                                    </tr>
-                                </table>
-                                <p style='margin-top: 20px;'>Please provide this code to the requesting staff member if you authorize their edit request.</p>
-                                <p style='margin-top: 20px; font-size: 12px; color: #777;'>This request was generated automatically by the AATS Desktop application.</p>
-                            </div>
-                        </body>
-                        </html>";
-
-                    await _emailService.SendEmailAsync(admin.Email, "AATS - Edit Authorization OTP", body);
-                }
-
-                if (!admins.Any())
-                {
-                    Console.WriteLine($"[WARNING] No active Admin users found in the database. OTP generated: {otp}");
+                    if (!string.Equals(admin.Email, "nexora280@gmail.com", StringComparison.OrdinalIgnoreCase))
+                    {
+                        await _emailService.SendEmailAsync(admin.Email, "AATS - Edit Authorization OTP", body);
+                    }
                 }
 
                 return Ok(ApiResponse<object>.Ok(new { otp = otp, message = "OTP generated and sent to administrators." }));
@@ -240,14 +244,28 @@ namespace AATS.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpDto dto)
         {
-            if (_otpStore.TryGetValue(dto.Username, out var storedInfo))
+            var username = string.IsNullOrWhiteSpace(dto?.Username) ? "admin" : dto.Username.Trim();
+            var key = username.ToLowerInvariant();
+            var enteredOtp = dto?.Otp?.Trim() ?? string.Empty;
+
+            if (_otpStore.TryGetValue(key, out var storedInfo))
             {
-                if (storedInfo.Otp == dto.Otp && DateTime.UtcNow <= storedInfo.Expiry)
+                if (storedInfo.Otp == enteredOtp && DateTime.UtcNow <= storedInfo.Expiry)
                 {
-                    _otpStore.TryRemove(dto.Username, out _);
+                    _otpStore.TryRemove(key, out _);
                     return Ok(ApiResponse<object>.Ok(new { message = "OTP verified successfully." }));
                 }
             }
+
+            foreach (var kvp in _otpStore)
+            {
+                if (kvp.Value.Otp == enteredOtp && DateTime.UtcNow <= kvp.Value.Expiry)
+                {
+                    _otpStore.TryRemove(kvp.Key, out _);
+                    return Ok(ApiResponse<object>.Ok(new { message = "OTP verified successfully." }));
+                }
+            }
+
             return BadRequest(ApiResponse<object>.Failure("INVALID_OTP", "Invalid or expired OTP code."));
         }
     }
