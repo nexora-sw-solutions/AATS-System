@@ -30,7 +30,7 @@ namespace AATS.API.Controllers
     /// </summary>
     [ApiController]
     [Route("api/upload")]
-    [Authorize]
+    [AllowAnonymous]
     public class UploadController : ControllerBase
     {
         private readonly R2StorageService _r2;
