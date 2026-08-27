@@ -23,6 +23,7 @@ namespace AATS.Infrastructure.Services
         private readonly string _sourceDocsFolder;
         private readonly string _publicBaseUrl;
         private readonly bool _isConfigured;
+        private readonly string _localStoragePath;
 
         public R2StorageService(IConfiguration configuration)
         {
@@ -32,6 +33,8 @@ namespace AATS.Infrastructure.Services
 
             _bucketName = configuration["CloudflareR2:BucketName"] ?? "aats";
             _sourceDocsFolder = configuration["CloudflareR2:SourceDocsFolder"] ?? "Audit & assurance source docs";
+
+            _localStoragePath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "uploads");
 
             if (!string.IsNullOrWhiteSpace(accountId) &&
                 !string.IsNullOrWhiteSpace(accessKey) &&
@@ -60,10 +63,10 @@ namespace AATS.Infrastructure.Services
             }
             else
             {
-                _publicBaseUrl = "";
+                _publicBaseUrl = "/uploads";
                 _s3Client = null;
                 _isConfigured = false;
-                Console.WriteLine("[R2StorageService Warning] Cloudflare R2 credentials not configured. R2 storage features will be disabled.");
+                Console.WriteLine("[R2StorageService Warning] Cloudflare R2 credentials not configured. Falling back to local disk storage.");
             }
         }
 
@@ -71,7 +74,7 @@ namespace AATS.Infrastructure.Services
         public bool IsConfigured => _isConfigured;
 
         /// <summary>
-        /// Uploads a stream to R2 under the given object key.
+        /// Uploads a stream to R2 or local disk storage under the given object key.
         /// Returns the public URL of the uploaded file.
         /// </summary>
         public async Task<R2UploadResult> UploadAsync(
@@ -80,13 +83,6 @@ namespace AATS.Infrastructure.Services
             string contentType,
             string folder = "")
         {
-            if (!_isConfigured || _s3Client == null)
-            {
-                throw new InvalidOperationException("Cloudflare R2 storage is not configured or disabled on this server.");
-            }
-
-            // R2 requires the full content in a seekable MemoryStream with chunk encoding disabled.
-            // Read into memory first so we can get the exact length and disable chunked signing.
             byte[] fileBytes;
             using (var ms = new MemoryStream())
             {
@@ -101,54 +97,96 @@ namespace AATS.Infrastructure.Services
                                     .Replace("/", "_")
                                     .Replace("\\", "_");
             var ext = Path.GetExtension(fileName);
-            var uniqueKey = string.IsNullOrWhiteSpace(folder)
+            var relativeKey = string.IsNullOrWhiteSpace(folder)
                 ? $"{sanitizedName}_{Guid.NewGuid():N}{ext}"
                 : $"{folder.TrimEnd('/')}/{sanitizedName}_{Guid.NewGuid():N}{ext}";
 
-            using var uploadStream = new MemoryStream(fileBytes);
-
-            var request = new PutObjectRequest
+            if (_isConfigured && _s3Client != null)
             {
-                BucketName       = _bucketName,
-                Key              = uniqueKey,
-                InputStream      = uploadStream,
-                ContentType      = contentType,
-                // R2 does NOT support STREAMING-AWS4-HMAC-SHA256-PAYLOAD-TRAILER.
-                // UseChunkEncoding=false forces a standard signed PUT instead.
-                UseChunkEncoding = false
-            };
+                using var uploadStream = new MemoryStream(fileBytes);
+                var request = new PutObjectRequest
+                {
+                    BucketName       = _bucketName,
+                    Key              = relativeKey,
+                    InputStream      = uploadStream,
+                    ContentType      = contentType,
+                    UseChunkEncoding = false
+                };
 
-            await _s3Client.PutObjectAsync(request);
+                await _s3Client.PutObjectAsync(request);
 
-            return new R2UploadResult
+                return new R2UploadResult
+                {
+                    FileName    = fileName,
+                    Url         = $"{_publicBaseUrl}/{relativeKey}",
+                    FileSize    = fileSize,
+                    Description = "Uploaded document"
+                };
+            }
+            else
             {
-                FileName    = fileName,
-                Url         = $"{_publicBaseUrl}/{uniqueKey}",
-                FileSize    = fileSize,
-                Description = "Uploaded document"
-            };
+                // Local disk storage fallback
+                var targetFilePath = Path.Combine(_localStoragePath, relativeKey.Replace('/', Path.DirectorySeparatorChar));
+                var targetDirectory = Path.GetDirectoryName(targetFilePath);
+
+                if (!string.IsNullOrEmpty(targetDirectory) && !Directory.Exists(targetDirectory))
+                {
+                    Directory.CreateDirectory(targetDirectory);
+                }
+
+                await File.WriteAllBytesAsync(targetFilePath, fileBytes);
+
+                return new R2UploadResult
+                {
+                    FileName    = fileName,
+                    Url         = $"/uploads/{relativeKey}",
+                    FileSize    = fileSize,
+                    Description = "Uploaded document (local storage)"
+                };
+            }
         }
 
         /// <summary>
-        /// Deletes an object from R2 by its full public URL.
+        /// Deletes an object from R2 or local disk storage by its full public URL.
         /// </summary>
         public async Task DeleteAsync(string publicUrl)
         {
-            if (!_isConfigured || _s3Client == null || string.IsNullOrWhiteSpace(publicUrl)) return;
+            if (string.IsNullOrWhiteSpace(publicUrl)) return;
 
-            try
+            if (_isConfigured && _s3Client != null)
             {
-                // Extract the object key from the URL
-                var key = publicUrl.Replace(_publicBaseUrl + "/", "");
-                await _s3Client.DeleteObjectAsync(new DeleteObjectRequest
+                try
                 {
-                    BucketName = _bucketName,
-                    Key        = key
-                });
+                    var key = publicUrl.Replace(_publicBaseUrl + "/", "");
+                    await _s3Client.DeleteObjectAsync(new DeleteObjectRequest
+                    {
+                        BucketName = _bucketName,
+                        Key        = key
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[R2StorageService Warning] Failed to delete object {publicUrl}: {ex.Message}");
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"[R2StorageService Warning] Failed to delete object {publicUrl}: {ex.Message}");
+                try
+                {
+                    var relativePath = publicUrl.StartsWith("/uploads/")
+                        ? publicUrl.Substring("/uploads/".Length)
+                        : publicUrl;
+                    var localPath = Path.Combine(_localStoragePath, relativePath.Replace('/', Path.DirectorySeparatorChar));
+
+                    if (File.Exists(localPath))
+                    {
+                        File.Delete(localPath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[R2StorageService Warning] Failed to delete local file {publicUrl}: {ex.Message}");
+                }
             }
         }
     }
