@@ -11,5 +11,6 @@ namespace AATS.Desktop.Models
         [ObservableProperty] private string _description = string.Empty;
         [ObservableProperty] private bool _isExisting = true;
         [ObservableProperty] private string _imagePath = "avares://AATS.Desktop/Assets/New%20Logo.png";
+        [ObservableProperty] private string _url = string.Empty;
     }
 }

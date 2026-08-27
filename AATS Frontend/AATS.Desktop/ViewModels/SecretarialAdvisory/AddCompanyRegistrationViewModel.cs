@@ -545,6 +545,44 @@ public partial class AddCompanyRegistrationViewModel : ViewModelBase
                 uploadedDocs.Add(new SourceDocument { FileName = System.IO.Path.GetFileName(NicFileName), Url = NicFileName, Description = "NIC Document" });
             }
 
+            var uploadedForm01 = new List<SourceDocument>();
+            foreach (var doc in Form01Attachments)
+            {
+                if (!string.IsNullOrEmpty(doc.Url) && System.IO.File.Exists(doc.Url))
+                {
+                    var uploaded = await ApiService.Instance.UploadDocumentsAsync(new List<string> { doc.Url }, "Company Registration", tempId);
+                    if (uploaded != null && uploaded.Count > 0) uploadedForm01.Add(uploaded[0]);
+                    else uploadedForm01.Add(doc);
+                }
+                else uploadedForm01.Add(doc);
+            }
+
+            var uploadedBoForm = new List<SourceDocument>();
+            foreach (var doc in BoFormAttachments)
+            {
+                if (!string.IsNullOrEmpty(doc.Url) && System.IO.File.Exists(doc.Url))
+                {
+                    var uploaded = await ApiService.Instance.UploadDocumentsAsync(new List<string> { doc.Url }, "Company Registration", tempId);
+                    if (uploaded != null && uploaded.Count > 0) uploadedBoForm.Add(uploaded[0]);
+                    else uploadedBoForm.Add(doc);
+                }
+                else uploadedBoForm.Add(doc);
+            }
+
+            var uploadedForm05 = new List<SourceDocument>();
+            foreach (var doc in Form05Attachments)
+            {
+                if (!string.IsNullOrEmpty(doc.Url) && System.IO.File.Exists(doc.Url))
+                {
+                    var uploaded = await ApiService.Instance.UploadDocumentsAsync(new List<string> { doc.Url }, "Company Registration", tempId);
+                    if (uploaded != null && uploaded.Count > 0) uploadedForm05.Add(uploaded[0]);
+                    else uploadedForm05.Add(doc);
+                }
+                else uploadedForm05.Add(doc);
+            }
+
+            var allSourceDocs = uploadedDocs.Concat(uploadedForm01).Concat(uploadedBoForm).Concat(uploadedForm05).ToList();
+
             if (_isEdit && _originalRecord != null)
             {
                 _originalRecord.ClientCode = ClientId;
@@ -572,15 +610,15 @@ public partial class AddCompanyRegistrationViewModel : ViewModelBase
                 _originalRecord.ChequeStatus = ChequeStatus;
 
                 _originalRecord.Officers = allCharacters;
-                _originalRecord.SourceDocuments = uploadedDocs;
+                _originalRecord.SourceDocuments = allSourceDocs;
 
                 _originalRecord.BoResponsiblePersonName = SelectedBoResponsiblePerson?.Name;
                 _originalRecord.BoResponsiblePersonNicFileName = BoResponsiblePersonNicFileName;
-                _originalRecord.Form01Attachments = Form01Attachments.ToList();
-                _originalRecord.BoFormAttachments = BoFormAttachments.ToList();
-                _originalRecord.Form05Attachments = Form05Attachments.ToList();
+                _originalRecord.Form01Attachments = uploadedForm01;
+                _originalRecord.BoFormAttachments = uploadedBoForm;
+                _originalRecord.Form05Attachments = uploadedForm05;
 
-                await DataService.Instance.UpdateAuditRecordAsync("Secretarial & Advisory", _originalRecord);
+                await DataService.Instance.UpdateAuditRecordAsync("Company Registration", _originalRecord);
             }
             else
             {
@@ -612,15 +650,15 @@ public partial class AddCompanyRegistrationViewModel : ViewModelBase
                     Process = "PENDING",
                     CurrentStep = 1,
                     Officers = allCharacters,
-                    SourceDocuments = uploadedDocs,
+                    SourceDocuments = allSourceDocs,
                     BoResponsiblePersonName = SelectedBoResponsiblePerson?.Name,
                     BoResponsiblePersonNicFileName = BoResponsiblePersonNicFileName,
-                    Form01Attachments = Form01Attachments.ToList(),
-                    BoFormAttachments = BoFormAttachments.ToList(),
-                    Form05Attachments = Form05Attachments.ToList()
+                    Form01Attachments = uploadedForm01,
+                    BoFormAttachments = uploadedBoForm,
+                    Form05Attachments = uploadedForm05
                 };
                 
-                await DataService.Instance.AddAuditRecordAsync("Secretarial & Advisory", newRecord);
+                await DataService.Instance.AddAuditRecordAsync("Company Registration", newRecord);
             }
         }
         catch (Exception ex)

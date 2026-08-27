@@ -51,6 +51,8 @@ namespace AATS.Desktop.ViewModels.SecretarialAdvisory
             OnPropertyChanged(nameof(TotalStaff));
         }
 
+        public Func<System.Threading.Tasks.Task<string[]?>>? RequestFilePicker { get; set; }
+
         private void LoadFromRecord()
         {
             if (Record?.StaffList != null)
@@ -63,13 +65,19 @@ namespace AATS.Desktop.ViewModels.SecretarialAdvisory
             }
             UpdateFilteredStaff();
             
-            // Populate dummy documents for demonstration (frontend only)
-            if (AllDocuments.Count == 0)
+            AllDocuments.Clear();
+            if (Record?.SourceDocuments != null)
             {
-                AllDocuments.Add(new AppDocument { FileName = "Business_Registration_Certificate.pdf", FileSize = "1.2 MB", Category = "BR" });
-                AllDocuments.Add(new AppDocument { FileName = "Form_01_Application.pdf", FileSize = "0.8 MB", Category = "Form 01" });
-                AllDocuments.Add(new AppDocument { FileName = "Articles_of_Association_Signed.pdf", FileSize = "3.4 MB", Category = "Articles of Association" });
-                AllDocuments.Add(new AppDocument { FileName = "Director_NIC_Copy.jpg", FileSize = "1.1 MB", Category = "NIC" });
+                foreach (var doc in Record.SourceDocuments)
+                {
+                    AllDocuments.Add(new AppDocument
+                    {
+                        FileName = doc.FileName,
+                        FileSize = doc.FileSize > 0 ? $"{doc.FileSize / 1024.0:F1} KB" : "Source Document",
+                        Category = SelectedDocumentTab,
+                        Url = doc.Url
+                    });
+                }
             }
             UpdateFilteredDocuments();
         }
@@ -192,17 +200,39 @@ namespace AATS.Desktop.ViewModels.SecretarialAdvisory
         }
 
         [RelayCommand]
-        private void UploadDocument()
+        private async System.Threading.Tasks.Task UploadDocument()
         {
-            var newDoc = new AppDocument
+            if (RequestFilePicker == null) return;
+            var localPaths = await RequestFilePicker.Invoke();
+            if (localPaths == null || localPaths.Length == 0) return;
+
+            var tempId = Record?.ID ?? Guid.NewGuid().ToString();
+            var uploadedDocs = await ApiService.Instance.UploadDocumentsAsync(
+                localPaths.ToList(),
+                "EPF / ETF",
+                tempId
+            );
+
+            if (uploadedDocs != null && uploadedDocs.Count > 0)
             {
-                FileName = $"Uploaded_{SelectedDocumentTab}_{DateTime.Now.Ticks}.pdf",
-                Type = "application/pdf",
-                FileSize = "2.1 MB",
-                Category = SelectedDocumentTab
-            };
-            AllDocuments.Add(newDoc);
-            UpdateFilteredDocuments();
+                if (Record != null)
+                {
+                    Record.SourceDocuments ??= new List<SourceDocument>();
+                    foreach (var doc in uploadedDocs)
+                    {
+                        Record.SourceDocuments.Add(doc);
+                        AllDocuments.Add(new AppDocument
+                        {
+                            FileName = doc.FileName,
+                            FileSize = doc.FileSize > 0 ? $"{doc.FileSize / 1024.0:F1} KB" : "Source Document",
+                            Category = SelectedDocumentTab,
+                            Url = doc.Url
+                        });
+                    }
+                    await DataService.Instance.UpdateAuditRecordAsync("EPF / ETF", Record);
+                }
+                UpdateFilteredDocuments();
+            }
         }
 
         [RelayCommand]
