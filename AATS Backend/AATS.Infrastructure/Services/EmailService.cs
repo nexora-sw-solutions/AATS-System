@@ -25,15 +25,18 @@ namespace AATS.Infrastructure.Services
             try
             {
                 var smtpSection = _configuration.GetSection("Smtp");
-                var host = smtpSection["Host"];
-                var portStr = smtpSection["Port"];
-                var enableSslStr = smtpSection["EnableSsl"];
+                var host = smtpSection["Host"] ?? "smtp.gmail.com";
+                var portStr = smtpSection["Port"] ?? "587";
+                var enableSslStr = smtpSection["EnableSsl"] ?? "true";
                 var username = smtpSection["Username"];
                 var password = smtpSection["Password"];
-                var fromEmail = smtpSection["FromEmail"] ?? "nexora280@gmail.com";
+                var fromEmail = smtpSection["FromEmail"];
                 var fromName = smtpSection["FromName"] ?? "AATS System";
 
-                // Save email to a local temp folder as fallback/diagnostic verification
+                if (string.IsNullOrWhiteSpace(fromEmail)) fromEmail = username;
+                if (string.IsNullOrWhiteSpace(fromEmail)) fromEmail = "nexora280@gmail.com";
+
+                // Save email to local diagnostic folder as fallback/verification
                 try
                 {
                     var tempDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sent_emails");
@@ -44,28 +47,22 @@ namespace AATS.Infrastructure.Services
                     var fileName = $"{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid().ToString().Substring(0, 8)}.html";
                     var filePath = Path.Combine(tempDir, fileName);
                     await File.WriteAllTextAsync(filePath, body);
-                    _logger.LogInformation("Saved a diagnostic copy of the email to local file: {FilePath}", filePath);
+                    Console.WriteLine($"[EmailService Diagnostic] Saved copy of email to: {filePath}");
                 }
                 catch (Exception fileEx)
                 {
                     _logger.LogWarning(fileEx, "Failed to save a local diagnostic copy of the email.");
                 }
 
-                if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                if (string.IsNullOrWhiteSpace(host) || string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 {
-                    _logger.LogWarning("SMTP is not fully configured in appsettings.json. Email dispatch bypassed. Logged email body: {Body}", body);
+                    Console.WriteLine($"[EmailService Warning] SMTP credentials (Username/Password) are not configured in appsettings.json. Email dispatch skipped. (Local copy saved to sent_emails)");
+                    _logger.LogWarning("SMTP is not fully configured in appsettings.json. Email dispatch bypassed for recipient {To}.", to);
                     return;
                 }
 
-                if (!int.TryParse(portStr, out var port))
-                {
-                    port = 587;
-                }
-
-                if (!bool.TryParse(enableSslStr, out var enableSsl))
-                {
-                    enableSsl = true;
-                }
+                if (!int.TryParse(portStr, out var port)) port = 587;
+                if (!bool.TryParse(enableSslStr, out var enableSsl)) enableSsl = true;
 
                 using (var mailMessage = new MailMessage())
                 {
@@ -79,16 +76,20 @@ namespace AATS.Infrastructure.Services
                     {
                         smtpClient.Credentials = new NetworkCredential(username, password);
                         smtpClient.EnableSsl = enableSsl;
+                        smtpClient.Timeout = 15000; // 15 seconds timeout
 
-                        _logger.LogInformation("Sending password reset email to {Recipient} via SMTP host {Host}.", to, host);
+                        _logger.LogInformation("Sending email to {Recipient} via SMTP host {Host}:{Port}...", to, host, port);
+                        Console.WriteLine($"[EmailService] Sending email to {to} via {host}:{port}...");
                         await smtpClient.SendMailAsync(mailMessage);
-                        _logger.LogInformation("Password reset email sent successfully.");
+                        Console.WriteLine($"[EmailService Success] Email successfully sent to {to}.");
+                        _logger.LogInformation("Email sent successfully to {Recipient}.", to);
                     }
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to send password reset email due to SMTP connection or credentials error. Swallowing exception to prevent application crash.");
+                Console.WriteLine($"[EmailService Error] Failed to send email to {to}: {ex.Message}");
+                _logger.LogError(ex, "Failed to send email to {Recipient}", to);
             }
         }
     }
