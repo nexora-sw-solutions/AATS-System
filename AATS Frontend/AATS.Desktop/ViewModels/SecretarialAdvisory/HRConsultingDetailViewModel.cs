@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AATS.Desktop.Models;
 using AATS.Desktop.Services;
 
@@ -41,11 +42,17 @@ public partial class HRConsultingDetailViewModel : DetailViewModelBase
     [CommunityToolkit.Mvvm.Input.RelayCommand]
     private void PreviewDocument(object parameter)
     {
-        if (parameter is AppDocument doc && !string.IsNullOrEmpty(doc.ImagePath))
+        string? target = null;
+        if (parameter is AppDocument doc) target = !string.IsNullOrEmpty(doc.Url) ? doc.Url : doc.ImagePath;
+        else if (parameter is SourceDocument srcDoc) target = srcDoc.Url;
+        else if (parameter is string str) target = str;
+
+        if (!string.IsNullOrEmpty(target))
         {
+            string fullUrl = ApiService.GetFullDocumentUrl(target);
             try
             {
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(doc.ImagePath) { UseShellExecute = true });
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(fullUrl) { UseShellExecute = true });
             }
             catch (Exception ex)
             {
@@ -57,25 +64,52 @@ public partial class HRConsultingDetailViewModel : DetailViewModelBase
     [CommunityToolkit.Mvvm.Input.RelayCommand]
     public async System.Threading.Tasks.Task DownloadDocument(AppDocument doc)
     {
-        if (doc != null && !string.IsNullOrEmpty(doc.ImagePath))
+        if (doc != null)
         {
             try
             {
-                string target = doc.ImagePath;
-                if (target.StartsWith("http://", System.StringComparison.OrdinalIgnoreCase) || 
-                    target.StartsWith("https://", System.StringComparison.OrdinalIgnoreCase))
+                string target = !string.IsNullOrEmpty(doc.Url) ? doc.Url : doc.ImagePath;
+                if (!string.IsNullOrEmpty(target))
                 {
+                    string fullUrl = ApiService.GetFullDocumentUrl(target);
                     var fileName = doc.FileName ?? "downloaded_file";
-                    await ApiService.Instance.DownloadDocumentAsync(target, fileName);
-                    NotificationService.Instance.AddNotification("Downloaded", $"'{fileName}' saved to Downloads.");
+                    if (fullUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                    {
+                        await ApiService.Instance.DownloadDocumentAsync(fullUrl, fileName);
+                        NotificationService.Instance.AddNotification("Downloaded", $"'{fileName}' saved to Downloads.");
+                    }
+                    else if (System.IO.File.Exists(fullUrl))
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(fullUrl) { UseShellExecute = true });
+                    }
                 }
             }
             catch (Exception ex)
             {
                 NotificationService.Instance.AddNotification("Error", $"Could not download file: {ex.Message}");
-                System.Diagnostics.Debug.WriteLine($"[ERROR] Failed to download document: {ex.Message}");
             }
         }
+    }
+
+    [CommunityToolkit.Mvvm.Input.RelayCommand]
+    private void DeleteDocument(AppDocument doc)
+    {
+        if (doc == null) return;
+        ConfirmDialogTitle = "Delete Document?";
+        ConfirmDialogMessage = $"Are you sure you want to delete '{doc.FileName}'?";
+        ConfirmActionDelegate = async () =>
+        {
+            FilteredDocuments.Remove(doc);
+            if (Record != null && Record.SourceDocuments != null)
+            {
+                var match = Record.SourceDocuments.FirstOrDefault(d => d.FileName == doc.FileName || d.Url == doc.Url);
+                if (match != null) Record.SourceDocuments.Remove(match);
+                await DataService.Instance.UpdateAuditRecordAsync("HR and Management Consulting", Record);
+                NotificationService.Instance.AddNotification("Success", "Document deleted.");
+            }
+            IsConfirmDialogVisible = false;
+        };
+        IsConfirmDialogVisible = true;
     }
 
     protected override void InitializeSteps()

@@ -851,51 +851,69 @@ namespace AATS.Desktop.ViewModels.SecretarialAdvisory
         [RelayCommand]
         private async System.Threading.Tasks.Task PreviewDocument(object parameter)
         {
-            if (parameter is AppDocument doc)
-            {
-                PreviewingFile = doc;
-                string ext = System.IO.Path.GetExtension(doc.FileName ?? doc.ImagePath)?.ToLowerInvariant() ?? "";
-                bool isImage = ext == ".png" || ext == ".jpg" || ext == ".jpeg" || ext == ".gif" || ext == ".bmp";
+            string? pathOrUrl = null;
+            string? fileName = null;
 
-                if (isImage)
+            if (parameter is AppDocument appDoc)
+            {
+                pathOrUrl = !string.IsNullOrWhiteSpace(appDoc.Url) ? appDoc.Url : appDoc.ImagePath;
+                fileName = appDoc.FileName;
+                PreviewingFile = appDoc;
+            }
+            else if (parameter is SourceDocument srcDoc)
+            {
+                pathOrUrl = srcDoc.Url;
+                fileName = srcDoc.FileName;
+            }
+            else if (parameter is string strParam)
+            {
+                pathOrUrl = strParam;
+            }
+
+            if (string.IsNullOrWhiteSpace(pathOrUrl)) return;
+
+            string fullUrl = ApiService.GetFullDocumentUrl(pathOrUrl);
+            string ext = System.IO.Path.GetExtension(fileName ?? fullUrl)?.ToLowerInvariant() ?? "";
+            bool isImage = ext == ".png" || ext == ".jpg" || ext == ".jpeg" || ext == ".gif" || ext == ".bmp";
+
+            if (isImage)
+            {
+                try
                 {
-                    try
+                    if (fullUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                        fullUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (doc.ImagePath.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
-                            doc.ImagePath.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var bytes = await ApiService.Instance.Client.GetByteArrayAsync(doc.ImagePath);
-                            using var stream = new System.IO.MemoryStream(bytes);
-                            PreviewImage = new Bitmap(stream);
-                        }
-                        else if (System.IO.File.Exists(doc.ImagePath))
-                        {
-                            using var stream = System.IO.File.OpenRead(doc.ImagePath);
-                            PreviewImage = new Bitmap(stream);
-                        }
-                        else
-                        {
-                            PreviewImage = new Bitmap(AssetLoader.Open(new Uri("avares://AATS.Desktop/Assets/New%20Logo.png")));
-                        }
+                        var bytes = await ApiService.Instance.Client.GetByteArrayAsync(fullUrl);
+                        using var stream = new System.IO.MemoryStream(bytes);
+                        PreviewImage = new Bitmap(stream);
                     }
-                    catch (Exception ex)
+                    else if (System.IO.File.Exists(fullUrl))
                     {
-                        System.Diagnostics.Debug.WriteLine($"[ERROR] Failed to load preview: {ex.Message}");
+                        using var stream = System.IO.File.OpenRead(fullUrl);
+                        PreviewImage = new Bitmap(stream);
+                    }
+                    else
+                    {
                         PreviewImage = new Bitmap(AssetLoader.Open(new Uri("avares://AATS.Desktop/Assets/New%20Logo.png")));
                     }
-                    IsPreviewVisible = true;
                 }
-                else
+                catch (Exception ex)
                 {
-                    // For non-images (like PDF), open in default viewer
-                    try
-                    {
-                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(doc.ImagePath) { UseShellExecute = true });
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"[ERROR] Failed to open document: {ex.Message}");
-                    }
+                    System.Diagnostics.Debug.WriteLine($"[ERROR] Failed to load preview: {ex.Message}");
+                    PreviewImage = new Bitmap(AssetLoader.Open(new Uri("avares://AATS.Desktop/Assets/New%20Logo.png")));
+                }
+                IsPreviewVisible = true;
+            }
+            else
+            {
+                // For non-images (like PDF), open in default viewer or browser
+                try
+                {
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(fullUrl) { UseShellExecute = true });
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[ERROR] Failed to open document: {ex.Message}");
                 }
             }
         }
@@ -920,7 +938,8 @@ namespace AATS.Desktop.ViewModels.SecretarialAdvisory
                     Category = doc.Category,
                     Type = doc.Type,
                     Description = doc.Description,
-                    ImagePath = doc.ImagePath
+                    ImagePath = doc.ImagePath,
+                    Url = doc.Url
                 };
                 
                 _originalEditingSource = doc;
@@ -982,23 +1001,42 @@ namespace AATS.Desktop.ViewModels.SecretarialAdvisory
         [RelayCommand]
         private void DeleteDocument(object parameter)
         {
-            if (parameter is AppDocument doc)
+            AppDocument? docToDelete = parameter as AppDocument;
+            if (docToDelete == null && parameter is string strName)
             {
-                ShowConfirmDialog("Are you sure you want to delete this document?", async () =>
+                docToDelete = AllNicDocuments.FirstOrDefault(x => x.FileName == strName) ??
+                              AllTinFiles.FirstOrDefault(x => x.FileName == strName) ??
+                              AllAttachmentFiles.FirstOrDefault(x => x.FileName == strName) ??
+                              AllProcessDocuments.FirstOrDefault(x => x.FileName == strName);
+            }
+
+            if (docToDelete != null)
+            {
+                ShowConfirmDialog($"Are you sure you want to delete '{docToDelete.FileName}'?", async () =>
                 {
-                    if (AllNicDocuments.Contains(doc))
+                    if (AllNicDocuments.Contains(docToDelete))
                     {
-                        AllNicDocuments.Remove(doc);
+                        AllNicDocuments.Remove(docToDelete);
                         UpdateFilteredNicDocuments();
                     }
-                    else if (AllTinFiles.Contains(doc))
+                    if (AllTinFiles.Contains(docToDelete))
                     {
-                        AllTinFiles.Remove(doc);
+                        AllTinFiles.Remove(docToDelete);
                         UpdateFilteredFiles();
                     }
-                    
+                    if (AllAttachmentFiles.Contains(docToDelete))
+                    {
+                        AllAttachmentFiles.Remove(docToDelete);
+                        UpdateFilteredAttachments();
+                    }
+                    if (AllProcessDocuments.Contains(docToDelete))
+                    {
+                        AllProcessDocuments.Remove(docToDelete);
+                        UpdateFilteredProcessDocuments();
+                    }
+
                     SyncToRecordSourceDocuments();
-                    
+
                     if (Record != null)
                     {
                         try
@@ -1027,7 +1065,7 @@ namespace AATS.Desktop.ViewModels.SecretarialAdvisory
                 Record.SourceDocuments.Add(new SourceDocument
                 {
                     FileName = doc.FileName,
-                    Url = doc.ImagePath,
+                    Url = !string.IsNullOrWhiteSpace(doc.Url) ? doc.Url : doc.ImagePath,
                     Description = "NIC"
                 });
             }
@@ -1037,32 +1075,67 @@ namespace AATS.Desktop.ViewModels.SecretarialAdvisory
                 Record.SourceDocuments.Add(new SourceDocument
                 {
                     FileName = doc.FileName,
-                    Url = doc.ImagePath,
+                    Url = !string.IsNullOrWhiteSpace(doc.Url) ? doc.Url : doc.ImagePath,
                     Description = doc.Category
                 });
             }
+
+            foreach (var doc in AllProcessDocuments)
+            {
+                Record.SourceDocuments.Add(new SourceDocument
+                {
+                    FileName = doc.FileName,
+                    Url = !string.IsNullOrWhiteSpace(doc.Url) ? doc.Url : doc.ImagePath,
+                    Description = $"Process|{doc.Category}|{doc.Type}"
+                });
+            }
+
+            Record.Form01Attachments = AllAttachmentFiles.Where(a => a.Category == "Form 01")
+                .Select(a => new SourceDocument { FileName = a.FileName, Url = !string.IsNullOrWhiteSpace(a.Url) ? a.Url : a.ImagePath }).ToList();
+
+            Record.BoFormAttachments = AllAttachmentFiles.Where(a => a.Category == "BO Form")
+                .Select(a => new SourceDocument { FileName = a.FileName, Url = !string.IsNullOrWhiteSpace(a.Url) ? a.Url : a.ImagePath }).ToList();
+
+            Record.Form05Attachments = AllAttachmentFiles.Where(a => a.Category == "Form 05")
+                .Select(a => new SourceDocument { FileName = a.FileName, Url = !string.IsNullOrWhiteSpace(a.Url) ? a.Url : a.ImagePath }).ToList();
         }
 
         [RelayCommand]
-        public async System.Threading.Tasks.Task DownloadDocument(AppDocument doc)
+        public async System.Threading.Tasks.Task DownloadDocument(object parameter)
         {
-            if (doc == null) return;
-            var target = doc.ImagePath;
-            if (string.IsNullOrWhiteSpace(target)) return;
+            string? pathOrUrl = null;
+            string? fileName = null;
+
+            if (parameter is AppDocument appDoc)
+            {
+                pathOrUrl = !string.IsNullOrWhiteSpace(appDoc.Url) ? appDoc.Url : appDoc.ImagePath;
+                fileName = appDoc.FileName;
+            }
+            else if (parameter is SourceDocument srcDoc)
+            {
+                pathOrUrl = srcDoc.Url;
+                fileName = srcDoc.FileName;
+            }
+            else if (parameter is string strParam)
+            {
+                pathOrUrl = strParam;
+            }
+
+            if (string.IsNullOrWhiteSpace(pathOrUrl)) return;
+            if (string.IsNullOrWhiteSpace(fileName)) fileName = "downloaded_document";
+
+            string fullUrl = ApiService.GetFullDocumentUrl(pathOrUrl);
 
             try
             {
-                if (target.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                if (fullUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                 {
-                    var fileName = doc.FileName;
-                    if (string.IsNullOrWhiteSpace(fileName)) fileName = "download";
-                    await ApiService.Instance.DownloadDocumentAsync(target, fileName);
+                    await ApiService.Instance.DownloadDocumentAsync(fullUrl, fileName);
                     NotificationService.Instance.AddNotification("Downloaded", $"'{fileName}' saved to Downloads.");
                 }
-                else if (System.IO.File.Exists(target))
+                else if (System.IO.File.Exists(fullUrl))
                 {
-                    System.Diagnostics.Process.Start(
-                        new System.Diagnostics.ProcessStartInfo(target) { UseShellExecute = true });
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(fullUrl) { UseShellExecute = true });
                 }
             }
             catch (Exception ex)

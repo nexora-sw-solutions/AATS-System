@@ -238,32 +238,76 @@ namespace AATS.Desktop.ViewModels.SecretarialAdvisory
         [RelayCommand]
         private void PreviewDocument(AppDocument doc)
         {
-            // Placeholder for preview functionality
+            if (doc == null) return;
+            var target = !string.IsNullOrWhiteSpace(doc.Url) ? doc.Url : doc.ImagePath;
+            if (string.IsNullOrWhiteSpace(target)) return;
+
+            string fullUrl = ApiService.GetFullDocumentUrl(target);
+            try
+            {
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(fullUrl) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[ERROR] Failed to open document: {ex.Message}");
+            }
         }
 
         [RelayCommand]
-        private void DownloadDocument(AppDocument doc)
+        private async System.Threading.Tasks.Task DownloadDocument(AppDocument doc)
         {
-            // Placeholder for download functionality
+            if (doc == null) return;
+            var target = !string.IsNullOrWhiteSpace(doc.Url) ? doc.Url : doc.ImagePath;
+            if (string.IsNullOrWhiteSpace(target)) return;
+
+            string fullUrl = ApiService.GetFullDocumentUrl(target);
+            string fileName = !string.IsNullOrWhiteSpace(doc.FileName) ? doc.FileName : "epf_etf_document";
+
+            try
+            {
+                if (fullUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                {
+                    await ApiService.Instance.DownloadDocumentAsync(fullUrl, fileName);
+                    NotificationService.Instance.AddNotification("Downloaded", $"'{fileName}' saved to Downloads.");
+                }
+                else if (System.IO.File.Exists(fullUrl))
+                {
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(fullUrl) { UseShellExecute = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                NotificationService.Instance.AddNotification("Error", $"Could not download file: {ex.Message}");
+            }
         }
 
         [RelayCommand]
         private void EditDocument(AppDocument doc)
         {
-            // Placeholder for edit functionality
         }
 
         [RelayCommand]
         private void DeleteDocument(AppDocument doc)
         {
+            if (doc == null) return;
             ConfirmDialogTitle = "Delete Document?";
             ConfirmDialogMessage = $"Are you sure you want to delete '{doc.FileName}'?";
             ConfirmActionDelegate = async () =>
             {
                 AllDocuments.Remove(doc);
                 UpdateFilteredDocuments();
+
+                if (Record != null && Record.SourceDocuments != null)
+                {
+                    var match = Record.SourceDocuments.FirstOrDefault(d => d.FileName == doc.FileName || d.Url == doc.Url);
+                    if (match != null)
+                    {
+                        Record.SourceDocuments.Remove(match);
+                    }
+                    await DataService.Instance.UpdateAuditRecordAsync("EPF / ETF", Record);
+                    NotificationService.Instance.AddNotification("Success", "Document deleted.");
+                }
                 IsConfirmDialogVisible = false;
-                await System.Threading.Tasks.Task.CompletedTask;
             };
             IsConfirmDialogVisible = true;
         }

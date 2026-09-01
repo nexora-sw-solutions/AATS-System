@@ -45,6 +45,28 @@ namespace AATS.Desktop.Services
             Client.DefaultRequestHeaders.Add("Pragma", "no-cache");
         }
 
+        public static string GetFullDocumentUrl(string? pathOrUrl)
+        {
+            if (string.IsNullOrWhiteSpace(pathOrUrl)) return string.Empty;
+            if (pathOrUrl.StartsWith("avares://", StringComparison.OrdinalIgnoreCase)) return pathOrUrl;
+            if (pathOrUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                pathOrUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            {
+                return pathOrUrl;
+            }
+            if (pathOrUrl.StartsWith("/"))
+            {
+                var baseUri = Instance.Client.BaseAddress?.ToString().TrimEnd('/') ?? "http://localhost:5152";
+                return $"{baseUri}{pathOrUrl}";
+            }
+            if (System.IO.File.Exists(pathOrUrl))
+            {
+                return pathOrUrl;
+            }
+            var fallbackUri = Instance.Client.BaseAddress?.ToString().TrimEnd('/') ?? "http://localhost:5152";
+            return $"{fallbackUri}/{pathOrUrl.TrimStart('/')}";
+        }
+
         public void SetToken(string token)
         {
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
