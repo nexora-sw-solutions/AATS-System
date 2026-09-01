@@ -347,16 +347,16 @@
                                                             <Grid ColumnDefinitions="Auto,*,Auto">
                                                                 <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
                                                                 <TextBlock Grid.Column="1" Text="{Binding FileName}" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextInput}"/>
-                                                                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
-                                                                    <Button Command="{Binding $parent[ItemsControl].DataContext.PreviewAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
-                                                                        <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource AccentPrimary}" FontSize="14"/>
-                                                                    </Button>
-                                                                    <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveForm01AttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
-                                                                        <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
-                                                                    </Button>
-                                                                </StackPanel>
-                                                            </Grid>
-                                                        </Border>
+                                                                 <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                                     <Button Command="{Binding $parent[UserControl].((vm:AddCompanyRegistrationViewModel)DataContext).PreviewAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                         <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource AccentPrimary}" FontSize="14"/>
+                                                                     </Button>
+                                                                     <Button Command="{Binding $parent[UserControl].((vm:AddCompanyRegistrationViewModel)DataContext).RemoveForm01AttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                         <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                                     </Button>
+                                                                 </StackPanel>
+                                                             </Grid>
+                                                         </Border>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
@@ -414,16 +414,16 @@
                                                             <Grid ColumnDefinitions="Auto,*,Auto">
                                                                 <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
                                                                 <TextBlock Grid.Column="1" Text="{Binding FileName}" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextInput}"/>
-                                                                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
-                                                                    <Button Command="{Binding $parent[ItemsControl].DataContext.PreviewAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
-                                                                        <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource AccentPrimary}" FontSize="14"/>
-                                                                    </Button>
-                                                                    <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveBoFormAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
-                                                                        <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
-                                                                    </Button>
-                                                                </StackPanel>
-                                                            </Grid>
-                                                        </Border>
+                                                                 <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                                     <Button Command="{Binding $parent[UserControl].((vm:AddCompanyRegistrationViewModel)DataContext).PreviewAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                         <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource AccentPrimary}" FontSize="14"/>
+                                                                     </Button>
+                                                                     <Button Command="{Binding $parent[UserControl].((vm:AddCompanyRegistrationViewModel)DataContext).RemoveBoFormAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                         <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                                     </Button>
+                                                                 </StackPanel>
+                                                             </Grid>
+                                                         </Border>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
@@ -444,14 +444,14 @@
                                                             <Grid ColumnDefinitions="Auto,*,Auto">
                                                                 <i:Icon Value="fa-solid fa-file" Foreground="{DynamicResource AccentPrimary}" FontSize="16" VerticalAlignment="Center"/>
                                                                 <TextBlock Grid.Column="1" Text="{Binding FileName}" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextInput}"/>
-                                                                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
-                                                                    <Button Command="{Binding $parent[ItemsControl].DataContext.PreviewAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
-                                                                        <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource AccentPrimary}" FontSize="14"/>
-                                                                    </Button>
-                                                                    <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveForm05AttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
-                                                                        <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
-                                                                    </Button>
-                                                                </StackPanel>
+                                                                 <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                                                     <Button Command="{Binding $parent[UserControl].((vm:AddCompanyRegistrationViewModel)DataContext).PreviewAttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                         <i:Icon Value="fa-solid fa-eye" Foreground="{DynamicResource AccentPrimary}" FontSize="14"/>
+                                                                     </Button>
+                                                                     <Button Command="{Binding $parent[UserControl].((vm:AddCompanyRegistrationViewModel)DataContext).RemoveForm05AttachmentCommand}" CommandParameter="{Binding}" Classes="action-btn-premium">
+                                                                         <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}" FontSize="14"/>
+                                                                     </Button>
+                                                                 </StackPanel>
                                                             </Grid>
                                                         </Border>
                                                     </DataTemplate>

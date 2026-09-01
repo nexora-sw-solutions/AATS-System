@@ -417,6 +417,30 @@ public partial class AddCompanyRegistrationViewModel : ViewModelBase
     }
     
     [RelayCommand]
+    private void PreviewAttachment(SourceDocument doc)
+    {
+        if (doc != null)
+        {
+            var target = !string.IsNullOrWhiteSpace(doc.Url) ? doc.Url : doc.FileName;
+            if (!string.IsNullOrWhiteSpace(target))
+            {
+                try
+                {
+                    string fullUrl = ApiService.GetFullDocumentUrl(target);
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(fullUrl) { UseShellExecute = true });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error previewing document: {ex.Message}");
+                }
+            }
+        }
+    }
+
+    [RelayCommand]
+    private void RemoveForm01Attachment(SourceDocument doc) => ShowRemoveForm01AttachmentConfirm(doc);
+
+    [RelayCommand]
     private void ShowRemoveForm01AttachmentConfirm(SourceDocument doc)
     {
         if (doc == null) return;
@@ -438,6 +462,9 @@ public partial class AddCompanyRegistrationViewModel : ViewModelBase
             }
         }
     }
+
+    [RelayCommand]
+    private void RemoveBoFormAttachment(SourceDocument doc) => ShowRemoveBoFormAttachmentConfirm(doc);
     
     [RelayCommand]
     private void ShowRemoveBoFormAttachmentConfirm(SourceDocument doc)
@@ -461,6 +488,9 @@ public partial class AddCompanyRegistrationViewModel : ViewModelBase
             }
         }
     }
+
+    [RelayCommand]
+    private void RemoveForm05Attachment(SourceDocument doc) => ShowRemoveForm05AttachmentConfirm(doc);
     
     [RelayCommand]
     private void ShowRemoveForm05AttachmentConfirm(SourceDocument doc)
@@ -486,12 +516,12 @@ public partial class AddCompanyRegistrationViewModel : ViewModelBase
     [RelayCommand]
     private void PreviewBoPersonNic()
     {
-        if (HasBoResponsiblePersonNicFile)
+        if (HasBoResponsiblePersonNicFile && !string.IsNullOrWhiteSpace(BoResponsiblePersonNicFileName))
         {
             try
             {
-                var url = BoResponsiblePersonNicFileName!.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? new Uri(BoResponsiblePersonNicFileName).LocalPath : BoResponsiblePersonNicFileName;
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url) { UseShellExecute = true });
+                var fullUrl = ApiService.GetFullDocumentUrl(BoResponsiblePersonNicFileName);
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(fullUrl) { UseShellExecute = true });
             }
             catch (Exception ex)
             {
@@ -499,6 +529,9 @@ public partial class AddCompanyRegistrationViewModel : ViewModelBase
             }
         }
     }
+
+    [RelayCommand]
+    private void RemoveBoPersonNic() => ShowRemoveBoPersonNicConfirm();
 
     [RelayCommand]
     private void ShowRemoveBoPersonNicConfirm()
