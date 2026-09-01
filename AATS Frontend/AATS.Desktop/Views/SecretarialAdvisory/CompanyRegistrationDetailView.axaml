@@ -769,6 +769,9 @@
                                                                 <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:CompanyRegistrationDetailViewModel)DataContext).DownloadDocumentCommand}" CommandParameter="{Binding}">
                                                                     <i:Icon Value="fa-solid fa-download" Foreground="{DynamicResource TextSecondary}"/>
                                                                 </Button>
+                                                                <Button Classes="icon-action-btn" Command="{Binding $parent[UserControl].((vm:CompanyRegistrationDetailViewModel)DataContext).DeleteDocumentCommand}" CommandParameter="{Binding}">
+                                                                    <i:Icon Value="fa-solid fa-trash-can" Foreground="{DynamicResource StatusDanger}"/>
+                                                                </Button>
                                                             </StackPanel>
                                                         </Grid>
                                                     </Border>
